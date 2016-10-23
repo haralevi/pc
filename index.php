@@ -41,7 +41,7 @@ $tpl_main_var['content'] = $tpl->get();
 
 # set seo vars
 if($index['port_seo_title'])
-    $tpl_main_var['port_seo_title'] = $index['title'] . ' / ' . Utils::getSiteName();
+    $tpl_main_var['port_seo_title'] = $index['port_seo_title'] . ' / ' . Utils::getSiteName();
 
 # parse page
 Parse::inst($tpl_main, $tpl_main_var);
