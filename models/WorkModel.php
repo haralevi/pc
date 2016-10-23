@@ -294,7 +294,7 @@ class WorkModel
         }
     }
 
-    public static function getWhereFollowers()
+    private static function getWhereFollowers()
     {
         $authFollowLimit = Utils::getAuthFollowLimit(Auth::inst()->getAuthPremium());
         $where = '';
@@ -313,7 +313,7 @@ class WorkModel
         return $where;
     }
 
-    public static function isRecAllowed()
+    private static function isRecAllowed()
     {
         if (Auth::inst()->getAuthLastRecsCnt() >= Utils::getRecPerDay(Auth::inst()->getAuthPremium()))
             return false;

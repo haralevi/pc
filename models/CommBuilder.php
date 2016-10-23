@@ -18,7 +18,7 @@ class CommBuilder
 
     }
 
-    function build($isHtml)
+    public static function build($isHtml)
     {
         # handle request
         $page = Request::getParam('page', 'integer', 1);

@@ -18,7 +18,7 @@ class AuthorBuilder
 
     }
 
-    function build($isHtml)
+    public static function build($isHtml)
     {
         # handle request
         $id_auth_photo = Request::getParam('id_auth', 'integer', 0);

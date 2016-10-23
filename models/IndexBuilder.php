@@ -18,7 +18,7 @@ class IndexBuilder
 
     }
 
-    function build($isHtml)
+    public static function build($isHtml)
     {
         # handle request
         $page = Request::getParam('page', 'integer', 1);
@@ -49,11 +49,11 @@ class IndexBuilder
         }
         else if($favorites) {
             $params['favorites'] = 1;
-            $header = ''; #$header = localizer::$loc['auth_works_you_follow_loc'];
+            $header = '';
             $page_type = 'fav_auth_works';
         }
         else {
-            $header = ''; #$header = localizer::$loc['recomm_works_loc'];
+            $header = '';
             $page_type = 'recomm_works';
         }
 

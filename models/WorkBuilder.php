@@ -18,7 +18,7 @@ class WorkBuilder
 
     }
 
-    function build($isHtml)
+    public static function build($isHtml)
     {
         # handle request
         $id_photo = Request::getParam('id_photo', 'integer', 1);
