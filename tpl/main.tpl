@@ -58,7 +58,7 @@
     <a href="{home_url}index.php" class="submenuItem{recomm_works_act_class}">{recomm_works_loc}</a>
     <a href="{home_url}index.php?popular=1" class="submenuItem{popular_act_class}">{popular_loc}</a>
     <a href="{home_url}index.php?all=1" class="submenuItem{all_works_act_class}">{all_works_loc}</a>
-    <a href="{home_url}index.php?special=1" class="submenuItem{special_works_act_loc}">{special_works_loc}</a>
+    <a href="{home_url}index.php?special=1" class="submenuItem{special_works_act_class}">{special_works_loc}</a>
 
     <!--[UNLOGGED_BLK]-->
     <a href="{home_url}index.php?favorites=1" class="submenuItem{fav_auth_works_act_class}">{fav_auth_works_loc}</a>
