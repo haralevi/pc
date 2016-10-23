@@ -19,7 +19,7 @@ $index = IndexBuilder::inst()->build(true);
 if(!$index)
     die();
 
-if($index['title'] != '')
+if($index['title'])
     $tpl_var['title'] = $index['title'];
 else
     $tpl->clear('TITLE_BLK');
@@ -40,7 +40,7 @@ $tpl_main_var['href_next_page'] = $index['hrefNext'];
 $tpl_main_var['content'] = $tpl->get();
 
 # set seo vars
-if($index['port_seo_title'] != '') {
+if($index['port_seo_title']) {
     $tpl_main_var['port_seo_title'] = $index['title'] . ' / ' . Utils::getSiteName();
 }
 
