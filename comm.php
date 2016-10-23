@@ -14,7 +14,11 @@ $tpl_var['home_url'] = Config::$home_url;
 
 # build Author
 require dirname(__FILE__) . '/models/CommBuilder.php';
+
 $comm = CommBuilder::inst()->build(true);
+if(!$comm)
+    die();
+
 $tpl_var['comm'] = $comm['comm'];
 
 $tpl->parse($tpl_var);

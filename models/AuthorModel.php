@@ -3,7 +3,6 @@ namespace photocommunity\mobile;
 
 class AuthorModel
 {
-
     public static function inst()
     {
         static $instance = null;

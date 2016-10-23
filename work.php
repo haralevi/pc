@@ -14,7 +14,10 @@ $tpl_var['home_url'] = Config::$home_url;
 
 # build Work
 require dirname(__FILE__) . '/models/WorkBuilder.php';
+
 $work = WorkBuilder::inst()->build(true);
+if(!$work)
+    die();
 
 $tpl_var['work'] = $work['work'];
 $tpl_var['comments'] = $work['comments'];

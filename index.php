@@ -14,7 +14,10 @@ $tpl_var['home_url'] = Config::$home_url;
 
 # build Index
 require dirname(__FILE__) . '/models/IndexBuilder.php';
+
 $index = IndexBuilder::inst()->build(true);
+if(!$index)
+    die();
 
 if($index['header'] != '')
     $tpl_var['header'] = $index['header'];

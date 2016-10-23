@@ -14,7 +14,10 @@ $tpl_var['home_url'] = Config::$home_url;
 
 # build Author
 require dirname(__FILE__) . '/models/AuthorBuilder.php';
+
 $author = AuthorBuilder::inst()->build(true);
+if(!$author)
+    die();
 
 $tpl_var['id_auth_photo'] = $author['id_auth_photo'];
 $tpl_var['author'] = $author['author'];

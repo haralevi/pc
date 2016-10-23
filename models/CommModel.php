@@ -3,7 +3,6 @@ namespace photocommunity\mobile;
 
 class CommModel
 {
-
     public static function inst()
     {
         static $instance = null;

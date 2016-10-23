@@ -3,7 +3,6 @@ namespace photocommunity\mobile;
 
 class IndexBuilder
 {
-
     public static function inst()
     {
         static $instance = null;
@@ -61,7 +60,7 @@ class IndexBuilder
         if (!sizeof($res_works)) {
             if ($isHtml)
                 header('location: index.php');
-            #return false;
+            return false;
         }
         $works = $res_works['works'];
         # /parse works

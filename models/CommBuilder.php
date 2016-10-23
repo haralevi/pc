@@ -3,7 +3,6 @@ namespace photocommunity\mobile;
 
 class CommBuilder
 {
-
     public static function inst()
     {
         static $instance = null;
@@ -33,7 +32,7 @@ class CommBuilder
         if (!sizeof($res_comm)) {
             if($isHtml)
                 header('location: comm.php');
-            #return false;
+            return false;
         }
 
         $comm = $res_comm['comm'];

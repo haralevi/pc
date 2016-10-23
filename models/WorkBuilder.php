@@ -3,7 +3,6 @@ namespace photocommunity\mobile;
 
 class WorkBuilder
 {
-
     public static function inst()
     {
         static $instance = null;
@@ -41,17 +40,13 @@ class WorkBuilder
         $params = array();
         if ($all) {
             $params['all'] = 1;
-        }
-        else if ($special) {
+        } else if ($special) {
             $params['special'] = 1;
-        }
-        else if ($popular) {
+        } else if ($popular) {
             $params['popular'] = 1;
-        }
-        else if ($favorites) {
+        } else if ($favorites) {
             $params['favorites'] = 1;
-        }
-        else if ($id_auth_photo) {
+        } else if ($id_auth_photo) {
             $params['id_auth_photo'] = $id_auth_photo;
         }
 
@@ -59,7 +54,7 @@ class WorkBuilder
         if (!sizeof($res_work)) {
             if ($isHtml)
                 header('location: index.php');
-            #return false;
+            return false;
         }
 
         $id_photo = $res_work['id_photo'];
@@ -77,19 +72,15 @@ class WorkBuilder
 
         # parse pager
         $workHref = 'work.php?id_photo=' . $id_photo;
-        if($all) {
+        if ($all) {
             $workHref .= '&amp;all=1';
-        }
-        else if($special) {
+        } else if ($special) {
             $workHref .= '&amp;special=1';
-        }
-        else if($popular) {
+        } else if ($popular) {
             $workHref .= '&amp;popular=1';
-        }
-        else if($favorites) {
+        } else if ($favorites) {
             $workHref .= '&amp;favorites=1';
-        }
-        else if ($id_auth_photo) {
+        } else if ($id_auth_photo) {
             $workHref .= '&id_auth_photo=' . $id_auth_photo;
         }
         $hrefPrev = $workHref . '&amp;prev=1';
