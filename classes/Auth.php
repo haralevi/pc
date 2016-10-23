@@ -106,7 +106,7 @@ class Auth
                 $request_uri_wrong_login = Utils::addParam($request_uri_wrong_login, 'wrn_login', 1);
                 $request_uri_wrong_login = str_replace('&amp;', '&', $request_uri_wrong_login);
                 header('location: ' . Config::$http_scheme . Config::$subDomain . Config::$SiteDom . '.' . Config::$domainEnd . $request_uri_wrong_login);
-                return false;
+                #return false;
             }
         } else if (!isset($_SESSION['auth']['id_auth']) || !isset($_SESSION['auth']['auth_name'])) {
             if (isset($_COOKIE['X'])) {
@@ -169,9 +169,9 @@ class Auth
         # remove login information from url
         if ($auth_login || $auth_pass) {
             header('location: ' . Config::$http_scheme . Config::$subDomain . Config::$SiteDom . '.' . Config::$domainEnd . Auth::removeLoginParams(Config::$request_uri));
-            return false;
+            #return false;
         }
-        return true;
+        #return true;
     }
 
     private static function removeLoginParams($uri)
@@ -197,14 +197,14 @@ class Auth
             if (Config::$domainEnd == 'de') {
                 if ($res[0]['auth_port_lang'] != 'de') {
                     header('location: http://m.' . Config::SITE_DOMAIN . '.ru' . str_replace('&amp;', '&', Utils::addParam(Config::$request_uri, 'chla', 1)));
-                    return false;
+                    #return false;
                 }
             } else if (Config::$domainEnd == 'com') {
                 # ok do nothing
             } else if (Config::$domainEnd == 'ru' || Config::$domainEnd == 'by') { # .ru .by
                 if ($res[0]['auth_port_lang'] == 'de') {
                     header('location: http://m.' . Config::SITE_DOMAIN . '.de' . str_replace('&amp;', '&', Utils::addParam(Config::$request_uri, 'chla', 1)));
-                    return false;
+                    #return false;
                 }
             }
         }
@@ -216,7 +216,7 @@ class Auth
             }
 
             header('location: ' . Config::$home_url . 'contact.php?blk_login=1');
-            return false;
+            #return false;
         }
 
         if ($res[0]['auth_country_id'] == 0 || $res[0]['auth_region_id'] == 0 || $res[0]['auth_city_id'] == 0) $_SESSION['auth']['from'] = 0;
@@ -285,7 +285,7 @@ class Auth
             $_SESSION['port_group_type'] = $res_port['0']['port_group_type'];
         else
             $_SESSION['port_group_type'] = 'def';
-        return true;
+        #return true;
     }
 
     public static function isPremium($id_auth, $auth_premium)

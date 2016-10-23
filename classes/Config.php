@@ -94,9 +94,9 @@ class Config
         if (Config::$subDomain != Config::SITE_SUBDOMAIN) {
             $redirect_url = Config::$http_scheme . Config::SITE_SUBDOMAIN . Config::$SiteDom . '.' . Config::$domainEnd . '/' . Config::SITE_ROOT;
             header('location: ' . $redirect_url);
-            return false;
+            #return false;
         }
-        return true;
+        #return true;
     }
 
     private static function initVars()
@@ -172,10 +172,12 @@ class Config
                     if (Config::$SiteDom)
                         setcookie('lang', 'ru', Config::$cookie_expires, '/', '.' . Config::SITE_DOMAIN_BY);
                     header('location: ' . Config::$http_scheme . Config::SITE_DOMAIN_BY . Utils::removeParam(Config::$request_uri, 'lang'));
+                    #return false;
                 } else {
                     if (Config::$SiteDom)
                         setcookie('lang', 'ru', Config::$cookie_expires, '/', '.' . Config::SITE_DOMAIN . '.ru');
                     header('location: ' . Config::$http_scheme . Config::SITE_DOMAIN . '.ru' . Utils::removeParam(Config::$request_uri, 'lang'));
+                    #return false;
                 }
             } else if (isset($_COOKIE['lang'])) {
                 if (Config::$domainEnd == $_COOKIE['lang'] || (Config::$domainEnd == 'com' && $_COOKIE['lang'] == 'en')) Config::$lang = $_COOKIE['lang'];
@@ -196,6 +198,7 @@ class Config
                     setcookie('lang', Config::$lang, Config::$cookie_expires, '/', '.' . Config::$SiteDom . '.' . Config::$domainEnd);
             }
         }
+        #return true;
     }
 }
 

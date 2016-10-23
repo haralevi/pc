@@ -252,21 +252,20 @@ class Geo
         if (Geo::getChangeLangCookie() === 1 || Geo::$is_robot) {
             # allow to use any domain if user was logged from this domain
         } else {
-
             if (Config::$domainEnd == 'de') {
                 if (Geo::$CountryCode != 'DE' && Geo::$CountryCode != 'AT' && Geo::$CountryCode != 'CH') {
                     header('location: http://m.' . Config::SITE_DOMAIN . '.ru' . Config::$request_uri);
-                    return false;
+                    #return false;
                 }
             } else if (Config::$domainEnd == 'com') {
                 # ok do nothing
             } else if (Config::$domainEnd == 'ru' || Config::$domainEnd == 'by') { # .ru .by
                 if (Geo::$CountryCode == 'DE' || Geo::$CountryCode == 'AT' || Geo::$CountryCode == 'CH') {
                     header('location: http://m.' . Config::SITE_DOMAIN . '.de' . Config::$request_uri);
-                    return false;
+                    #return false;
                 }
             }
         }
-        return true;
+        #return true;
     }
 }

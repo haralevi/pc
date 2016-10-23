@@ -47,7 +47,7 @@ class AuthorBuilder
             if (!sizeof($res_author)) {
                 if ($isHtml)
                     header('location: index.php');
-                return false;
+                #return false;
             }
             $auth_name_photo = $res_author['auth_name_photo'];
             $author = $res_author['author'];

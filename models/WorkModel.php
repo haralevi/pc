@@ -166,7 +166,7 @@ class WorkModel
                 if ($prev) $skip_anon_url .= '&prev=1';
                 else $skip_anon_url .= '&next=1';
                 header('location: ' . $skip_anon_url);
-                return false;
+                #return false;
             }
 
             $id_auth_photo = $res_work[0]['id_auth_photo'];

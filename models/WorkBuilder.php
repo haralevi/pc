@@ -59,7 +59,7 @@ class WorkBuilder
         if (!sizeof($res_work)) {
             if ($isHtml)
                 header('location: index.php');
-            return false;
+            #return false;
         }
 
         $id_photo = $res_work['id_photo'];
