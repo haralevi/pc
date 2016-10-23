@@ -40,9 +40,8 @@ $tpl_main_var['href_next_page'] = $index['hrefNext'];
 $tpl_main_var['content'] = $tpl->get();
 
 # set seo vars
-if($index['port_seo_title']) {
+if($index['port_seo_title'])
     $tpl_main_var['port_seo_title'] = $index['title'] . ' / ' . Utils::getSiteName();
-}
 
 # parse page
 Parse::inst($tpl_main, $tpl_main_var);
