@@ -514,8 +514,8 @@ From: ' . $from_email . '
         else $tpl_var['recomm_works_act_class'] = '';
         if ($page_type == 'all_works') $tpl_var['all_works_act_class'] = ' actMenuItem';
         else $tpl_var['all_works_act_class'] = '';
-        if ($page_type == 'fineart') $tpl_var['fineart_act_class'] = ' actMenuItem';
-        else $tpl_var['fineart_act_class'] = '';
+        if ($page_type == 'special') $tpl_var['special_works_act_class'] = ' actMenuItem';
+        else $tpl_var['special_works_act_class'] = '';
         if ($page_type == 'popular') $tpl_var['popular_act_class'] = ' actMenuItem';
         else $tpl_var['popular_act_class'] = '';
         if ($page_type == 'fav_auth_works') $tpl_var['fav_auth_works_act_class'] = ' actMenuItem';

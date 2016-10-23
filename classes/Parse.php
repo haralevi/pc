@@ -124,7 +124,7 @@ class Parse
         $tpl_var['wrong_login_pass_short_loc'] = Localizer::$loc['wrong_login_pass_short_loc'];
         $tpl_var['recomm_works_loc'] = Localizer::$loc['recomm_works_loc'];
         $tpl_var['all_works_loc'] = Localizer::$loc['all_works_loc'];
-        $tpl_var['fineart_loc'] = Localizer::$loc['fineart_loc'];
+        $tpl_var['special_works_loc'] = Localizer::$loc['special_works_loc'];
         $tpl_var['popular_loc'] = Localizer::$loc['popular_loc'];
         $tpl_var['fav_auth_works_loc'] = Localizer::$loc['fav_auth_works_loc'];
         $tpl_var['comm_loc'] = Localizer::$loc['comm_loc'];

@@ -30,7 +30,7 @@ class WorkBuilder
         else $next = false;
 
         $all = Request::getParam('all', 'integer', 0);
-        $fineart = Request::getParam('fineart', 'integer', 0);
+        $special = Request::getParam('special', 'integer', 0);
         $popular = Request::getParam('popular', 'integer', 0);
         $favorites = Request::getParam('favorites', 'integer', 0);
         # /handle request
@@ -42,8 +42,8 @@ class WorkBuilder
         if ($all) {
             $params['all'] = 1;
         }
-        else if ($fineart) {
-            $params['fineart'] = 1;
+        else if ($special) {
+            $params['special'] = 1;
         }
         else if ($popular) {
             $params['popular'] = 1;
@@ -80,8 +80,8 @@ class WorkBuilder
         if($all) {
             $workHref .= '&amp;all=1';
         }
-        else if($fineart) {
-            $workHref .= '&amp;fineart=1';
+        else if($special) {
+            $workHref .= '&amp;special=1';
         }
         else if($popular) {
             $workHref .= '&amp;popular=1';

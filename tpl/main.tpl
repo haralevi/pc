@@ -57,8 +57,8 @@
 <div class="wrapContent clearfix hidden" id="submenu" data-id-auth="{id_auth}" data-auth-name="{auth_name}" data-auth-avatar="{auth_avatar}" data-auth-url="{auth_url}">
     <a href="{home_url}index.php" class="submenuItem{recomm_works_act_class}">{recomm_works_loc}</a>
     <a href="{home_url}index.php?popular=1" class="submenuItem{popular_act_class}">{popular_loc}</a>
-    <!--<a href="{home_url}index.php?fineart=1" class="submenuItem{fineart_act_class}">{fineart_loc}</a>-->
     <a href="{home_url}index.php?all=1" class="submenuItem{all_works_act_class}">{all_works_loc}</a>
+    <a href="{home_url}index.php?special=1" class="submenuItem{special_works_act_loc}">{special_works_loc}</a>
 
     <!--[UNLOGGED_BLK]-->
     <a href="{home_url}index.php?favorites=1" class="submenuItem{fav_auth_works_act_class}">{fav_auth_works_loc}</a>

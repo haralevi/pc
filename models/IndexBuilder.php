@@ -23,7 +23,7 @@ class IndexBuilder
         # handle request
         $page = Request::getParam('page', 'integer', 1);
         $all = Request::getParam('all', 'integer', 0);
-        $fineart = Request::getParam('fineart', 'integer', 0);
+        $special = Request::getParam('special', 'integer', 0);
         $popular = Request::getParam('popular', 'integer', 0);
         $favorites = Request::getParam('favorites', 'integer', 0);
         # /handle request
@@ -37,10 +37,10 @@ class IndexBuilder
             $header = '';
             $page_type = 'all_works';
         }
-        else if($fineart) {
-            $params['fineart'] = 1;
+        else if($special) {
+            $params['special'] = 1;
             $header = '';
-            $page_type = 'fineart';
+            $page_type = 'special';
         }
         else if($popular) {
             $params['popular'] = 1;
@@ -75,9 +75,9 @@ class IndexBuilder
             $hrefPrev .= '&amp;all=1';
             $hrefNext .= '&amp;all=1';
         }
-        else if($fineart) {
-            $hrefPrev .= '&amp;fineart=1';
-            $hrefNext .= '&amp;fineart=1';
+        else if($special) {
+            $hrefPrev .= '&amp;special=1';
+            $hrefNext .= '&amp;special=1';
         }
         else if($popular) {
             $hrefPrev .= '&amp;popular=1';

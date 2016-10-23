@@ -23,9 +23,9 @@ class WorkModel
         if (isset($params['all'])) {
             $where .= ' AND id_cat_new<' . Consta::FIRST_SPEC_CAT;
             $index_cache_tag = array('ds_photos=all');
-        } else if (isset($params['fineart'])) {
-            $where .= ' AND ph_fineart_rec_cnt>=1';
-            $index_cache_tag = array('ds_photos=fineart');
+        } else if (isset($params['special'])) {
+            $where .= ' AND ph_special_rec_cnt>=1';
+            $index_cache_tag = array('ds_photos=special');
         } else if (isset($params['popular'])) {
             $where .= ' AND ph_rating>=20';
             $index_cache_tag = array('ds_photos=popular');
@@ -77,8 +77,8 @@ class WorkModel
                 $workHref = 'work.php?id_photo=' . $id_photo;
                 if (isset($params['all'])) {
                     $workHref .= '&amp;all=' . $params['all'];
-                } else if (isset($params['fineart'])) {
-                    $workHref .= '&amp;fineart=' . $params['fineart'];
+                } else if (isset($params['special'])) {
+                    $workHref .= '&amp;special=' . $params['special'];
                 } else if (isset($params['popular'])) {
                     $workHref .= '&amp;popular=' . $params['popular'];
                 } else if (isset($params['favorites'])) {
@@ -120,8 +120,8 @@ class WorkModel
 
         if (isset($params['all'])) {
             $where .= ' AND id_cat_new<' . Consta::FIRST_SPEC_CAT;
-        } else if (isset($params['fineart'])) {
-            $where .= ' AND ph_fineart_rec_cnt>=1';
+        } else if (isset($params['special'])) {
+            $where .= ' AND ph_special_rec_cnt>=1';
         } else if (isset($params['popular'])) {
             $where .= ' AND ph_rating>=20';
         } else if (isset($params['favorites'])) {
@@ -137,7 +137,7 @@ class WorkModel
         }
 
         $sql_work = "SELECT
-            PH.id_photo, PH.id_cat_new, PH.ph_is_fineart, PH.ph_name, PH.ph_name_en, PH.ph_name_de, PH.ph_main_w, PH.ph_main_h, PH.ph_comm, PH.ph_date, PH.ph_anon, PH.id_comp,
+            PH.id_photo, PH.id_cat_new, PH.ph_is_fineart, PH.ph_special_rec_cnt, PH.ph_name, PH.ph_name_en, PH.ph_name_de, PH.ph_main_w, PH.ph_main_h, PH.ph_comm, PH.ph_date, PH.ph_anon, PH.id_comp,
             PH.ph_rating,
             PH.id_auth id_auth_photo, PH.auth_name, PH.auth_name_en
             FROM ds_photos PH
@@ -204,8 +204,8 @@ class WorkModel
                 if (isset($params['all'])) {
                     $workHref .= '&amp;all=' . $params['all'];
                 }
-                if (isset($params['fineart'])) {
-                    $workHref .= '&amp;fineart=' . $params['fineart'];
+                if (isset($params['special'])) {
+                    $workHref .= '&amp;special=' . $params['special'];
                 }
                 if (isset($params['popular'])) {
                     $workHref .= '&amp;popular=' . $params['popular'];
