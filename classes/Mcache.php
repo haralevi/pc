@@ -126,11 +126,11 @@ class Mcache
             $cache = Db::inst()->execute($sql);
             if (!sizeof($cache)) $cache = '#empty#';
             if (!Mcache::set(md5($sql), $cache, $lifetime, $tag)) {
-                #if(Config::inst()->getDebug()) utils::echox('No Memcache daemon running or responding');
+                #if(Config::getDebug()) utils::echox('No Memcache daemon running or responding');
             }
-            #if(Config::inst()->getDebug()) utils::echox('<b>DB:</b> '.$sql);
+            #if(Config::getDebug()) utils::echox('<b>DB:</b> '.$sql);
         } else {
-            #if(Config::inst()->getDebug()) utils::echox('<b>Cache:</b> '.$sql);
+            #if(Config::getDebug()) utils::echox('<b>Cache:</b> '.$sql);
         }
         if ($cache == '#empty#') $cache = array();
         return $cache;
