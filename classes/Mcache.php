@@ -67,7 +67,7 @@ class Mcache
             if ($expired)
                 return null;
         }
-        if(!isset($value['data'])) $value['data'] = $value;
+        if (!isset($value['data'])) $value['data'] = $value;
         return $value['data'];
     }
 
@@ -136,42 +136,3 @@ class Mcache
         return $cache;
     }
 }
-
-/*
-function testMemTag() {
-	error_reporting(30719);
-	ini_set("display_errors", 1);
-
-	$cache = mcache::inst();
-
-	$lifetime = 60 * 60 * 24 * 30;
-	# add to cache
-	$cache->set('post_1', 'content1', array('posts'), $lifetime);
-	$cache->set('post_2', 'content2', array('posts'), $lifetime);
-
-	# get values
-	echo $value = $cache->get('post_1').'<br>';
-	echo $value = $cache->get('post_2').'<br>';
-
-	# "delete" tag
-	$cache->delCache('posts');
-
-	# trying to get the value of key post_1
-	# $value1 === null,
-	$value1 = $cache->get('post_1');
-	$value2 = $cache->get('post_2');
-
-	if ($value1 === null)
-		echo ('post_1 is deleted').'<br/>';
-	else
-		echo $value1.'<br/>';
-
-	if ($value2 === null)
-		echo ('post_2 is deleted').'<br/>';
-	else
-		echo $value2.'<br/>';
-
-	echo 'Test, ok!';
-}
-testMemTag();
-*/
