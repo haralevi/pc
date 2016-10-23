@@ -1,8 +1,8 @@
-<!--[HEADER_BLK]-->
-<div class="wrapContent clearfix" style="height: 36px; line-height: 36px; padding-left: 6px;">
-    <b>{header}</b>
+<!--[TITLE_BLK]-->
+<div class="wrapContent clearfix title">
+    <a href="{home_url}index.php?{page_type}=1">{title}</a>
 </div>
-<!--[HEADER_BLK]-->
+<!--[TITLE_BLK]-->
 
 <div class="wrapContent clearfix" id="ajaxBody">
     {works}

@@ -510,15 +510,15 @@ From: ' . $from_email . '
 
     public static function setMenuStyles($tpl_var, $page_type = '')
     {
-        if ($page_type == 'recomm_works') $tpl_var['recomm_works_act_class'] = ' actMenuItem';
+        if ($page_type == '') $tpl_var['recomm_works_act_class'] = ' actMenuItem';
         else $tpl_var['recomm_works_act_class'] = '';
-        if ($page_type == 'all_works') $tpl_var['all_works_act_class'] = ' actMenuItem';
+        if ($page_type == 'all') $tpl_var['all_works_act_class'] = ' actMenuItem';
         else $tpl_var['all_works_act_class'] = '';
         if ($page_type == 'special') $tpl_var['special_works_act_class'] = ' actMenuItem';
         else $tpl_var['special_works_act_class'] = '';
         if ($page_type == 'popular') $tpl_var['popular_act_class'] = ' actMenuItem';
         else $tpl_var['popular_act_class'] = '';
-        if ($page_type == 'fav_auth_works') $tpl_var['fav_auth_works_act_class'] = ' actMenuItem';
+        if ($page_type == 'favorites') $tpl_var['fav_auth_works_act_class'] = ' actMenuItem';
         else $tpl_var['fav_auth_works_act_class'] = '';
         if ($page_type == 'comm') $tpl_var['comm_act_class'] = ' actMenuItem';
         else $tpl_var['comm_act_class'] = '';

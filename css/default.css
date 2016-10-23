@@ -702,6 +702,18 @@ textarea:focus {
     border-right: 1px solid #111;
 }
 
+.title {
+    height: 36px;
+    line-height: 36px;
+}
+
+.title a {
+    padding: 0 6px;
+    display: block;
+    color: #999;
+    font-weight: 700;
+}
+
 .commAuth {
     vertical-align: top;
     padding: 7px 0 0 6px;

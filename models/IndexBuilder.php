@@ -33,27 +33,32 @@ class IndexBuilder
         $params = array();
         if($all) {
             $params['all'] = 1;
-            $header = '';
-            $page_type = 'all_works';
+            $title = Localizer::$loc['all_works_loc'];
+            $port_seo_title = Localizer::$loc['all_works_loc'];
+            $page_type = 'all';
         }
         else if($special) {
             $params['special'] = 1;
-            $header = '';
+            $title = Localizer::$loc['special_works_loc'];
+            $port_seo_title = Localizer::$loc['special_works_loc'];
             $page_type = 'special';
         }
         else if($popular) {
             $params['popular'] = 1;
-            $header = '';
+            $title = Localizer::$loc['popular_loc'];
+            $port_seo_title = Localizer::$loc['popular_loc'];
             $page_type = 'popular';
         }
         else if($favorites) {
             $params['favorites'] = 1;
-            $header = '';
-            $page_type = 'fav_auth_works';
+            $title = Localizer::$loc['fav_auth_works_loc'];
+            $port_seo_title = Localizer::$loc['fav_auth_works_loc'];
+            $page_type = 'favorites';
         }
         else {
-            $header = '';
-            $page_type = 'recomm_works';
+            $title = Localizer::$loc['recomm_works_loc'];
+            $port_seo_title = Localizer::$loc['recomm_works_loc'];
+            $page_type = '';
         }
 
         $res_works = WorkModel::inst()->getWorks($page, $params);
@@ -92,7 +97,8 @@ class IndexBuilder
         # /parse pager
 
         return array(
-            'header' => $header,
+            'title' => $title,
+            'port_seo_title' => $port_seo_title,
             'page_type' => $page_type,
             'hrefPrev' => $hrefPrev,
             'hrefNext' => $hrefNext,
