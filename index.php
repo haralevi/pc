@@ -25,7 +25,11 @@ else
     $tpl->clear('TITLE_BLK');
 
 $tpl_var['works'] = $index['works'];
-$tpl_var['page_type'] = $index['page_type'];
+
+if($index['page_type'])
+    $tpl_var['page_type_param'] = $index['page_type'] . '=1';
+else
+    $tpl_var['page_type_param'] = '';
 
 $tpl->parse($tpl_var);
 
