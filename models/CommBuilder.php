@@ -5,6 +5,8 @@ require dirname(__FILE__) . '/../classes/Builder.php';
 
 class CommBuilder extends Builder
 {
+    private static $isJson = false;
+
     public static function inst($tpl_name)
     {
         static $instance = null;
@@ -19,11 +21,16 @@ class CommBuilder extends Builder
         parent::__construct($tpl_name);
     }
 
+    public static function buildJson()
+    {
+        CommBuilder::$isJson = true;
+        CommBuilder::build();
+    }
+
     /**
-     * @param $isHtml boolean
      * @return boolean
      */
-    public static function build($isHtml)
+    public static function build()
     {
         # handle request
         $page = Request::getParam('page', 'integer', 1);
@@ -36,7 +43,7 @@ class CommBuilder extends Builder
 
         $res_comm = CommModel::getComm($page);
         if (!sizeof($res_comm)) {
-            if ($isHtml)
+            if (!CommBuilder::$isJson)
                 header('location: comm.php');
             return false;
         }
@@ -60,7 +67,7 @@ class CommBuilder extends Builder
             'comm' => $comm,
         );
 
-        if ($isHtml)
+        if (!CommBuilder::$isJson)
             CommBuilder::parse($comm);
         else
             CommBuilder::parseJson($comm);
