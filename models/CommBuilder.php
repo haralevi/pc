@@ -1,8 +1,6 @@
 <?php
 namespace photocommunity\mobile;
 
-require dirname(__FILE__) . '/../classes/Builder.php';
-
 class CommBuilder extends Builder
 {
     private static $isJson = false;
@@ -84,12 +82,12 @@ class CommBuilder extends Builder
 
         CommBuilder::$tpl->parse(CommBuilder::$tpl_var);
 
-        CommBuilder::$tpl_main_var = Utils::setMenuStyles(CommBuilder::$tpl_main_var, 'comm');
+        CommBuilder::$tpl_main_var['content'] = CommBuilder::$tpl->get();
 
         CommBuilder::$tpl_main_var['href_prev_page'] = $comm['hrefPrev'];
         CommBuilder::$tpl_main_var['href_next_page'] = $comm['hrefNext'];
-        CommBuilder::$tpl_main_var['content'] = CommBuilder::$tpl->get();
-
+        # set menu style
+        CommBuilder::$tpl_main_var = Utils::setMenuStyles(CommBuilder::$tpl_main_var, 'comm');
         # set seo vars
         CommBuilder::$tpl_main_var['port_seo_title'] = Localizer::$loc['comm_loc'] . ' / ' . Utils::getSiteName();
 

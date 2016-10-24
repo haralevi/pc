@@ -21,6 +21,15 @@ class Builder
     public static $tpl;
     public static $tpl_var;
 
+    public static function inst($tpl_name)
+    {
+        static $instance = null;
+        if ($instance === null) {
+            $instance = new Builder($tpl_name);
+        }
+        return $instance;
+    }
+
     /**
      * Builder constructor.
      * @param $tpl_name string

@@ -24,6 +24,7 @@ require dirname(__FILE__) . '/Db.php';
 require dirname(__FILE__) . '/Mcache.php';
 require dirname(__FILE__) . '/Auth.php';
 require dirname(__FILE__) . '/Geo.php';
+require dirname(__FILE__) . '/Builder.php';
 require dirname(__FILE__) . '/Parse.php';
 
 # multiple object

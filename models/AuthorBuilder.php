@@ -1,23 +1,31 @@
 <?php
 namespace photocommunity\mobile;
 
-class AuthorBuilder
+class AuthorBuilder extends Builder
 {
-    public static function inst()
+    private static $isJson = false;
+
+    public static function inst($tpl_name)
     {
         static $instance = null;
         if ($instance === null) {
-            $instance = new AuthorBuilder();
+            $instance = new AuthorBuilder($tpl_name);
         }
         return $instance;
     }
 
-    private function __construct()
+    public function __construct($tpl_name)
     {
-
+        parent::__construct($tpl_name);
     }
 
-    public static function build($isHtml)
+    public static function buildJson()
+    {
+        AuthorBuilder::$isJson = true;
+        AuthorBuilder::build();
+    }
+
+    public static function build()
     {
         # handle request
         $id_auth_photo = Request::getParam('id_auth', 'integer', 0);
@@ -40,12 +48,11 @@ class AuthorBuilder
         # parse author
         $auth_name_photo = '';
         $author = '';
-        if ($isHtml) {
+        if (!AuthorBuilder::$isJson) {
             require dirname(__FILE__) . '/AuthorModel.php';
             $res_author = AuthorModel::getAuthor($id_auth_photo);
             if (!sizeof($res_author)) {
-                if ($isHtml)
-                    header('location: index.php');
+                header('location: index.php');
                 return false;
             }
             $auth_name_photo = $res_author['auth_name_photo'];
@@ -58,7 +65,7 @@ class AuthorBuilder
 
         $res_works = WorkModel::getWorks($page, array('id_auth_photo' => $id_auth_photo));
         if (!sizeof($res_works)) {
-            if($isHtml)
+            if (!AuthorBuilder::$isJson)
                 $works = '';
             else
                 return false;
@@ -73,7 +80,7 @@ class AuthorBuilder
         $hrefNext = 'author.php?id_auth=' . $id_auth_photo . Pager::getHrefNext($page);
         # /parse pager
 
-        return array(
+        $author = array(
             'hrefPrev' => $hrefPrev,
             'hrefNext' => $hrefNext,
             'auth_name_photo' => $auth_name_photo,
@@ -81,5 +88,58 @@ class AuthorBuilder
             'author' => $author,
             'works' => $works,
         );
+
+        if (!AuthorBuilder::$isJson)
+            AuthorBuilder::parse($author);
+        else
+            AuthorBuilder::parseJson($author);
+
+        return true;
+
+    }
+
+    private static function parse($author) {
+        if(!$author)
+            die();
+
+        AuthorBuilder::$tpl_var['id_auth_photo'] = $author['id_auth_photo'];
+        AuthorBuilder::$tpl_var['author'] = $author['author'];
+        AuthorBuilder::$tpl_var['works'] = $author['works'];
+
+        AuthorBuilder::$tpl->parse(AuthorBuilder::$tpl_var);
+
+        if($author['id_auth_photo'] == Auth::getIdAuth())
+            $page_type = 'my_profile';
+        else
+            $page_type = '';
+        AuthorBuilder::$tpl_main_var = Utils::setMenuStyles(AuthorBuilder::$tpl_main_var, $page_type);
+
+        AuthorBuilder::$tpl_main_var['href_prev_page'] = $author['hrefPrev'];
+        AuthorBuilder::$tpl_main_var['href_next_page'] = $author['hrefNext'];
+        AuthorBuilder::$tpl_main_var['content'] = AuthorBuilder::$tpl->get();
+
+        # set seo vars
+        AuthorBuilder::$tpl_main_var['port_seo_title'] = $author['auth_name_photo'] . ' / ' . Utils::getSiteName();
+
+        # parse page
+        Parse::inst(AuthorBuilder::$tpl_main, AuthorBuilder::$tpl_main_var);
+    }
+
+    private static function parseJson($author)
+    {
+        # build json
+        $json = '{';
+        if($author) {
+            if (Config::getDebug()) $json .= '"debug": "#debug#", ';
+            $json .= '"hrefPrev": "' . Utils::prepareJson($author['hrefPrev']) . '", ';
+            $json .= '"hrefNext": "' . Utils::prepareJson($author['hrefNext']) . '", ';
+            $json .= '"ajaxBody": "' . Utils::prepareJson($author['works']) . '" ';
+        }
+        $json .= '}';
+        # /build json
+
+        # parse page
+        require dirname(__FILE__) . '/../classes/ParseJson.php';
+        ParseJson::inst($json);
     }
 }
