@@ -108,15 +108,17 @@ class AuthorBuilder extends Builder
 
         AuthorBuilder::$tpl->parse(AuthorBuilder::$tpl_var);
 
+        AuthorBuilder::$tpl_main_var['content'] = AuthorBuilder::$tpl->get();
+        AuthorBuilder::$tpl_main_var['href_prev_page'] = $author['hrefPrev'];
+        AuthorBuilder::$tpl_main_var['href_next_page'] = $author['hrefNext'];
+
+
+        # set menu style
         if($author['id_auth_photo'] == Auth::getIdAuth())
             $page_type = 'my_profile';
         else
             $page_type = '';
         AuthorBuilder::$tpl_main_var = Utils::setMenuStyles(AuthorBuilder::$tpl_main_var, $page_type);
-
-        AuthorBuilder::$tpl_main_var['href_prev_page'] = $author['hrefPrev'];
-        AuthorBuilder::$tpl_main_var['href_next_page'] = $author['hrefNext'];
-        AuthorBuilder::$tpl_main_var['content'] = AuthorBuilder::$tpl->get();
 
         # set seo vars
         AuthorBuilder::$tpl_main_var['port_seo_title'] = $author['auth_name_photo'] . ' / ' . Utils::getSiteName();

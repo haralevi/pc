@@ -1,23 +1,31 @@
 <?php
 namespace photocommunity\mobile;
 
-class IndexBuilder
+class IndexBuilder extends Builder
 {
-    public static function inst()
+    private static $isJson = false;
+
+    public static function inst($tpl_name)
     {
         static $instance = null;
         if ($instance === null) {
-            $instance = new IndexBuilder();
+            $instance = new IndexBuilder($tpl_name);
         }
         return $instance;
     }
 
-    private function __construct()
+    public function __construct($tpl_name)
     {
-
+        parent::__construct($tpl_name);
     }
 
-    public static function build($isHtml)
+    public static function buildJson()
+    {
+        IndexBuilder::$isJson = true;
+        IndexBuilder::build();
+    }
+
+    public static function build()
     {
         # handle request
         $page = Request::getParam('page', 'integer', 1);
@@ -31,31 +39,27 @@ class IndexBuilder
         require dirname(__FILE__) . '/WorkModel.php';
 
         $params = array();
-        if($all) {
+        if ($all) {
             $params['all'] = 1;
             $title = Localizer::$loc['all_works_loc'];
             $port_seo_title = Localizer::$loc['all_works_loc'];
             $page_type = 'all';
-        }
-        else if($special) {
+        } else if ($special) {
             $params['special'] = 1;
             $title = Localizer::$loc['special_works_loc'];
             $port_seo_title = Localizer::$loc['special_works_loc'];
             $page_type = 'special';
-        }
-        else if($popular) {
+        } else if ($popular) {
             $params['popular'] = 1;
             $title = Localizer::$loc['popular_loc'];
             $port_seo_title = Localizer::$loc['popular_loc'];
             $page_type = 'popular';
-        }
-        else if($favorites) {
+        } else if ($favorites) {
             $params['favorites'] = 1;
             $title = Localizer::$loc['fav_auth_works_loc'];
             $port_seo_title = Localizer::$loc['fav_auth_works_loc'];
             $page_type = 'favorites';
-        }
-        else {
+        } else {
             $title = Localizer::$loc['recomm_works_loc'];
             $port_seo_title = Localizer::$loc['recomm_works_loc'];
             $page_type = '';
@@ -63,7 +67,7 @@ class IndexBuilder
 
         $res_works = WorkModel::getWorks($page, $params);
         if (!sizeof($res_works)) {
-            if ($isHtml)
+            if (!IndexBuilder::$isJson)
                 header('location: index.php');
             return false;
         }
@@ -74,29 +78,26 @@ class IndexBuilder
         require dirname(__FILE__) . '/../classes/Pager.php';
 
         $hrefPrev = 'index.php?';
-        $hrefNext =  'index.php?';
-        if($all) {
+        $hrefNext = 'index.php?';
+        if ($all) {
             $hrefPrev .= '&amp;all=1';
             $hrefNext .= '&amp;all=1';
-        }
-        else if($special) {
+        } else if ($special) {
             $hrefPrev .= '&amp;special=1';
             $hrefNext .= '&amp;special=1';
-        }
-        else if($popular) {
+        } else if ($popular) {
             $hrefPrev .= '&amp;popular=1';
             $hrefNext .= '&amp;popular=1';
-        }
-        else if($favorites) {
+        } else if ($favorites) {
             $hrefPrev .= '&amp;favorites=1';
             $hrefNext .= '&amp;favorites=1';
         }
         $hrefPrev .= Pager::getHrefPrev($page);
         $hrefNext .= Pager::getHrefNext($page);
-        if(Utils::endsWith($hrefPrev, '?')) $hrefPrev = 'index.php';
+        if (Utils::endsWith($hrefPrev, '?')) $hrefPrev = 'index.php';
         # /parse pager
 
-        return array(
+        $index = array(
             'title' => $title,
             'port_seo_title' => $port_seo_title,
             'page_type' => $page_type,
@@ -104,6 +105,65 @@ class IndexBuilder
             'hrefNext' => $hrefNext,
             'works' => $works,
         );
+
+        if (!IndexBuilder::$isJson)
+            IndexBuilder::parse($index);
+        else
+            IndexBuilder::parseJson($index);
+
+        return true;
     }
 
+    private static function parse($index)
+    {
+        if (!$index)
+            die();
+
+        if ($index['title'])
+            Builder::$tpl_var['title'] = $index['title'];
+        else
+            Builder::$tpl->clear('TITLE_BLK');
+
+        Builder::$tpl_var['works'] = $index['works'];
+
+        if ($index['page_type'])
+            Builder::$tpl_var['page_type_param'] = $index['page_type'] . '=1';
+        else
+            Builder::$tpl_var['page_type_param'] = '';
+
+        Builder::$tpl->parse(Builder::$tpl_var);
+
+        Builder::$tpl_main_var['content'] = Builder::$tpl->get();
+
+        Builder::$tpl_main_var['href_prev_page'] = $index['hrefPrev'];
+        Builder::$tpl_main_var['href_next_page'] = $index['hrefNext'];
+
+        # set menu style
+        Builder::$tpl_main_var = Utils::setMenuStyles(Builder::$tpl_main_var, $index['page_type']);
+
+        # set seo vars
+        if ($index['port_seo_title'])
+            Builder::$tpl_main_var['port_seo_title'] = $index['port_seo_title'] . ' / ' . Utils::getSiteName();
+
+        # parse page
+        Parse::inst(Builder::$tpl_main, Builder::$tpl_main_var);
+    }
+
+    private static function parseJson($index)
+    {
+        # build json
+        $json = '{';
+        if ($index) {
+            if (Config::getDebug()) $json .= '"debug": "#debug#", ';
+            $json .= '"hrefPrev": "' . Utils::prepareJson($index['hrefPrev']) . '", ';
+            $json .= '"hrefNext": "' . Utils::prepareJson($index['hrefNext']) . '", ';
+            $json .= '"ajaxBody": "' . Utils::prepareJson($index['works']) . '" ';
+        }
+        $json .= '}';
+        # /build json
+
+        # parse page
+        require dirname(__FILE__) . '/../classes/ParseJson.php';
+        ParseJson::inst($json);
+    }
 }

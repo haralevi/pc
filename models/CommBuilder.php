@@ -25,9 +25,6 @@ class CommBuilder extends Builder
         CommBuilder::build();
     }
 
-    /**
-     * @return boolean
-     */
     public static function build()
     {
         # handle request
@@ -86,8 +83,10 @@ class CommBuilder extends Builder
 
         CommBuilder::$tpl_main_var['href_prev_page'] = $comm['hrefPrev'];
         CommBuilder::$tpl_main_var['href_next_page'] = $comm['hrefNext'];
+
         # set menu style
         CommBuilder::$tpl_main_var = Utils::setMenuStyles(CommBuilder::$tpl_main_var, 'comm');
+
         # set seo vars
         CommBuilder::$tpl_main_var['port_seo_title'] = Localizer::$loc['comm_loc'] . ' / ' . Utils::getSiteName();
 
