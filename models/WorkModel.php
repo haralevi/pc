@@ -32,18 +32,18 @@ class WorkModel
         } else if (isset($params['favorites'])) {
             $where .= ' AND id_cat_new<' . Consta::FIRST_SPEC_CAT;
             $where .= WorkModel::getWhereFollowers();
-            $index_cache_tag = array('ds_photos_id_auth_follower=' . Auth::inst()->getIdAuth());
+            $index_cache_tag = array('ds_photos_id_auth_follower=' . Auth::getIdAuth());
         } else if (isset($params['id_auth_photo'])) {
             $where .= ' AND PH.id_auth=' . $params['id_auth_photo'];
             $where .= ' AND id_cat_new<' . Consta::PORTFOLIO_CAT;
             $index_cache_tag = array('ds_photos_id_auth=' . $params['id_auth_photo']);
         } else { #reccomeded case
             $where .= ' AND id_cat_new<' . Consta::FIRST_SPEC_CAT;
-            if (Auth::inst()->getIdAuth() == 1)
+            if (Auth::getIdAuth() == 1)
                 $where .= ' AND PH.ph_rating<=1';
             else
-                $where .= ' AND PH.ph_rating>=' . Auth::inst()->getAuthFeaturedRating();
-            $index_cache_tag = array('ds_photos_recomm_min_rating=' . Auth::inst()->getAuthFeaturedRating());
+                $where .= ' AND PH.ph_rating>=' . Auth::getAuthFeaturedRating();
+            $index_cache_tag = array('ds_photos_recomm_min_rating=' . Auth::getAuthFeaturedRating());
         }
 
         $sql_works = "SELECT PH.id_photo, PH.id_auth id_auth_photo, PH.id_cat_new, PH.ph_main_w, PH.ph_main_h, PH.ph_date, PH.ph_anon, PH.id_comp,
@@ -53,7 +53,7 @@ class WorkModel
                 ORDER BY id_photo DESC
                 LIMIT " . ($page - 1) * Consta::WORKS_PER_PAGE . ", " . Consta::WORKS_PER_PAGE;
 
-        $res_works = Mcache::inst()->cacheDbi($sql_works, 300, $index_cache_tag);
+        $res_works = Mcache::cacheDbi($sql_works, 300, $index_cache_tag);
 
         if (!sizeof($res_works)) {
             return array();
@@ -91,7 +91,7 @@ class WorkModel
                 $tpl_work_row_var['workImg'] = $workImg;
                 $works .= Utils::parseTpl($tpl_work_row_content, $tpl_work_row_var);
 
-                if ($v['id_auth_photo'] == Auth::inst()->getIdAuth())
+                if ($v['id_auth_photo'] == Auth::getIdAuth())
                     $works .= '<div class="imgMetrics">' . Localizer::$loc['comm_loc'] . ': <b>' . $v['ph_comm_cnt'] . '</b> &nbsp;' . Localizer::$loc['rating_loc'] . ': <b>' . $v['ph_rating'] . '</b></div>';
             }
 
@@ -132,7 +132,7 @@ class WorkModel
             $where .= ' AND id_cat_new<' . Consta::PORTFOLIO_CAT;
         } else {
             if ($prev || $next)
-                $where .= ' AND PH.ph_rating>=' . Auth::inst()->getAuthFeaturedRating();
+                $where .= ' AND PH.ph_rating>=' . Auth::getAuthFeaturedRating();
             $where .= ' AND id_cat_new<' . Consta::FIRST_SPEC_CAT;
         }
 
@@ -144,7 +144,7 @@ class WorkModel
             WHERE " . $where . " AND ph_status='1'
             ORDER BY " . $order_by . "
             LIMIT 1";
-        $res_work = Mcache::inst()->cacheDbi($sql_work, 300, $work_cache_tag); #utils::printArr($res_work);
+        $res_work = Mcache::cacheDbi($sql_work, 300, $work_cache_tag); #utils::printArr($res_work);
         if (!sizeof($res_work)) {
             return array();
         } else if (Auth::isAuthIgnored($res_work[0]['id_auth_photo'])) {
@@ -176,18 +176,18 @@ class WorkModel
                 WHERE id_auth=" . $id_auth_photo . "
                 LIMIT 1";
             $author_cache_tag = array('ds_authors=' . $id_auth_photo);
-            $res_author = Mcache::inst()->cacheDbi($sql_author, 300, $author_cache_tag);
+            $res_author = Mcache::cacheDbi($sql_author, 300, $author_cache_tag);
             $auth_avatar_src = Utils::parseAvatar($id_auth_photo, $res_author[0]['auth_avatar'], $res_author[0]['auth_gender'], 'square');
 
             $sql_recs = "SELECT id_auth, rec_power FROM ds_recs
                 WHERE id_photo = " . $id_photo;
             $recs_cache_tag = array('ds_recs=' . $id_photo);
-            $res_recs = Mcache::inst()->cacheDbi($sql_recs, 300, $recs_cache_tag); #if(Config::inst()->getDebug()) utils::printArr($res_recs);
+            $res_recs = Mcache::cacheDbi($sql_recs, 300, $recs_cache_tag); #if(Config::getDebug()) utils::printArr($res_recs);
 
             $is_recommended = false;
             $ph_rating = 0;
             foreach ($res_recs as $v_rec) {
-                if (Auth::inst()->getIdAuth() == $v_rec['id_auth'])
+                if (Auth::getIdAuth() == $v_rec['id_auth'])
                     $is_recommended = true;
                 $ph_rating += $v_rec['rec_power'];
             }
@@ -196,7 +196,7 @@ class WorkModel
             $workImg = Utils::parseWorkImg($id_photo, $res_work[0]['id_auth_photo'], $res_work[0]['id_cat_new'], $res_work[0]['ph_main_w'], $res_work[0]['ph_main_h'], true);
 
             # check if is allowed to see nude
-            if (Auth::inst()->getIdAuth() != $id_auth_photo && $res_work[0]['id_cat_new'] == Consta::NUDE_CAT && !Utils::isAllowedNude()) {
+            if (Auth::getIdAuth() != $id_auth_photo && $res_work[0]['id_cat_new'] == Consta::NUDE_CAT && !Utils::isAllowedNude()) {
                 $workImg = str_replace(' id="mainImage"', '', $workImg); #remove id to disable javascript
                 $workHref = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/pricing.php';
             } else {
@@ -229,13 +229,13 @@ class WorkModel
             $addRecStr = '';
             if ($res_work[0]['id_cat_new'] >= Consta::FIRST_SPEC_CAT) { # no rating category
                 $addRecStr .= '<span class="recNote">' . Localizer::$cat_names[$res_work[0]['id_cat_new']] . '</span>';
-            } else if (Auth::inst()->getIdAuth() == $id_auth_photo) {
+            } else if (Auth::getIdAuth() == $id_auth_photo) {
                 # your work
             } else if ($is_recommended) { # already recommended
                 $addRecStr .= '<span class="recNote">' . Localizer::$loc['already_rec_note_loc'] . '</span>';
             } else if (!WorkModel::isRecAllowed()) { # rec limit is achieved
-                $addRecStr .= '<span class="recNote">' . Localizer::$loc['limit_recs_achieved_1_loc'] . '<br /><b>' . Utils::getRecPerDay(Auth::inst()->getAuthPremium()) . '</b> ' . Localizer::$loc['limit_recs_achieved_2_loc'] . '</span>';
-            } else if (Auth::inst()->getIdAuth() != -1) { # ok, logged author can recommend
+                $addRecStr .= '<span class="recNote">' . Localizer::$loc['limit_recs_achieved_1_loc'] . '<br /><b>' . Utils::getRecPerDay(Auth::getAuthPremium()) . '</b> ' . Localizer::$loc['limit_recs_achieved_2_loc'] . '</span>';
+            } else if (Auth::getIdAuth() != -1) { # ok, logged author can recommend
                 $addRecStr .= '<a id="addRecBtn" href="#" class="saveBtn">' . Localizer::$loc['add_rec_loc'] . '</a>';
             } else {
                 #author unlogged
@@ -243,9 +243,9 @@ class WorkModel
             $tpl_work_main_img_var['addRecStr'] = $addRecStr;
 
             $homeAlbumStr = '';
-            if (Auth::inst()->getIdAuth() != -1 && !$is_recommended && $res_work[0]['id_cat_new'] < Consta::FIRST_SPEC_CAT && (Auth::inst()->getAuthRating() >= Consta::HOME_BTN_MIN_RATING || Auth::inst()->getAuthType() == Consta::AUTH_TYPE_ADMIN)) {
-                $sql_home_album = "SELECT id_photo FROM ds_home_album WHERE id_photo=" . $id_photo . " AND id_auth=" . Auth::inst()->getIdAuth() . " LIMIT 1";
-                $res_home_album = Mcache::inst()->cacheDbi($sql_home_album, 300, array('ds_home_album=' . $id_photo));
+            if (Auth::getIdAuth() != -1 && !$is_recommended && $res_work[0]['id_cat_new'] < Consta::FIRST_SPEC_CAT && (Auth::getAuthRating() >= Consta::HOME_BTN_MIN_RATING || Auth::getAuthType() == Consta::AUTH_TYPE_ADMIN)) {
+                $sql_home_album = "SELECT id_photo FROM ds_home_album WHERE id_photo=" . $id_photo . " AND id_auth=" . Auth::getIdAuth() . " LIMIT 1";
+                $res_home_album = Mcache::cacheDbi($sql_home_album, 300, array('ds_home_album=' . $id_photo));
                 if (!sizeof($res_home_album)) {
                     if (Config::$lang == 'de') {
                         $homeAlbumBtnBg = 'button_no_de.png';
@@ -260,7 +260,7 @@ class WorkModel
             $tpl_work_main_img_var['homeAlbumStr'] = $homeAlbumStr;
 
             $fineartStr = '';
-            if (in_array(Auth::inst()->getIdAuth(), Consta::$auth_fineart_arr)) {
+            if (in_array(Auth::getIdAuth(), Consta::$auth_fineart_arr)) {
                 if ($res_work[0]['ph_is_fineart'])
                     $fineartStr .= '<a id="fineartBtn" data-fineart="0" href="#" class="saveBtn">Not Fine</a>';
                 else
@@ -296,11 +296,11 @@ class WorkModel
 
     private static function getWhereFollowers()
     {
-        $authFollowLimit = Utils::getAuthFollowLimit(Auth::inst()->getAuthPremium());
+        $authFollowLimit = Utils::getAuthFollowLimit(Auth::getAuthPremium());
         $where = '';
-        $sql_follow = "SELECT id_auth FROM ds_followers WHERE id_auth_follower=" . Auth::inst()->getIdAuth();
-        $follow_cache_tag = array('ds_followers=' . Auth::inst()->getIdAuth());
-        $res_follow = Mcache::inst()->cacheDbi($sql_follow, 300, $follow_cache_tag);
+        $sql_follow = "SELECT id_auth FROM ds_followers WHERE id_auth_follower=" . Auth::getIdAuth();
+        $follow_cache_tag = array('ds_followers=' . Auth::getIdAuth());
+        $res_follow = Mcache::cacheDbi($sql_follow, 300, $follow_cache_tag);
         if (sizeof($res_follow)) {
             $where .= ' AND id_auth IN (';
             $i = 0;
@@ -315,7 +315,7 @@ class WorkModel
 
     private static function isRecAllowed()
     {
-        if (Auth::inst()->getAuthLastRecsCnt() >= Utils::getRecPerDay(Auth::inst()->getAuthPremium()))
+        if (Auth::getAuthLastRecsCnt() >= Utils::getRecPerDay(Auth::getAuthPremium()))
             return false;
         else
             return true;

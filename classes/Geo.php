@@ -154,7 +154,7 @@ class Geo
     {
         $ip_long = ip2long(Config::$remote_addr);
 
-        if (Auth::inst()->getIdAuth()) {
+        if (Auth::getIdAuth()) {
             #ok - user is logged
         } else if (Config::$remote_addr == Config::SERVER_IP) {
             Geo::$is_robot = true;

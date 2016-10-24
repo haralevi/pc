@@ -25,7 +25,7 @@ class AuthorModel
             WHERE id_auth=" . $id_auth_photo . "
             LIMIT 1";
         $author_cache_tag = array('ds_authors=' . $id_auth_photo);
-        $res_author = Mcache::inst()->cacheDbi($sql_author, 300, $author_cache_tag);
+        $res_author = Mcache::cacheDbi($sql_author, 300, $author_cache_tag);
 
         if (!sizeof($res_author)) {
             return array();
@@ -39,11 +39,11 @@ class AuthorModel
 
             $auth_rating_work = $res_author[0]['auth_rating'];
 
-            if (Auth::inst()->getIdAuth() != -1 && Auth::inst()->getIdAuth() != $id_auth_photo) {
+            if (Auth::getIdAuth() != -1 && Auth::getIdAuth() != $id_auth_photo) {
                 $is_display_follow_btn = '';
-                $sql_follow = "SELECT id_auth FROM ds_followers WHERE id_auth=" . $id_auth_photo . " AND id_auth_follower=" . Auth::inst()->getIdAuth() . " LIMIT 1";
-                $follow_cache_tag = array('ds_followers=' . Auth::inst()->getIdAuth());
-                $res_follow = Mcache::inst()->cacheDbi($sql_follow, 300, $follow_cache_tag);
+                $sql_follow = "SELECT id_auth FROM ds_followers WHERE id_auth=" . $id_auth_photo . " AND id_auth_follower=" . Auth::getIdAuth() . " LIMIT 1";
+                $follow_cache_tag = array('ds_followers=' . Auth::getIdAuth());
+                $res_follow = Mcache::cacheDbi($sql_follow, 300, $follow_cache_tag);
                 if (sizeof($res_follow)) {
                     $follow_btn_id = 'unfollowBtn';
                     $follow_btn_class = 'undoBtn';

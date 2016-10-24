@@ -20,7 +20,7 @@ class Parse
 
     private function __construct($tpl, $tpl_var)
     {
-        Db::inst()->disconnect();
+        Db::disconnect();
 
         Parse::parseHtml($tpl, $tpl_var);
         Utils::sendHeaders();
@@ -49,13 +49,13 @@ class Parse
         $tpl_var = Parse::setGoogleVars($tpl_var);
 
         $tpl_var['mobile_max_width'] = Consta::MOBILE_MAX_WIDTH;
-        $tpl_var['id_auth'] = Auth::inst()->getIdAuth();
-        $tpl_var['auth_premium_name_ga'] = Utils::getAuthPremiumName(Auth::inst()->getAuthPremium(), true);
-        $tpl_var['auth_name'] = str_replace('"', '&quot;', Auth::inst()->getAuthName());
-        $tpl_var['auth_avatar'] = Utils::parseAvatar(Auth::inst()->getIdAuth(), Auth::inst()->getAuthAvatar(), Auth::inst()->getAuthGender(), 'square');
-        $tpl_var['auth_url'] = Config::$home_url . 'author.php?id_auth=' . Auth::inst()->getIdAuth();
+        $tpl_var['id_auth'] = Auth::getIdAuth();
+        $tpl_var['auth_premium_name_ga'] = Utils::getAuthPremiumName(Auth::getAuthPremium(), true);
+        $tpl_var['auth_name'] = str_replace('"', '&quot;', Auth::getAuthName());
+        $tpl_var['auth_avatar'] = Utils::parseAvatar(Auth::getIdAuth(), Auth::getAuthAvatar(), Auth::getAuthGender(), 'square');
+        $tpl_var['auth_url'] = Config::$home_url . 'author.php?id_auth=' . Auth::getIdAuth();
 
-        if (Auth::inst()->getIdAuth() == -1) {
+        if (Auth::getIdAuth() == -1) {
             $tpl->clear('UNLOGGED_BLK');
         } else {
             $tpl->clear('LOGGED_BLK');
@@ -67,15 +67,15 @@ class Parse
         $tpl->parse($tpl_var);
         $html = $tpl->get();
 
-        Timer::inst()->stopTiming('Total');
+        Timer::stopTiming('Total');
         $debug = '';
         if (Config::getDebug()) {
             $debug .= '<div id="debug">';
-            $totalTime = Timer::inst()->getATimings()['Total']['elapsed'];
+            $totalTime = Timer::getATimings()['Total']['elapsed'];
             if ($totalTime >= 0.1)
                 $debug .= 'Total Time: <b>' . $totalTime . '</b> sec';
-            if (Db::inst()->getTotalTime() >= 0.1) $debug .= '<br>Mysql Time: <b>' . Db::inst()->getTotalTime() . '</b>';
-            if (Db::inst()->getQueries() != '') $debug .= '<br>' . Db::inst()->getQueries();
+            if (Db::getTotalTime() >= 0.1) $debug .= '<br>Mysql Time: <b>' . Db::getTotalTime() . '</b>';
+            if (Db::getQueries() != '') $debug .= '<br>' . Db::getQueries();
             $debug .= '</div>';
             #$debug = '';
         } else

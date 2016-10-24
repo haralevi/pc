@@ -26,7 +26,7 @@ class AuthorBuilder
             $auth_dom_work = Request::getParam('auth_dom', 'string');
             $sql_works = "SELECT id_auth FROM ds_authors WHERE auth_dom='" . $auth_dom_work . "' LIMIT 1";
             $author_cache_tag = array('ds_authors=' . $auth_dom_work);
-            $res_auth_work = Mcache::inst()->cacheDbi($sql_works, 300, $author_cache_tag);
+            $res_auth_work = Mcache::cacheDbi($sql_works, 300, $author_cache_tag);
             if (sizeof($res_auth_work)) {
                 $id_auth_photo = $res_auth_work[0]['id_auth'];
             } else {
@@ -42,7 +42,7 @@ class AuthorBuilder
         $author = '';
         if ($isHtml) {
             require dirname(__FILE__) . '/AuthorModel.php';
-            $res_author = AuthorModel::inst()->getAuthor($id_auth_photo);
+            $res_author = AuthorModel::getAuthor($id_auth_photo);
             if (!sizeof($res_author)) {
                 if ($isHtml)
                     header('location: index.php');
@@ -56,7 +56,7 @@ class AuthorBuilder
         # parse works
         require dirname(__FILE__) . '/WorkModel.php';
 
-        $res_works = WorkModel::inst()->getWorks($page, array('id_auth_photo' => $id_auth_photo));
+        $res_works = WorkModel::getWorks($page, array('id_auth_photo' => $id_auth_photo));
         if (!sizeof($res_works)) {
             if($isHtml)
                 $works = '';
@@ -69,8 +69,8 @@ class AuthorBuilder
         # parse pager
         require dirname(__FILE__) . '/../classes/Pager.php';
 
-        $hrefPrev = 'author.php?id_auth=' . $id_auth_photo . Pager::inst()->getHrefPrev($page);
-        $hrefNext = 'author.php?id_auth=' . $id_auth_photo . Pager::inst()->getHrefNext($page);
+        $hrefPrev = 'author.php?id_auth=' . $id_auth_photo . Pager::getHrefPrev($page);
+        $hrefNext = 'author.php?id_auth=' . $id_auth_photo . Pager::getHrefNext($page);
         # /parse pager
 
         return array(
@@ -82,5 +82,4 @@ class AuthorBuilder
             'works' => $works,
         );
     }
-
 }

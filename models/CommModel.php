@@ -38,7 +38,7 @@ class CommModel
             ORDER BY id_comm DESC
             LIMIT " . ($page - 1) * Consta::COMM_PER_PAGE . ", " . Consta::COMM_PER_PAGE;
         $comm_cache_tag = array(Localizer::$tbl_ds_comments . '=' . $page);
-        $res_comm = Mcache::inst()->cacheDbi($sql_comm, 300, $comm_cache_tag); #utils::printArr($res_comm);
+        $res_comm = Mcache::cacheDbi($sql_comm, 300, $comm_cache_tag); #utils::printArr($res_comm);
 
         if (!sizeof($res_comm)) {
             return array();
@@ -106,10 +106,10 @@ class CommModel
               WHERE COMM.id_auth=AU.id_auth AND id_photo=" . $id_photo . " 
               ORDER BY id_comm";
         $comments_cache_tag = array(Localizer::$tbl_ds_comments . '=' . $id_photo);
-        $res_comments = Mcache::inst()->cacheDbi($sql_comments, 300, $comments_cache_tag); #utils::printArr($res_comments);
+        $res_comments = Mcache::cacheDbi($sql_comments, 300, $comments_cache_tag); #utils::printArr($res_comments);
 
         $is_self_photo = false;
-        if ($id_auth_photo == Auth::inst()->getIdAuth())
+        if ($id_auth_photo == Auth::getIdAuth())
             $is_self_photo = true;
 
         $comments = '';
@@ -131,11 +131,11 @@ class CommModel
                     continue;
                 } else if ($v['comm_status'] == 2) {
                     $comm_text = '<span style="font-size: 12px;">' . Localizer::$loc['comm_del_by_admin_loc'] . '</span>';
-                    if (!$is_self_photo && $v['id_auth'] == Auth::inst()->getIdAuth())
+                    if (!$is_self_photo && $v['id_auth'] == Auth::getIdAuth())
                         $is_comm_deleted = true;
                 } else if ($v['comm_status'] == 3) {
                     $comm_text = '<span style="font-size: 12px;">' . Localizer::$loc['comm_del_by_author_loc'] . '</span>';
-                    if (!$is_self_photo && $v['id_auth'] == Auth::inst()->getIdAuth())
+                    if (!$is_self_photo && $v['id_auth'] == Auth::getIdAuth())
                         $is_comm_deleted = true;
                 } else
                     $comm_text = Utils::parseComm($comm_text, true, false);
@@ -163,7 +163,7 @@ class CommModel
 
         if ($ph_critique == Consta::PH_NO_COMM || $is_comm_deleted || CommModel::isBannedAuthor($id_auth_photo)) {
             $comments .= '<div style="margin: 10px 0 16px 0; font-size: 12px;">' . Localizer::$loc['forbidden_write_comm_loc'] . '</div>';
-        } else if (Auth::inst()->getIdAuth() != -1 && Auth::inst()->getAuthType() != Consta::AUTH_TYPE_VIEWER) {
+        } else if (Auth::getIdAuth() != -1 && Auth::getAuthType() != Consta::AUTH_TYPE_VIEWER) {
             $tpl_work_comm_form_var['add_comm_loc'] = Localizer::$loc['add_comm_loc'];
             $tpl_work_comm_form_var['css_url'] = Config::$css_url;
             $tpl_work_comm_form_var['theme'] = Config::$theme;
@@ -178,13 +178,13 @@ class CommModel
     private static function isBannedAuthor($id_auth_photo)
     {
         $is_banned_author = false;
-        if (Auth::inst()->getIdAuth() == -1 || $id_auth_photo == Auth::inst()->getIdAuth()) {
+        if (Auth::getIdAuth() == -1 || $id_auth_photo == Auth::getIdAuth()) {
             $is_banned_author = false;
         } else {
             $sql = "SELECT id_auth_banned FROM ds_banned_authors
-                WHERE id_auth=" . $id_auth_photo . " AND id_auth_banned=" . Auth::inst()->getIdAuth() . " LIMIT 1";
+                WHERE id_auth=" . $id_auth_photo . " AND id_auth_banned=" . Auth::getIdAuth() . " LIMIT 1";
             $banned_authors_cache_tag = array('ds_banned_authors=' . $id_auth_photo);
-            $res = Mcache::inst()->cacheDbi($sql, 300, $banned_authors_cache_tag);
+            $res = Mcache::cacheDbi($sql, 300, $banned_authors_cache_tag);
             if (sizeof($res))
                 $is_banned_author = true;
         }

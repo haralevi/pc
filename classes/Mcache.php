@@ -123,7 +123,7 @@ class Mcache
     public static function cacheDbi($sql, $lifetime = 0, $tag = array())
     {
         if (!($cache = Mcache::get(md5($sql)))) {
-            $cache = Db::inst()->execute($sql);
+            $cache = Db::execute($sql);
             if (!sizeof($cache)) $cache = '#empty#';
             if (!Mcache::set(md5($sql), $cache, $lifetime, $tag)) {
                 #if(Config::getDebug()) utils::echox('No Memcache daemon running or responding');

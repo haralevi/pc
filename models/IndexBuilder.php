@@ -61,7 +61,7 @@ class IndexBuilder
             $page_type = '';
         }
 
-        $res_works = WorkModel::inst()->getWorks($page, $params);
+        $res_works = WorkModel::getWorks($page, $params);
         if (!sizeof($res_works)) {
             if ($isHtml)
                 header('location: index.php');
@@ -91,8 +91,8 @@ class IndexBuilder
             $hrefPrev .= '&amp;favorites=1';
             $hrefNext .= '&amp;favorites=1';
         }
-        $hrefPrev .= Pager::inst()->getHrefPrev($page);
-        $hrefNext .= Pager::inst()->getHrefNext($page);
+        $hrefPrev .= Pager::getHrefPrev($page);
+        $hrefNext .= Pager::getHrefNext($page);
         if(Utils::endsWith($hrefPrev, '?')) $hrefPrev = 'index.php';
         # /parse pager
 

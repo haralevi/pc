@@ -88,7 +88,7 @@ class Utils
             $str = str_replace($search, '', $str);
         }
         if ($is_tags) $str = str_replace(array("'", "\\"), array("&#39;", "&#92;"), strip_tags(trim($str), '<table><tr><td><strong><em><strike><b><i><u><br><a><img><span><ol><ul><li><p><h1><h2><h3><h4><h5><h6>'));
-        else if (Db::inst()->getDbConn()) $str = mysqli_real_escape_string(Db::inst()->getDbConn(), Utils::myHtmlspecialchars(strip_tags(trim($str))));
+        else if (Db::getDbConn()) $str = mysqli_real_escape_string(Db::getDbConn(), Utils::myHtmlspecialchars(strip_tags(trim($str))));
         else $str = Utils::myMysqliRealEscapeString(Utils::myHtmlspecialchars(strip_tags(trim($str))));
 
         return $str;
@@ -331,10 +331,10 @@ From: ' . $from_email . '
 
     public static function logVisits()
     {
-        if (!stristr(Config::$http_user_agent, 'bot') && !stristr(Config::$http_user_agent, 'slurp') && !in_array(Auth::inst()->getIdAuth(), array(1, 24))) {
+        if (!stristr(Config::$http_user_agent, 'bot') && !stristr(Config::$http_user_agent, 'slurp') && !in_array(Auth::getIdAuth(), array(1, 24))) {
             $log = date("d.m.Y H:i:s") . ' | ';
             if (Config::$remote_addr) $log .= Config::$remote_addr . ' | ';
-            if (Auth::inst()->getIdAuth() != -1) $log .= 'ID_AUTH: ' . Auth::inst()->getIdAuth() . ' | ';
+            if (Auth::getIdAuth() != -1) $log .= 'ID_AUTH: ' . Auth::getIdAuth() . ' | ';
             $log .= 'http://' . Config::$http_host . Config::$request_uri . ' | ';
             if (Config::$http_user_agent) $log .= Config::$http_user_agent;
             $fp = fopen(dirname(__FILE__) . Config::$visitsLogFile, 'a');
@@ -396,7 +396,7 @@ From: ' . $from_email . '
 
     public static function isAllowedNude()
     {
-        if (!Auth::inst()->getAuthPremium() && Config::$domainEnd != 'ru' && Config::$domainEnd != 'by')
+        if (!Auth::getAuthPremium() && Config::$domainEnd != 'ru' && Config::$domainEnd != 'by')
             return false;
         else
             return true;

@@ -25,7 +25,7 @@ $tpl_var['works'] = $author['works'];
 
 $tpl->parse($tpl_var);
 
-if($author['id_auth_photo'] == Auth::inst()->getIdAuth())
+if($author['id_auth_photo'] == Auth::getIdAuth())
     $page_type = 'my_profile';
 else
     $page_type = '';

@@ -69,7 +69,7 @@ class Db
 		if (Db::$db_conn === null) {
 			if (Config::$script_name == '/down.php') Db::$db_conn = mysqli_connect(Db::$db_host, Db::$db_user, Db::$db_password) or die ('<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><div style="text-align:center;width:100%;"><h4>We are sorry for technical problems.<br/>Please try again in 5 minutes.</h4></div>');
 			else
-				if (Config::inst()->getDebug()) Db::$db_conn = mysqli_connect(Db::$db_host, Db::$db_user, Db::$db_password);
+				if (Config::getDebug()) Db::$db_conn = mysqli_connect(Db::$db_host, Db::$db_user, Db::$db_password);
 				else Db::$db_conn = mysqli_connect(Db::$db_host, Db::$db_user, Db::$db_password) or header('location: down.php');
 			mysqli_set_charset(Db::$db_conn, Config::CHARSET);
 			mysqli_select_db(Db::$db_conn, Db::$db_name);
@@ -92,18 +92,18 @@ class Db
 		$time_start = gettimeofday();
 		$result = mysqli_query(Db::$db_conn, $sql);
 		$time_end = gettimeofday();
-		if (Config::inst()->getDebug()) {
+		if (Config::getDebug()) {
 			$time = (float)($time_end['sec'] - $time_start['sec']) + ((float)($time_end['usec'] - $time_start['usec']) / 1000000);
 			if ($time > 0.01) Db::$queries .= '<b style="color:red">' . $time . '</b> - ' . $sql . '<br/>';
 			else Db::$queries .= '<b>' . $time . '</b> - ' . $sql . '<br/>';
 			Db::$total_time += $time;
 		}
 		if (!$result) {
-			if (Config::inst()->getDebug()) echo htmlspecialchars(mysqli_error(Db::$db_conn));
+			if (Config::getDebug()) echo htmlspecialchars(mysqli_error(Db::$db_conn));
 			else {
 				$error = date("d.m.Y H:i:s") . ' | ';
 				if (Config::$remote_addr) $error .= Config::$remote_addr . ' | ';
-				if (Auth::inst()->getIdAuth() != -1) $error .= 'ID_AUTH: ' . Auth::inst()->getIdAuth() . ' | ';
+				if (Auth::getIdAuth() != -1) $error .= 'ID_AUTH: ' . Auth::getIdAuth() . ' | ';
 				$error .= $sql . Consta::EOL . mysqli_error(Db::$db_conn). Consta::EOL;
 				$error .= 'http://' . Config::$http_host . Config::$request_uri;
 				Utils::errorWriter($error);

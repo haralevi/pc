@@ -71,13 +71,13 @@ class Auth
         if (Config::$domainEnd == 'ru' || Config::$domainEnd == 'by') {
             Auth::$work_gall_limit = Consta::WORK_GALL_LIMIT_4;
         } else {
-            if (Auth::inst()->getAuthPremium() == Consta::AUTH_PREMIUM_1)
+            if (Auth::getAuthPremium() == Consta::AUTH_PREMIUM_1)
                 Auth::$work_gall_limit = Consta::WORK_GALL_LIMIT_1;
-            else if (Auth::inst()->getAuthPremium() == Consta::AUTH_PREMIUM_2)
+            else if (Auth::getAuthPremium() == Consta::AUTH_PREMIUM_2)
                 Auth::$work_gall_limit = Consta::WORK_GALL_LIMIT_2;
-            else if (Auth::inst()->getAuthPremium() == Consta::AUTH_PREMIUM_3)
+            else if (Auth::getAuthPremium() == Consta::AUTH_PREMIUM_3)
                 Auth::$work_gall_limit = Consta::WORK_GALL_LIMIT_3;
-            else if (Auth::inst()->getAuthPremium() == Consta::AUTH_PREMIUM_4)
+            else if (Auth::getAuthPremium() == Consta::AUTH_PREMIUM_4)
                 Auth::$work_gall_limit = Consta::WORK_GALL_LIMIT_4;
             else
                 Auth::$work_gall_limit = Consta::WORK_GALL_LIMIT_0;
@@ -98,7 +98,7 @@ class Auth
 						auth_fineart_gall, auth_square_gall, auth_nu_gall, auth_window_gall, auth_index_layout, auth_featured_rating, auth_featured_link, auth_show_all_comms, auth_port_dom
                     FROM ds_authors
                     WHERE (BINARY auth_login='" . $auth_login . "' OR BINARY auth_email='" . $auth_login . "') " . $where_pass . " LIMIT 1";
-            $res_login = Db::inst()->execute($sql);
+            $res_login = Db::execute($sql);
             if (sizeof($res_login))
                 Auth::login_author($res_login);
             else {
@@ -117,7 +117,7 @@ class Auth
 						auth_fineart_gall, auth_square_gall, auth_nu_gall, auth_window_gall, auth_index_layout, auth_featured_rating, auth_featured_link, auth_show_all_comms, auth_port_dom
                     FROM ds_authors
                     WHERE auth_key='" . $_COOKIE['X'] . "' LIMIT 1";
-                $res_login = Db::inst()->execute($sql);
+                $res_login = Db::execute($sql);
                 if (sizeof($res_login))
                     Auth::login_author($res_login);
             } else {
@@ -266,13 +266,13 @@ class Auth
         }
 
         $sql = "SELECT COUNT(*) FROM ds_recs WHERE id_auth=" . $_SESSION['auth']['id_auth'] . " AND rec_date>" . (Consta::$cur_day - Geo::$Gmtoffset);
-        $res_last_recs_cnt = Db::inst()->execute($sql);
+        $res_last_recs_cnt = Db::execute($sql);
         $_SESSION['auth']['auth_last_recs_cnt'] = $res_last_recs_cnt[0][0];
         $sql = "UPDATE ds_authors SET  auth_last_recs_cnt=" . $_SESSION['auth']['auth_last_recs_cnt'] . ", auth_last_click=" . Config::$cur_time . ", auth_last_ip='" . Config::$remote_addr . "' WHERE id_auth=" . $_SESSION['auth']['id_auth'] . " LIMIT 1";
-        Db::inst()->execute($sql);
+        Db::execute($sql);
 
         $sql = "SELECT id_auth_ignored FROM ds_ignored_authors WHERE id_auth=" . $_SESSION['auth']['id_auth'];
-        $res_ignored = Db::inst()->execute($sql);
+        $res_ignored = Db::execute($sql);
         $auth_ignored = '';
         foreach ($res_ignored as $v)
             $auth_ignored .= $v['id_auth_ignored'] . ',';
@@ -280,7 +280,7 @@ class Auth
 
         $sql = "SELECT port_group_type FROM ds_portfolios WHERE id_auth=" . $_SESSION['auth']['id_auth'] . " LIMIT 1";
         $port_cache_tag = array('ds_portfolios=' . $_SESSION['auth']['id_auth']);
-        $res_port = Mcache::inst()->cacheDbi($sql, 300, $port_cache_tag); #utils::printArr($res_recs);
+        $res_port = Mcache::cacheDbi($sql, 300, $port_cache_tag); #utils::printArr($res_recs);
         if (sizeof($res_port))
             $_SESSION['port_group_type'] = $res_port['0']['port_group_type'];
         else
@@ -326,7 +326,7 @@ class Auth
                 'auth_mood' => Auth::$auth_mood, 'auth_mood_en' => Auth::$auth_mood_en, 'auth_mood_de' => Auth::$auth_mood_de, 'auth_gender' => Auth::$auth_gender,
                 'guest_referrer' => '');
 
-            $now_online_old = Mcache::inst()->get(md5('now_online'));
+            $now_online_old = Mcache::get(md5('now_online'));
             $now_online[session_id()] = $online_sess;
             foreach ($now_online_old as $k => $v)
                 if ($v['id_auth'] == Auth::$id_auth)
@@ -335,7 +335,7 @@ class Auth
                     $now_online[$k] = $v;
 
 
-            Mcache::inst()->set(md5('now_online'), $now_online, 0);
+            Mcache::set(md5('now_online'), $now_online, 0);
             unset($now_online_old);
             unset($now_online);
         }

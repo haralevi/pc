@@ -3,7 +3,7 @@ namespace photocommunity\mobile;
 
 require dirname(__FILE__) . '/../classes/Init.php';
 
-if (Auth::inst()->getIdAuth() == -1)
+if (Auth::getIdAuth() == -1)
     die();
 
 if (isset($_REQUEST['id']))
@@ -11,17 +11,17 @@ if (isset($_REQUEST['id']))
 else
     die();
 
-$ph_view_cnt_c = Mcache::inst()->get('ph' . $id_photo);
+$ph_view_cnt_c = Mcache::get('ph' . $id_photo);
 if ($ph_view_cnt_c)
-    Mcache::inst()->set('ph' . $id_photo, ($ph_view_cnt_c + 1));
+    Mcache::set('ph' . $id_photo, ($ph_view_cnt_c + 1));
 else
-    Mcache::inst()->set('ph' . $id_photo, 1);
+    Mcache::set('ph' . $id_photo, 1);
 
 $sql = "SELECT PH.id_auth
         FROM ds_photos PH
         WHERE PH.id_photo=" . $id_photo . "
         LIMIT 1";
-$res_photos = Mcache::inst()->cacheDbi($sql); #utils::printArr($res_photos);
+$res_photos = Mcache::cacheDbi($sql); #utils::printArr($res_photos);
 
 if (sizeof($res_photos))
     $id_auth_photo = $res_photos[0]['id_auth'];
@@ -30,15 +30,15 @@ else
 
 $sql = "SELECT VS.id_auth
         FROM ds_views VS
-        WHERE VS.id_photo=" . $id_photo . " AND id_auth=" . Auth::inst()->getIdAuth() . "
+        WHERE VS.id_photo=" . $id_photo . " AND id_auth=" . Auth::getIdAuth() . "
         LIMIT 1";
-$res_views = Db::inst()->execute($sql); #utils::printArr($res_views);
+$res_views = Db::execute($sql); #utils::printArr($res_views);
 
 $result = 0;
 if (!sizeof($res_views)) {
-    if ($id_auth_photo != Auth::inst()->getIdAuth()) {
-        $sql = "INSERT INTO ds_views (id_photo, id_auth) VALUES ($id_photo, " . Auth::inst()->getIdAuth() . ")";
-        Db::inst()->execute($sql);
+    if ($id_auth_photo != Auth::getIdAuth()) {
+        $sql = "INSERT INTO ds_views (id_photo, id_auth) VALUES ($id_photo, " . Auth::getIdAuth() . ")";
+        Db::execute($sql);
         $result = 1;
     }
 }

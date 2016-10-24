@@ -13,7 +13,7 @@ class PhpErrorHandler
         if ($errno != '') {
             $error = date("d.m.Y H:i:s") . ' | ';
             if (Config::$remote_addr) $error .= Config::$remote_addr . ' | ';
-            if (Auth::inst()->getIdAuth() != -1) $error .= 'ID_AUTH: ' . Auth::inst()->getIdAuth() . ' | ';
+            if (Auth::getIdAuth() != -1) $error .= 'ID_AUTH: ' . Auth::getIdAuth() . ' | ';
             $error .= $errstr . ' | LINE: ' . $errline . ' | IN: ' . $errfile . ' | http://' . Config::$http_host . Config::$request_uri;
             Utils::errorWriter($error);
         }

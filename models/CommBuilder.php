@@ -49,8 +49,8 @@ class CommBuilder extends Builder
 
         $hrefPrev = 'comm.php?';
         $hrefNext = 'comm.php?';
-        $hrefPrev .= Pager::inst()->getHrefPrev($page);
-        $hrefNext .= Pager::inst()->getHrefNext($page);
+        $hrefPrev .= Pager::getHrefPrev($page);
+        $hrefNext .= Pager::getHrefNext($page);
         if (Utils::endsWith($hrefPrev, '?')) $hrefPrev = 'comm.php';
         # /parse pager
 
