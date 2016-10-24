@@ -90,6 +90,7 @@ class CommBuilder extends Builder
         # set seo vars
         CommBuilder::$tpl_main_var['port_seo_title'] = Localizer::$loc['comm_loc'] . ' / ' . Utils::getSiteName();
 
+        # parse page
         Parse::inst(CommBuilder::$tpl_main, CommBuilder::$tpl_main_var);
     }
 

@@ -1,23 +1,31 @@
 <?php
 namespace photocommunity\mobile;
 
-class WorkBuilder
+class WorkBuilder extends Builder
 {
-    public static function inst()
+    private static $isJson = false;
+
+    public static function inst($tpl_name)
     {
         static $instance = null;
         if ($instance === null) {
-            $instance = new WorkBuilder();
+            $instance = new WorkBuilder($tpl_name);
         }
         return $instance;
     }
 
-    private function __construct()
+    public function __construct($tpl_name)
     {
-
+        parent::__construct($tpl_name);
     }
 
-    public static function build($isHtml)
+    public static function buildJson()
+    {
+        WorkBuilder::$isJson = true;
+        WorkBuilder::build();
+    }
+
+    public static function build()
     {
         # handle request
         $id_photo = Request::getParam('id_photo', 'integer', 1);
@@ -52,7 +60,7 @@ class WorkBuilder
 
         $res_work = WorkModel::getWork($id_photo, $params, $prev, $next);
         if (!sizeof($res_work)) {
-            if ($isHtml)
+            if (!WorkBuilder::$isJson)
                 header('location: index.php');
             return false;
         }
@@ -87,7 +95,7 @@ class WorkBuilder
         $hrefNext = $workHref . '&amp;next=1';
         # /parse pager
 
-        return array(
+        $work = array(
             'hrefPrev' => $hrefPrev,
             'hrefNext' => $hrefNext,
             'work' => $work,
@@ -95,5 +103,56 @@ class WorkBuilder
             'auth_name_photo' => $auth_name_photo,
             'comments' => $comments,
         );
+
+        if (!WorkBuilder::$isJson)
+            WorkBuilder::parse($work);
+        else
+            WorkBuilder::parseJson($work);
+
+        return true;
+    }
+
+    private static function parse ($work) {
+        if(!$work)
+            die();
+
+        WorkBuilder::$tpl_var['work'] = $work['work'];
+        WorkBuilder::$tpl_var['comments'] = $work['comments'];
+
+        WorkBuilder::$tpl->parse(WorkBuilder::$tpl_var);
+
+        WorkBuilder::$tpl_main_var['content'] = WorkBuilder::$tpl->get();
+
+
+
+        WorkBuilder::$tpl_main_var['href_prev_page'] = $work['hrefPrev'];
+        WorkBuilder::$tpl_main_var['href_next_page'] = $work['hrefNext'];
+
+        # set menu style
+        WorkBuilder::$tpl_main_var = Utils::setMenuStyles(WorkBuilder::$tpl_main_var);
+
+        # set seo vars
+        WorkBuilder::$tpl_main_var['port_seo_title'] =  $work['ph_name'] . ' / ' . $work['auth_name_photo'] . ' / ' . Utils::getSiteName();
+
+        # parse page
+        Parse::inst(WorkBuilder::$tpl_main, WorkBuilder::$tpl_main_var);
+    }
+
+    private static function parseJson($work) {
+        # build json
+        $json = '{';
+        if ($work) {
+            if (Config::getDebug()) $json .= '"debug": "#debug#", ';
+            $json .= '"hrefPrev": "' . Utils::prepareJson($work['hrefPrev']) . '", ';
+            $json .= '"hrefNext": "' . Utils::prepareJson($work['hrefNext']) . '", ';
+            $json .= '"title": "' . Utils::prepareJson($work['ph_name'] . ' / ' . $work['auth_name_photo']) . '", ';
+            $json .= '"ajaxBody": "' . Utils::prepareJson($work['work'] . '<div class="wrapContent">' . $work['comments']) . '</div>" ';
+        }
+        $json .= '}';
+        # /build json
+
+        # parse page
+        require dirname(__FILE__) . '/../classes/ParseJson.php';
+        ParseJson::inst($json);
     }
 }
