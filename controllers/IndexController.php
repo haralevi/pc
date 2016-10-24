@@ -1,7 +1,7 @@
 <?php
 namespace photocommunity\mobile;
 
-class IndexBuilder extends Builder
+class IndexController extends Builder
 {
     private static $isJson = false;
 
@@ -9,7 +9,7 @@ class IndexBuilder extends Builder
     {
         static $instance = null;
         if ($instance === null) {
-            $instance = new IndexBuilder($tpl_name);
+            $instance = new IndexController($tpl_name);
         }
         return $instance;
     }
@@ -21,8 +21,8 @@ class IndexBuilder extends Builder
 
     public static function buildJson()
     {
-        IndexBuilder::$isJson = true;
-        IndexBuilder::build();
+        IndexController::$isJson = true;
+        IndexController::build();
     }
 
     public static function build()
@@ -36,7 +36,7 @@ class IndexBuilder extends Builder
         # /handle request
 
         # parse works
-        require dirname(__FILE__) . '/WorkModel.php';
+        require dirname(__FILE__) . '/../models/WorkModel.php';
 
         $params = array();
         if ($all) {
@@ -67,7 +67,7 @@ class IndexBuilder extends Builder
 
         $res_works = WorkModel::getWorks($page, $params);
         if (!sizeof($res_works)) {
-            if (!IndexBuilder::$isJson)
+            if (!IndexController::$isJson)
                 header('location: index.php');
             return false;
         }
@@ -106,10 +106,10 @@ class IndexBuilder extends Builder
             'works' => $works,
         );
 
-        if (!IndexBuilder::$isJson)
-            IndexBuilder::parse($index);
+        if (!IndexController::$isJson)
+            IndexController::parse($index);
         else
-            IndexBuilder::parseJson($index);
+            IndexController::parseJson($index);
 
         return true;
     }

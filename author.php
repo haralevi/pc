@@ -2,7 +2,7 @@
 namespace photocommunity\mobile;
 
 require dirname(__FILE__) . '/classes/Init.php';
-require dirname(__FILE__) . '/models/AuthorBuilder.php';
+require dirname(__FILE__) . '/controllers/AuthorController.php';
 
 # build Author
-AuthorBuilder::inst('author')->build();
+AuthorController::inst('author')->build();

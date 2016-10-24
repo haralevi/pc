@@ -2,7 +2,7 @@
 namespace photocommunity\mobile;
 
 require dirname(__FILE__) . '/../classes/Init.php';
-require dirname(__FILE__) . '/../models/IndexBuilder.php';
+require dirname(__FILE__) . '/../controllers/IndexController.php';
 
 # build Index
-IndexBuilder::inst('index')->buildJson();
+IndexController::inst('index')->buildJson();

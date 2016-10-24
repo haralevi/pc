@@ -2,7 +2,7 @@
 namespace photocommunity\mobile;
 
 require dirname(__FILE__) . '/../classes/Init.php';
-require dirname(__FILE__) . '/../models/WorkBuilder.php';
+require dirname(__FILE__) . '/../controllers/WorkController.php';
 
 # build Work
-WorkBuilder::inst('work')->buildJson();
+WorkController::inst('work')->buildJson();

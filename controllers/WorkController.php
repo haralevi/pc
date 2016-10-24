@@ -1,7 +1,7 @@
 <?php
 namespace photocommunity\mobile;
 
-class WorkBuilder extends Builder
+class WorkController extends Builder
 {
     private static $isJson = false;
 
@@ -9,7 +9,7 @@ class WorkBuilder extends Builder
     {
         static $instance = null;
         if ($instance === null) {
-            $instance = new WorkBuilder($tpl_name);
+            $instance = new WorkController($tpl_name);
         }
         return $instance;
     }
@@ -21,8 +21,8 @@ class WorkBuilder extends Builder
 
     public static function buildJson()
     {
-        WorkBuilder::$isJson = true;
-        WorkBuilder::build();
+        WorkController::$isJson = true;
+        WorkController::build();
     }
 
     public static function build()
@@ -60,7 +60,7 @@ class WorkBuilder extends Builder
 
         $res_work = WorkModel::getWork($id_photo, $params, $prev, $next);
         if (!sizeof($res_work)) {
-            if (!WorkBuilder::$isJson)
+            if (!WorkController::$isJson)
                 header('location: index.php');
             return false;
         }
@@ -104,10 +104,10 @@ class WorkBuilder extends Builder
             'comments' => $comments,
         );
 
-        if (!WorkBuilder::$isJson)
-            WorkBuilder::parse($work);
+        if (!WorkController::$isJson)
+            WorkController::parse($work);
         else
-            WorkBuilder::parseJson($work);
+            WorkController::parseJson($work);
 
         return true;
     }
@@ -116,26 +116,26 @@ class WorkBuilder extends Builder
         if(!$work)
             die();
 
-        WorkBuilder::$tpl_var['work'] = $work['work'];
-        WorkBuilder::$tpl_var['comments'] = $work['comments'];
+        WorkController::$tpl_var['work'] = $work['work'];
+        WorkController::$tpl_var['comments'] = $work['comments'];
 
-        WorkBuilder::$tpl->parse(WorkBuilder::$tpl_var);
+        WorkController::$tpl->parse(WorkController::$tpl_var);
 
-        WorkBuilder::$tpl_main_var['content'] = WorkBuilder::$tpl->get();
+        WorkController::$tpl_main_var['content'] = WorkController::$tpl->get();
 
 
 
-        WorkBuilder::$tpl_main_var['href_prev_page'] = $work['hrefPrev'];
-        WorkBuilder::$tpl_main_var['href_next_page'] = $work['hrefNext'];
+        WorkController::$tpl_main_var['href_prev_page'] = $work['hrefPrev'];
+        WorkController::$tpl_main_var['href_next_page'] = $work['hrefNext'];
 
         # set menu style
-        WorkBuilder::$tpl_main_var = Utils::setMenuStyles(WorkBuilder::$tpl_main_var);
+        WorkController::$tpl_main_var = Utils::setMenuStyles(WorkController::$tpl_main_var);
 
         # set seo vars
-        WorkBuilder::$tpl_main_var['port_seo_title'] =  $work['ph_name'] . ' / ' . $work['auth_name_photo'] . ' / ' . Utils::getSiteName();
+        WorkController::$tpl_main_var['port_seo_title'] =  $work['ph_name'] . ' / ' . $work['auth_name_photo'] . ' / ' . Utils::getSiteName();
 
         # parse page
-        Parse::inst(WorkBuilder::$tpl_main, WorkBuilder::$tpl_main_var);
+        Parse::inst(WorkController::$tpl_main, WorkController::$tpl_main_var);
     }
 
     private static function parseJson($work) {

@@ -2,7 +2,7 @@
 namespace photocommunity\mobile;
 
 require dirname(__FILE__) . '/../classes/Init.php';
-require dirname(__FILE__) . '/../models/CommBuilder.php';
+require dirname(__FILE__) . '/../controllers/CommController.php';
 
 # build comments json
-CommBuilder::inst('comm')->buildJson();
+CommController::inst('comm')->buildJson();

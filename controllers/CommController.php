@@ -1,7 +1,7 @@
 <?php
 namespace photocommunity\mobile;
 
-class CommBuilder extends Builder
+class CommController extends Builder
 {
     private static $isJson = false;
 
@@ -9,7 +9,7 @@ class CommBuilder extends Builder
     {
         static $instance = null;
         if ($instance === null) {
-            $instance = new CommBuilder($tpl_name);
+            $instance = new CommController($tpl_name);
         }
         return $instance;
     }
@@ -21,8 +21,8 @@ class CommBuilder extends Builder
 
     public static function buildJson()
     {
-        CommBuilder::$isJson = true;
-        CommBuilder::build();
+        CommController::$isJson = true;
+        CommController::build();
     }
 
     public static function build()
@@ -38,7 +38,7 @@ class CommBuilder extends Builder
 
         $res_comm = CommModel::getComm($page);
         if (!sizeof($res_comm)) {
-            if (!CommBuilder::$isJson)
+            if (!CommController::$isJson)
                 header('location: comm.php');
             return false;
         }
@@ -62,10 +62,10 @@ class CommBuilder extends Builder
             'comm' => $comm,
         );
 
-        if (!CommBuilder::$isJson)
-            CommBuilder::parse($comm);
+        if (!CommController::$isJson)
+            CommController::parse($comm);
         else
-            CommBuilder::parseJson($comm);
+            CommController::parseJson($comm);
 
         return true;
     }
@@ -75,23 +75,23 @@ class CommBuilder extends Builder
         if (!$comm)
             die();
 
-        CommBuilder::$tpl_var['comm'] = $comm['comm'];
+        CommController::$tpl_var['comm'] = $comm['comm'];
 
-        CommBuilder::$tpl->parse(CommBuilder::$tpl_var);
+        CommController::$tpl->parse(CommController::$tpl_var);
 
-        CommBuilder::$tpl_main_var['content'] = CommBuilder::$tpl->get();
+        CommController::$tpl_main_var['content'] = CommController::$tpl->get();
 
-        CommBuilder::$tpl_main_var['href_prev_page'] = $comm['hrefPrev'];
-        CommBuilder::$tpl_main_var['href_next_page'] = $comm['hrefNext'];
+        CommController::$tpl_main_var['href_prev_page'] = $comm['hrefPrev'];
+        CommController::$tpl_main_var['href_next_page'] = $comm['hrefNext'];
 
         # set menu style
-        CommBuilder::$tpl_main_var = Utils::setMenuStyles(CommBuilder::$tpl_main_var, 'comm');
+        CommController::$tpl_main_var = Utils::setMenuStyles(CommController::$tpl_main_var, 'comm');
 
         # set seo vars
-        CommBuilder::$tpl_main_var['port_seo_title'] = Localizer::$loc['comm_loc'] . ' / ' . Utils::getSiteName();
+        CommController::$tpl_main_var['port_seo_title'] = Localizer::$loc['comm_loc'] . ' / ' . Utils::getSiteName();
 
         # parse page
-        Parse::inst(CommBuilder::$tpl_main, CommBuilder::$tpl_main_var);
+        Parse::inst(CommController::$tpl_main, CommController::$tpl_main_var);
     }
 
     private static function parseJson($comm)

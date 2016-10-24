@@ -1,7 +1,7 @@
 <?php
 namespace photocommunity\mobile;
 
-class AuthorBuilder extends Builder
+class AuthorController extends Builder
 {
     private static $isJson = false;
 
@@ -9,7 +9,7 @@ class AuthorBuilder extends Builder
     {
         static $instance = null;
         if ($instance === null) {
-            $instance = new AuthorBuilder($tpl_name);
+            $instance = new AuthorController($tpl_name);
         }
         return $instance;
     }
@@ -21,8 +21,8 @@ class AuthorBuilder extends Builder
 
     public static function buildJson()
     {
-        AuthorBuilder::$isJson = true;
-        AuthorBuilder::build();
+        AuthorController::$isJson = true;
+        AuthorController::build();
     }
 
     public static function build()
@@ -48,8 +48,8 @@ class AuthorBuilder extends Builder
         # parse author
         $auth_name_photo = '';
         $author = '';
-        if (!AuthorBuilder::$isJson) {
-            require dirname(__FILE__) . '/AuthorModel.php';
+        if (!AuthorController::$isJson) {
+            require dirname(__FILE__) . '/../models/AuthorModel.php';
             $res_author = AuthorModel::getAuthor($id_auth_photo);
             if (!sizeof($res_author)) {
                 header('location: index.php');
@@ -61,11 +61,11 @@ class AuthorBuilder extends Builder
         # /parse author
 
         # parse works
-        require dirname(__FILE__) . '/WorkModel.php';
+        require dirname(__FILE__) . '/../models/WorkModel.php';
 
         $res_works = WorkModel::getWorks($page, array('id_auth_photo' => $id_auth_photo));
         if (!sizeof($res_works)) {
-            if (!AuthorBuilder::$isJson)
+            if (!AuthorController::$isJson)
                 $works = '';
             else
                 return false;
@@ -89,10 +89,10 @@ class AuthorBuilder extends Builder
             'works' => $works,
         );
 
-        if (!AuthorBuilder::$isJson)
-            AuthorBuilder::parse($author);
+        if (!AuthorController::$isJson)
+            AuthorController::parse($author);
         else
-            AuthorBuilder::parseJson($author);
+            AuthorController::parseJson($author);
 
         return true;
 
@@ -102,15 +102,15 @@ class AuthorBuilder extends Builder
         if(!$author)
             die();
 
-        AuthorBuilder::$tpl_var['id_auth_photo'] = $author['id_auth_photo'];
-        AuthorBuilder::$tpl_var['author'] = $author['author'];
-        AuthorBuilder::$tpl_var['works'] = $author['works'];
+        AuthorController::$tpl_var['id_auth_photo'] = $author['id_auth_photo'];
+        AuthorController::$tpl_var['author'] = $author['author'];
+        AuthorController::$tpl_var['works'] = $author['works'];
 
-        AuthorBuilder::$tpl->parse(AuthorBuilder::$tpl_var);
+        AuthorController::$tpl->parse(AuthorController::$tpl_var);
 
-        AuthorBuilder::$tpl_main_var['content'] = AuthorBuilder::$tpl->get();
-        AuthorBuilder::$tpl_main_var['href_prev_page'] = $author['hrefPrev'];
-        AuthorBuilder::$tpl_main_var['href_next_page'] = $author['hrefNext'];
+        AuthorController::$tpl_main_var['content'] = AuthorController::$tpl->get();
+        AuthorController::$tpl_main_var['href_prev_page'] = $author['hrefPrev'];
+        AuthorController::$tpl_main_var['href_next_page'] = $author['hrefNext'];
 
 
         # set menu style
@@ -118,13 +118,13 @@ class AuthorBuilder extends Builder
             $page_type = 'my_profile';
         else
             $page_type = '';
-        AuthorBuilder::$tpl_main_var = Utils::setMenuStyles(AuthorBuilder::$tpl_main_var, $page_type);
+        AuthorController::$tpl_main_var = Utils::setMenuStyles(AuthorController::$tpl_main_var, $page_type);
 
         # set seo vars
-        AuthorBuilder::$tpl_main_var['port_seo_title'] = $author['auth_name_photo'] . ' / ' . Utils::getSiteName();
+        AuthorController::$tpl_main_var['port_seo_title'] = $author['auth_name_photo'] . ' / ' . Utils::getSiteName();
 
         # parse page
-        Parse::inst(AuthorBuilder::$tpl_main, AuthorBuilder::$tpl_main_var);
+        Parse::inst(AuthorController::$tpl_main, AuthorController::$tpl_main_var);
     }
 
     private static function parseJson($author)
