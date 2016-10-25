@@ -13,19 +13,19 @@ class Controller
     /**
      * @var Tpl
      */
-    public static $tpl_main;
-    public static $tpl_main_var;
+    protected static $tpl_main;
+    protected static $tpl_main_var;
     /**
      * @var Tpl
      */
-    public static $tpl;
-    public static $tpl_var;
+    protected static $tpl;
+    protected static $tpl_var;
 
     /**
      * Builder constructor.
      * @param $tpl_name string
      */
-    public function initTpl($tpl_name)
+    protected function initTpl($tpl_name)
     {
         Controller::$tpl_main = new Tpl();
         Controller::$tpl_main->open('main');

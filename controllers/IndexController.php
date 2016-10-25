@@ -14,7 +14,7 @@ class IndexController extends Controller
         return $instance;
     }
 
-    public function __construct($tpl_name)
+    private function __construct($tpl_name)
     {
         Controller::initTpl($tpl_name);
     }
