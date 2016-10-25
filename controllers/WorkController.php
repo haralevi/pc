@@ -1,7 +1,7 @@
 <?php
 namespace photocommunity\mobile;
 
-class WorkController extends Builder
+class WorkController extends Controller
 {
     private static $isJson = false;
 
@@ -16,7 +16,7 @@ class WorkController extends Builder
 
     public function __construct($tpl_name)
     {
-        parent::__construct($tpl_name);
+        Controller::initTpl($tpl_name);
     }
 
     public static function buildJson()

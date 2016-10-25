@@ -1,7 +1,7 @@
 <?php
 namespace photocommunity\mobile;
 
-class IndexController extends Builder
+class IndexController extends Controller
 {
     private static $isJson = false;
 
@@ -16,7 +16,7 @@ class IndexController extends Builder
 
     public function __construct($tpl_name)
     {
-        parent::__construct($tpl_name);
+        Controller::initTpl($tpl_name);
     }
 
     public static function buildJson()
@@ -120,33 +120,33 @@ class IndexController extends Builder
             die();
 
         if ($index['title'])
-            Builder::$tpl_var['title'] = $index['title'];
+            Controller::$tpl_var['title'] = $index['title'];
         else
-            Builder::$tpl->clear('TITLE_BLK');
+            Controller::$tpl->clear('TITLE_BLK');
 
-        Builder::$tpl_var['works'] = $index['works'];
+        Controller::$tpl_var['works'] = $index['works'];
 
         if ($index['page_type'])
-            Builder::$tpl_var['page_type_param'] = $index['page_type'] . '=1';
+            Controller::$tpl_var['page_type_param'] = $index['page_type'] . '=1';
         else
-            Builder::$tpl_var['page_type_param'] = '';
+            Controller::$tpl_var['page_type_param'] = '';
 
-        Builder::$tpl->parse(Builder::$tpl_var);
+        Controller::$tpl->parse(Controller::$tpl_var);
 
-        Builder::$tpl_main_var['content'] = Builder::$tpl->get();
+        Controller::$tpl_main_var['content'] = Controller::$tpl->get();
 
-        Builder::$tpl_main_var['href_prev_page'] = $index['hrefPrev'];
-        Builder::$tpl_main_var['href_next_page'] = $index['hrefNext'];
+        Controller::$tpl_main_var['href_prev_page'] = $index['hrefPrev'];
+        Controller::$tpl_main_var['href_next_page'] = $index['hrefNext'];
 
         # set menu style
-        Builder::$tpl_main_var = Utils::setMenuStyles(Builder::$tpl_main_var, $index['page_type']);
+        Controller::$tpl_main_var = Utils::setMenuStyles(Controller::$tpl_main_var, $index['page_type']);
 
         # set seo vars
         if ($index['port_seo_title'])
-            Builder::$tpl_main_var['port_seo_title'] = $index['port_seo_title'] . ' / ' . Utils::getSiteName();
+            Controller::$tpl_main_var['port_seo_title'] = $index['port_seo_title'] . ' / ' . Utils::getSiteName();
 
         # parse page
-        Parse::inst(Builder::$tpl_main, Builder::$tpl_main_var);
+        Parse::inst(Controller::$tpl_main, Controller::$tpl_main_var);
     }
 
     private static function parseJson($index)

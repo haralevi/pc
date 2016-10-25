@@ -9,10 +9,10 @@ namespace photocommunity\mobile;
 
 class Config
 {
-    const SITE_ROOT = ''; # folder case = 'm/'
+    const SITE_ROOT = '';
     const SITE_DOMAIN = 'photocommunity';
     const SITE_DOMAIN_BY = 'photocommunity';
-    const SITE_SUBDOMAIN = 'm.'; # false - don't check subdomain
+    const SITE_SUBDOMAIN = 'm.';
     const SERVER_IP = 'localhost';
     const CHARSET = 'utf8';
     const DB_PORT = '3306';
@@ -198,7 +198,6 @@ class Config
                     setcookie('lang', Config::$lang, Config::$cookie_expires, '/', '.' . Config::$SiteDom . '.' . Config::$domainEnd);
             }
         }
-        #return true;
     }
 }
 
