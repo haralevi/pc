@@ -135,7 +135,7 @@ var ajax = {
     getViews: function () {
         var $mainImage = $("#mainImage");
         if ($mainImage.length)
-            $.get("/ajax/get_views.php", {
+            $.get("/ajax/get_view.php", {
                 id: $mainImage.data("idPhoto")
             }, function (data) {
             });
