@@ -120,33 +120,33 @@ class IndexController extends Controller
             die();
 
         if ($index['title'])
-            Controller::$tpl_var['title'] = $index['title'];
+            IndexController::$tpl_var['title'] = $index['title'];
         else
-            Controller::$tpl->clear('TITLE_BLK');
+            IndexController::$tpl->clear('TITLE_BLK');
 
-        Controller::$tpl_var['works'] = $index['works'];
+        IndexController::$tpl_var['works'] = $index['works'];
 
         if ($index['page_type'])
-            Controller::$tpl_var['page_type_param'] = $index['page_type'] . '=1';
+            IndexController::$tpl_var['page_type_param'] = $index['page_type'] . '=1';
         else
-            Controller::$tpl_var['page_type_param'] = '';
+            IndexController::$tpl_var['page_type_param'] = '';
 
-        Controller::$tpl->parse(Controller::$tpl_var);
+        IndexController::$tpl->parse(IndexController::$tpl_var);
 
-        Controller::$tpl_main_var['content'] = Controller::$tpl->get();
+        IndexController::$tpl_main_var['content'] = IndexController::$tpl->get();
 
-        Controller::$tpl_main_var['href_prev_page'] = $index['hrefPrev'];
-        Controller::$tpl_main_var['href_next_page'] = $index['hrefNext'];
+        IndexController::$tpl_main_var['href_prev_page'] = $index['hrefPrev'];
+        IndexController::$tpl_main_var['href_next_page'] = $index['hrefNext'];
 
         # set menu style
-        Controller::$tpl_main_var = Utils::setMenuStyles(Controller::$tpl_main_var, $index['page_type']);
+        IndexController::$tpl_main_var = Utils::setMenuStyles(IndexController::$tpl_main_var, $index['page_type']);
 
         # set seo vars
         if ($index['port_seo_title'])
-            Controller::$tpl_main_var['port_seo_title'] = $index['port_seo_title'] . ' / ' . Utils::getSiteName();
+            IndexController::$tpl_main_var['port_seo_title'] = $index['port_seo_title'] . ' / ' . Utils::getSiteName();
 
         # parse page
-        Parse::inst(Controller::$tpl_main, Controller::$tpl_main_var);
+        Parse::inst(IndexController::$tpl_main, IndexController::$tpl_main_var);
     }
 
     private static function parseJson($index)
