@@ -3,9 +3,6 @@ namespace photocommunity\mobile;
 
 require dirname(__FILE__) . '/../classes/Init.php';
 
-if (Auth::getIdAuth() == -1)
-    die();
-
 if (isset($_REQUEST['id']))
     $id_photo = Request::getParam('id', 'integer', 5);
 else
@@ -16,6 +13,9 @@ if ($ph_view_cnt_c)
     Mcache::set('ph' . $id_photo, ($ph_view_cnt_c + 1));
 else
     Mcache::set('ph' . $id_photo, 1);
+
+if (Auth::getIdAuth() == -1)
+    die();
 
 $sql = "SELECT PH.id_auth
         FROM ds_photos PH
