@@ -24,6 +24,11 @@ var ajax = {
             }, 500);
         }
 
+        // check if data from url is in cache
+        var isFormCache = false;
+        if (localCache.exist(url))
+            isFormCache = true;
+
         $.ajax({url: url, cache: true, complete: updateAjaxHtml});
 
         function updateAjaxHtml(data) {
@@ -48,6 +53,10 @@ var ajax = {
                 // update photo
                 app.updateMainImg();
 
+                // update photo views
+                if (!isFormCache)
+                    ajax.getViews();
+
                 // track page, google analytics
                 if (typeof ga === "function") ga("send", "pageview", {
                     "page": url.replace(/\/ajax/, ''),
@@ -60,10 +69,6 @@ var ajax = {
             });
             app.isInZoom = false;
         }
-
-        // update photo views
-        if (!localCache.exist(url))
-            ajax.getViews();
     },
 
     postComm: function () {
