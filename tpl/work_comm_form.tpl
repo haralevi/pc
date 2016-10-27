@@ -5,5 +5,5 @@
 </div>
 <div style="margin: 10px 6px;" class="clearfix">
     <a id="addCommBtn" href="#" class="saveBtn">{add_comm_loc}</a>
-    <span id="loaderComm" style="display: none;"><img src="{css_url}{theme}'/loader_gray.new.gif" alt=""></span>
+    <span id="loaderComm" style="display: none;"><img src="{css_url}{theme}/loader_gray.new.gif" alt=""></span>
 </div>

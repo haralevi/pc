@@ -15,7 +15,7 @@ require dirname(__FILE__) . '/Request.php';
 require dirname(__FILE__) . '/Timer.php';
 require dirname(__FILE__) . '/Config.php';
 
-#require('/var/www/vhosts/' . Config::SITE_DOMAIN . '.ru/httpdocs/down.php'); die();
+#require dirname(__FILE__) . '/../../down.php'; die();
 
 require dirname(__FILE__) . '/PhpErrorHandler.php';
 require dirname(__FILE__) . '/Localizer.php';
