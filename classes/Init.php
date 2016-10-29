@@ -110,7 +110,7 @@ class Init
                         $is_down_exists = true;
                 }
                 if ($is_down_exists) {
-                    require dirname(__FILE__) . '/../down.php';
+                    require dirname(__FILE__) . '/../../down.php';
                     die();
                 }
             }
