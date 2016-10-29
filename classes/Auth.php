@@ -49,6 +49,8 @@ class Auth
 
     private static $work_gall_limit = 100;
 
+    public static $guest_sess;
+
     public static function inst()
     {
         static $instance = null;
@@ -327,7 +329,7 @@ class Auth
                 'guest_referrer' => '');
 
             $now_online_old = Mcache::get(md5('now_online'));
-            $now_online[Init::$guest_sess] = $online_sess;
+            $now_online[Auth::$guest_sess] = $online_sess;
             foreach ($now_online_old as $k => $v)
                 if ($v['id_auth'] == Auth::$id_auth)
                     continue;

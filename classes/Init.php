@@ -80,26 +80,26 @@ class Init
         return session_start();
     }
 
-    public static $guest_sess;
+
 
     private static function startSession()
     {
-        if (!isset(Init::$guest_sess)) {
+        if (!isset(Auth::$guest_sess)) {
             ini_set('session.cookie_domain', '.' . Config::$SiteDom . '.' . Config::$domainEnd);
             if (!Init::my_session_start()) {
                 session_id(uniqid());
                 session_start();
                 session_regenerate_id();
             }
-            Init::$guest_sess = session_id();
+            Auth::$guest_sess = session_id();
         }
     }
 
     # show down page if it exists locally or no db host
     private static function showAutoDownUp()
     {
-        $down_local_file = 'down.local.php';
         if (!isset($_SESSION['auth']['id_auth']) && !isset($_COOKIE['X'])) {
+            $down_local_file = 'down.local.php';
             $is_down_exists = false;
             if (file_exists(dirname(__FILE__) . '/../../' . $down_local_file))
                 $is_down_exists = true;
