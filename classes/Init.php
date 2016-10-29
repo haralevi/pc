@@ -96,18 +96,22 @@ class Init
     }
 
     # show down page if it exists locally or no db host
-    private static function showShowAutoDown () {
-        if(Config::getDebug()) {
+    private static function showShowAutoDown()
+    {
+        if (Config::getDebug()) { # todo - remove after test
+            $down_local_file = 'down.local.php';
             if (!isset($_SESSION['auth']['id_auth'])) {
-                if (file_exists(dirname(__FILE__) . '/../down.local.php'))
+                $is_down_exists = false;
+                if (file_exists(dirname(__FILE__) . '/../' . $down_local_file))
                     $is_down_exists = true;
                 else {
-                    $file = 'http://cdn.photocentra.ru/down.local.php';
-                    $file_headers = @get_headers($file);
-                    if ($file_headers[0] == 'HTTP/1.1 404 Not Found')
-                        $is_down_exists = false;
-                    else
-                        $is_down_exists = true;
+                    $file = Config::$http_scheme . 'cdn.' . Config::SITE_DOMAIN . '.' . Config::$domainEndImg . '/' . $down_local_file;
+                    if($file_headers = @get_headers($file)) {
+                        if ($file_headers[0] == 'HTTP/1.1 404 Not Found')
+                            $is_down_exists = false;
+                        else
+                            $is_down_exists = true;
+                    }
                 }
                 if ($is_down_exists) {
                     require dirname(__FILE__) . '/../../down.php';

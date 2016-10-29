@@ -327,7 +327,7 @@ class Auth
                 'guest_referrer' => '');
 
             $now_online_old = Mcache::get(md5('now_online'));
-            $now_online[session_id()] = $online_sess;
+            $now_online[Init::$guest_sess] = $online_sess;
             foreach ($now_online_old as $k => $v)
                 if ($v['id_auth'] == Auth::$id_auth)
                     continue;
