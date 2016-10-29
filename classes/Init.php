@@ -10,6 +10,8 @@ namespace photocommunity\mobile;
 #require dirname(__FILE__) . '/../../down.php'; die();
 
 # static classes
+use SebastianBergmann\CodeCoverage\Util;
+
 require dirname(__FILE__) . '/Utils.php';
 require dirname(__FILE__) . '/Request.php';
 
@@ -104,9 +106,10 @@ class Init
             if (file_exists(dirname(__FILE__) . '/../../' . $down_local_file))
                 $is_down_exists = true;
             else {
-                $file = 'http:' . Config::$http_scheme . 'cdn.' . Config::SITE_DOMAIN . '.' . Config::$domainEndImg . '/' . $down_local_file;
-                if($file_headers = get_headers($file)) {
-                    if ($file_headers[0] == 'HTTP/1.1 404 Not Found')
+                $down_remote_file = 'http:' . Config::$http_scheme . 'cdn.' . Config::SITE_DOMAIN . '.' . Config::$domainEndImg . '/' . $down_local_file;
+                if($file_headers = Utils::get_headers_curl($down_remote_file)) {
+                    #Utils::printArr($file_headers);
+                    if (strstr($file_headers[0], '404 Not Found'))
                         $is_down_exists = false;
                     else
                         $is_down_exists = true;
