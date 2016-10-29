@@ -106,14 +106,9 @@ class Init
             if (file_exists(dirname(__FILE__) . '/../../' . $down_local_file))
                 $is_down_exists = true;
             else {
-                $down_remote_file = 'http:' . Config::$http_scheme . 'cdn.' . Config::SITE_DOMAIN . '.' . Config::$domainEndImg . '/' . $down_local_file;
-                if($file_headers = Utils::get_headers_curl($down_remote_file)) {
-                    #Utils::printArr($file_headers);
-                    if (strstr($file_headers[0], '404 Not Found'))
-                        $is_down_exists = false;
-                    else
-                        $is_down_exists = true;
-                }
+                $file_headers = Utils::get_headers_curl('http://cdn.photocentra.ru/' . $down_local_file);
+                if (isset($file_headers[0]) && !strstr($file_headers[0], '404 Not Found'))
+                    $is_down_exists = true;
             }
             if ($is_down_exists) {
                 require dirname(__FILE__) . '/../../down.php';
