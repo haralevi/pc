@@ -50,7 +50,7 @@ class Init
 
         Init::startSession();
 
-        Init::showShowAutoDown();
+        Init::showAutoDownUp();
 
         Db::inst()->connect();
         Mcache::inst()->connect();
@@ -96,27 +96,25 @@ class Init
     }
 
     # show down page if it exists locally or no db host
-    private static function showShowAutoDown()
+    private static function showAutoDownUp()
     {
-        if (Config::getDebug()) { # todo - remove after test
-            $down_local_file = 'down.local.php';
-            if (!isset($_SESSION['auth']['id_auth'])) {
-                $is_down_exists = false;
-                if (file_exists(dirname(__FILE__) . '/../' . $down_local_file))
-                    $is_down_exists = true;
-                else {
-                    $file = Config::$http_scheme . 'cdn.' . Config::SITE_DOMAIN . '.' . Config::$domainEndImg . '/' . $down_local_file;
-                    if($file_headers = @get_headers($file)) {
-                        if ($file_headers[0] == 'HTTP/1.1 404 Not Found')
-                            $is_down_exists = false;
-                        else
-                            $is_down_exists = true;
-                    }
+        $down_local_file = 'down.local.php';
+        if (!isset($_SESSION['auth']['id_auth']) && !isset($_COOKIE['X'])) {
+            $is_down_exists = false;
+            if (file_exists(dirname(__FILE__) . '/../../' . $down_local_file))
+                $is_down_exists = true;
+            else {
+                $file = 'http:' . Config::$http_scheme . 'cdn.' . Config::SITE_DOMAIN . '.' . Config::$domainEndImg . '/' . $down_local_file;
+                if($file_headers = get_headers($file)) {
+                    if ($file_headers[0] == 'HTTP/1.1 404 Not Found')
+                        $is_down_exists = false;
+                    else
+                        $is_down_exists = true;
                 }
-                if ($is_down_exists) {
-                    require dirname(__FILE__) . '/../../down.php';
-                    die();
-                }
+            }
+            if ($is_down_exists) {
+                require dirname(__FILE__) . '/../../down.php';
+                die();
             }
         }
     }
