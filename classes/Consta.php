@@ -71,7 +71,7 @@ class Consta
     const RECS_SEC_LIMIT = 84600;
     const MIN_AUTH_POWER = 0.2;
     const PH_NO_COMM = 1;
-
+    const MIN_SPECIAL_REC_CNT = 2;
     const HOME_BTN_MIN_RATING = 2;
 
     public static $cur_day;
