@@ -361,6 +361,7 @@ From: ' . $from_email . '
 
     public static function parseWorkImg($id_photo, $id_auth_photo, $id_cat_new, $ph_main_w, $ph_main_h, $is_id = false, $is_thumb = false)
     {
+        $dataIsAllowedNude = '';
         if (($id_cat_new != Consta::NUDE_CAT) || ($id_cat_new == Consta::NUDE_CAT && Auth::getAuthNuGall() && Utils::isAllowedNude())) {
             $srcAttr = Utils::getImgPath($id_photo);
             if ($is_thumb)
@@ -379,17 +380,17 @@ From: ' . $from_email . '
                 $classAttr = 'nudePreview';
             }
             $styleAttr = 'width: ' . Consta::MOBILE_MAX_WIDTH . 'px; height: ' . $styleH . 'px; ';
+            if (!Utils::isAllowedNude())
+                $dataIsAllowedNude = ' data-is-allowed-nude="false"';
         }
         $ph_path = str_replace($id_photo . '_mobile.jpg', '', Utils::getImgPath($id_photo) . Utils::getImgName($id_photo, 'mobile'));
 
         if ($is_id) $idAttr = 'id="mainImage"';
         else $idAttr = '';
         $altAttr = '';
-        $srcsetAttr = '';
-        #if (!$is_thumb) $srcsetAttr = $img_src . ' 1x, ' . str_replace('mobile', 'main', $img_src) . ' 2x';
 
-        $workImg = '<img ' . $idAttr . ' src="' . $srcAttr . '" srcset="' . $srcsetAttr . '" class="' . $classAttr . '" data-id-auth-photo="' . $id_auth_photo . '" data-id-photo="' . $id_photo . '" data-ph-main-w="' . $ph_main_w . '" data-ph-main-h="' . $ph_main_h . '" data-ph-path="' . $ph_path . '" style="' . $styleAttr . '" alt="' . $altAttr . '">';
-        $workImg = str_replace(array(' class=""', ' style=""', ' srcset=""'), '', $workImg);
+        $workImg = '<img ' . $idAttr . ' src="' . $srcAttr . '" class="' . $classAttr . '" ' . $dataIsAllowedNude . ' data-id-auth-photo="' . $id_auth_photo . '" data-id-photo="' . $id_photo . '" data-ph-main-w="' . $ph_main_w . '" data-ph-main-h="' . $ph_main_h . '" data-ph-path="' . $ph_path . '" style="' . $styleAttr . '" alt="' . $altAttr . '">';
+        $workImg = str_replace(array(' class=""', ' style=""'), '', $workImg);
         $workImg .= '<img id="mobileImage" src="' . Config::$ImgPath . '1.gif" style="display :none; width: 0; height 0;">';
         return str_replace('  ', ' ', $workImg);
     }

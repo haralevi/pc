@@ -64,7 +64,7 @@ class Consta
     const EOL = "\n";
 
     const ANON_OFFSET = 86400;
-    const RECOMM_MIN_RATING = 3;
+    const RECOMM_MIN_RATING = 5;
     const WORKS_PER_PAGE = 10;
     const WORKS_PER_PAGE_CANONICAL = 30;
     const COMM_PER_PAGE = 20;

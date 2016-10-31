@@ -195,27 +195,21 @@ class WorkModel
 
             $workImg = Utils::parseWorkImg($id_photo, $res_work[0]['id_auth_photo'], $res_work[0]['id_cat_new'], $res_work[0]['ph_main_w'], $res_work[0]['ph_main_h'], true);
 
-            # check if is allowed to see nude
-            if (Auth::getIdAuth() != $id_auth_photo && $res_work[0]['id_cat_new'] == Consta::NUDE_CAT && !Utils::isAllowedNude()) {
-                $workImg = str_replace(' id="mainImage"', '', $workImg); #remove id to disable javascript
-                $workHref = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/pricing.php';
-            } else {
-                $workHref = 'work.php?id_photo=' . $id_photo;
-                if (isset($params['all'])) {
-                    $workHref .= '&amp;all=' . $params['all'];
-                }
-                if (isset($params['special'])) {
-                    $workHref .= '&amp;special=' . $params['special'];
-                }
-                if (isset($params['popular'])) {
-                    $workHref .= '&amp;popular=' . $params['popular'];
-                } else if (isset($params['favorites'])) {
-                    $workHref .= '&amp;favorites=' . $params['favorites'];
-                } else if (isset($params['id_auth_photo'])) {
-                    $workHref .= '&id_auth_photo=' . $params['id_auth_photo'];
-                }
-                $workHref = Config::$home_url . $workHref . '&amp;next=1';
+            $workHref = 'work.php?id_photo=' . $id_photo;
+            if (isset($params['all'])) {
+                $workHref .= '&amp;all=' . $params['all'];
             }
+            if (isset($params['special'])) {
+                $workHref .= '&amp;special=' . $params['special'];
+            }
+            if (isset($params['popular'])) {
+                $workHref .= '&amp;popular=' . $params['popular'];
+            } else if (isset($params['favorites'])) {
+                $workHref .= '&amp;favorites=' . $params['favorites'];
+            } else if (isset($params['id_auth_photo'])) {
+                $workHref .= '&id_auth_photo=' . $params['id_auth_photo'];
+            }
+            $workHref = Config::$home_url . $workHref . '&amp;next=1';
 
             $tpl_work_main_img_var['workHref'] = $workHref;
             $tpl_work_main_img_var['workImg'] = $workImg;

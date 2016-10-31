@@ -111,7 +111,10 @@ class Geo
                                 Geo::$Gmtoffset += 7200;
                             }
                         } else if (Geo::$CountryCode == 'BY') {
-                            Geo::$Gmtoffset += 3600;
+                            if(stristr(Geo::$RegionName, 'Vitsyebskaya Voblasts'))
+                                Geo::$Gmtoffset += 0;
+                            else
+                                Geo::$Gmtoffset += 3600;
                         } else if (Geo::$CountryCode == 'UZ') {
                             Geo::$Gmtoffset -= 3600;
                         }

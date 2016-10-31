@@ -220,10 +220,9 @@ var app = {
         var $mainImage = $("#mainImage");
         if (!$mainImage.length) return false;
         $mainImage.removeClass("nudePreview").addClass("animated fadeIn");
-        $mainImage.attr("src", $mainImage.data("phPath") + $mainImage.data("idPhoto") + "_mobile.jpg").css({
-            width: "auto",
-            height: "auto"
-        });
+        if(typeof $mainImage.data("isAllowedNude") !== "undefined")
+            $mainImage.addClass("blur");
+        $mainImage.attr("src", $mainImage.data("phPath") + $mainImage.data("idPhoto") + "_mobile.jpg").css({width: "auto", height: "auto"});
         app.updateMainImg();
         app.viewedNudes.push($mainImage.data("idPhoto"));
         return true;
@@ -248,10 +247,12 @@ var app = {
 
         if (app.winW >= 420) {
             var $mobileImage = $("#mobileImage");
-            $mobileImage.attr("src", imgSrc.replace(/mobile/g, 'main'));
-            $mobileImage.waitForImages(function () {
-                $mainImage.attr("src", imgSrc.replace(/mobile/g, 'main'));
-            });
+            if(typeof $mainImage.data("isAllowedNude") === "undefined") {
+                $mobileImage.attr("src", imgSrc.replace(/mobile/g, 'main'));
+                $mobileImage.waitForImages(function () {
+                    $mainImage.attr("src", imgSrc.replace(/mobile/g, 'main'));
+                });
+            }
         }
         else {
             $mainImage.attr("src", imgSrc.replace(/main/g, 'mobile'));
