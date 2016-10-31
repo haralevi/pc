@@ -96,6 +96,7 @@ class WorkController extends Controller
         # /parse pager
 
         $work = array(
+            'id_photo' => $id_photo,
             'hrefPrev' => $hrefPrev,
             'hrefNext' => $hrefNext,
             'work' => $work,
@@ -112,8 +113,9 @@ class WorkController extends Controller
         return true;
     }
 
-    private static function parse ($work) {
-        if(!$work)
+    private static function parse($work)
+    {
+        if (!$work)
             die();
 
         WorkController::$tpl_var['work'] = $work['work'];
@@ -124,7 +126,6 @@ class WorkController extends Controller
         WorkController::$tpl_main_var['content'] = WorkController::$tpl->get();
 
 
-
         WorkController::$tpl_main_var['href_prev_page'] = $work['hrefPrev'];
         WorkController::$tpl_main_var['href_next_page'] = $work['hrefNext'];
 
@@ -132,13 +133,15 @@ class WorkController extends Controller
         WorkController::$tpl_main_var = Utils::setMenuStyles(WorkController::$tpl_main_var);
 
         # set seo vars
-        WorkController::$tpl_main_var['port_seo_title'] =  $work['ph_name'] . ' / ' . $work['auth_name_photo'] . ' / ' . Utils::getSiteName();
+        WorkController::$tpl_main_var['canonical_url'] = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/work/' . $work['id_photo'];
+        WorkController::$tpl_main_var['port_seo_title'] = $work['ph_name'] . ' / ' . $work['auth_name_photo'] . ' / ' . Utils::getSiteName();
 
         # parse page
         Parse::inst(WorkController::$tpl_main, WorkController::$tpl_main_var);
     }
 
-    private static function parseJson($work) {
+    private static function parseJson($work)
+    {
         # build json
         $json = '{';
         if ($work) {

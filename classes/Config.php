@@ -45,6 +45,7 @@ class Config
     public static $ImgPath = 'img/';
     public static $theme = 'black';
     public static $home_url;
+    public static $canonical_url;
     public static $css_url;
     public static $js_url;
 
@@ -145,6 +146,7 @@ class Config
         Config::$domainEnd = substr(Config::$http_host, (strrpos(Config::$http_host, '.') + 1));
 
         Config::$home_url = Config::$http_scheme . Config::$subDomain . Config::$SiteDom . '.' . Config::$domainEnd . '/' . Config::SITE_ROOT;
+        Config::$canonical_url = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . Config::$request_uri;
         Config::$css_url = Config::$home_url . 'css/';
         Config::$js_url = Config::$home_url . 'js/';
 

@@ -97,8 +97,6 @@ class Parse
         if (Config::$domainEnd == 'by') $tpl_var['logo_img'] = 'logo_'.Config::SITE_DOMAIN_BY.'.png';
         else $tpl_var['logo_img'] = 'logo_' . Config::SITE_DOMAIN . '.png';
         $tpl_var['home_url'] = Config::$home_url;
-        $tpl_var['canonical_url'] = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . Config::$request_uri;
-        $tpl_var['full_ver_url'] = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . Config::$request_uri;
         $tpl_var['css_url'] = Config::$css_url;
         $tpl_var['css_ver'] = Config::$css_ver;
         $tpl_var['js_url'] = Config::$js_url;
@@ -109,6 +107,7 @@ class Parse
     private static function setSeoVars($tpl_var)
     {
         $site_name = Utils::getSiteName();
+        if(!isset($tpl_var['canonical_url'])) $tpl_var['canonical_url'] = Config::$canonical_url;
         if (!isset($tpl_var['port_seo_title'])) $tpl_var['port_seo_title'] = $site_name . ' / ' . Localizer::$loc['main_title_loc'];
         if (!isset($tpl_var['port_seo_desc'])) $tpl_var['port_seo_desc'] = $site_name . ' / ' . Localizer::$loc['main_title_loc'];
         if (!isset($tpl_var['port_seo_keys'])) $tpl_var['port_seo_keys'] = $site_name . ' / ' . Localizer::$loc['main_title_loc'];
