@@ -104,6 +104,7 @@ class IndexController extends Controller
             'hrefPrev' => $hrefPrev,
             'hrefNext' => $hrefNext,
             'works' => $works,
+            'page' => $page,
         );
 
         if (!IndexController::$isJson)
@@ -142,6 +143,7 @@ class IndexController extends Controller
         IndexController::$tpl_main_var = Utils::setMenuStyles(IndexController::$tpl_main_var, $index['page_type']);
 
         # set seo vars
+        IndexController::$tpl_main_var['canonical_url'] = IndexController::getCanonicalUrl($index['page'], $index['page_type']);
         if ($index['port_seo_title'])
             IndexController::$tpl_main_var['port_seo_title'] = $index['port_seo_title'] . ' / ' . Utils::getSiteName();
 
@@ -155,6 +157,7 @@ class IndexController extends Controller
         $json = '{';
         if ($index) {
             if (Config::getDebug()) $json .= '"debug": "#debug#", ';
+            $json .= '"canonicalUrl": "' . IndexController::getCanonicalUrl($index['page'], $index['page_type']) . '", ';
             $json .= '"hrefPrev": "' . Utils::prepareJson($index['hrefPrev']) . '", ';
             $json .= '"hrefNext": "' . Utils::prepareJson($index['hrefNext']) . '", ';
             $json .= '"ajaxBody": "' . Utils::prepareJson($index['works']) . '" ';
@@ -165,5 +168,20 @@ class IndexController extends Controller
         # parse page
         require dirname(__FILE__) . '/../classes/ParseJson.php';
         ParseJson::inst($json);
+    }
+
+    private static function getCanonicalUrl($page, $page_type)
+    {
+        if ($page <= 1 && $page_type == '') {
+            $canonicalUrl = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd;
+        }
+        else {
+            if($page_type == '')
+                $page_type = 'featured';
+            else if($page_type == 'popular')
+                $page_type = 'rated';
+            $canonicalUrl = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/gallery.php#' . $page_type . '=1&range=7&page=' . Pager::getCanonicalPageIndex ($page);
+        }
+        return $canonicalUrl;
     }
 }

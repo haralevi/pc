@@ -87,6 +87,7 @@ class AuthorController extends Controller
             'id_auth_photo' => $id_auth_photo,
             'author' => $author,
             'works' => $works,
+            'page' => $page,
         );
 
         if (!AuthorController::$isJson)
@@ -98,8 +99,9 @@ class AuthorController extends Controller
 
     }
 
-    private static function parse($author) {
-        if(!$author)
+    private static function parse($author)
+    {
+        if (!$author)
             die();
 
         AuthorController::$tpl_var['id_auth_photo'] = $author['id_auth_photo'];
@@ -114,13 +116,14 @@ class AuthorController extends Controller
 
 
         # set menu style
-        if($author['id_auth_photo'] == Auth::getIdAuth())
+        if ($author['id_auth_photo'] == Auth::getIdAuth())
             $page_type = 'my_profile';
         else
             $page_type = '';
         AuthorController::$tpl_main_var = Utils::setMenuStyles(AuthorController::$tpl_main_var, $page_type);
 
         # set seo vars
+        AuthorController::$tpl_main_var['canonical_url'] = AuthorController::getCanonicalUrl($author['id_auth_photo'], $author['page']);
         AuthorController::$tpl_main_var['port_seo_title'] = $author['auth_name_photo'] . ' / ' . Utils::getSiteName();
 
         # parse page
@@ -131,8 +134,9 @@ class AuthorController extends Controller
     {
         # build json
         $json = '{';
-        if($author) {
+        if ($author) {
             if (Config::getDebug()) $json .= '"debug": "#debug#", ';
+            $json .= '"canonicalUrl": "' . AuthorController::getCanonicalUrl($author['id_auth_photo'], $author['page']) . '", ';
             $json .= '"hrefPrev": "' . Utils::prepareJson($author['hrefPrev']) . '", ';
             $json .= '"hrefNext": "' . Utils::prepareJson($author['hrefNext']) . '", ';
             $json .= '"ajaxBody": "' . Utils::prepareJson($author['works']) . '" ';
@@ -143,5 +147,15 @@ class AuthorController extends Controller
         # parse page
         require dirname(__FILE__) . '/../classes/ParseJson.php';
         ParseJson::inst($json);
+    }
+
+    private static function getCanonicalUrl($id_auth, $page)
+    {
+        if ($page <= 1) {
+            $canonicalUrl = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/author.php?id_auth=' . $id_auth;
+        } else {
+            $canonicalUrl = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/author.php?id_auth=' . $id_auth . '&works=1#id_auth_photo=' . $id_auth . '&page=' . Pager::getCanonicalPageIndex ($page);
+        }
+        return $canonicalUrl;
     }
 }

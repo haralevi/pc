@@ -39,6 +39,7 @@ var ajax = {
                 data.ajaxBody = data.ajaxBody || "";
                 data.title = data.title || "";
                 data.debug = data.debug || "";
+                data.canonicalUrl = data.canonicalUrl || "";
                 data.hrefPrev = data.hrefPrev.replace(/&amp;/g, "&") || "";
                 data.hrefNext = data.hrefNext.replace(/&amp;/g, "&") || "";
                 $ajaxBody.html(data.ajaxBody);
@@ -46,6 +47,8 @@ var ajax = {
                     $ajaxBody.addClass("animated fadeIn");
                 app.isFirstClick = false;
                 if (data.title != "") document.title = data.title;
+                $("link[rel='canonical']").attr("href", data.canonicalUrl);
+                $("#canonicalUrl").attr("href", data.canonicalUrl);
                 $(".prevLnk").attr("href", data.hrefPrev);
                 $(".nextLnk").attr("href", data.hrefNext);
                 $("#debug").html(data.debug);

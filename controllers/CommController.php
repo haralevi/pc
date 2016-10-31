@@ -60,6 +60,7 @@ class CommController extends Controller
             'hrefPrev' => $hrefPrev,
             'hrefNext' => $hrefNext,
             'comm' => $comm,
+            'page' => $page,
         );
 
         if (!CommController::$isJson)
@@ -88,6 +89,7 @@ class CommController extends Controller
         CommController::$tpl_main_var = Utils::setMenuStyles(CommController::$tpl_main_var, 'comm');
 
         # set seo vars
+        CommController::$tpl_main_var['canonical_url'] = CommController::getCanonicalUrl($comm['page']);
         CommController::$tpl_main_var['port_seo_title'] = Localizer::$loc['comm_loc'] . ' / ' . Utils::getSiteName();
 
         # parse page
@@ -100,6 +102,7 @@ class CommController extends Controller
         $json = '{';
         if ($comm) {
             if (Config::getDebug()) $json .= '"debug": "#debug#", ';
+            $json .= '"canonicalUrl": "' . CommController::getCanonicalUrl($comm['page']) . '", ';
             $json .= '"hrefPrev": "' . Utils::prepareJson($comm['hrefPrev']) . '", ';
             $json .= '"hrefNext": "' . Utils::prepareJson($comm['hrefNext']) . '", ';
             $json .= '"ajaxBody": "' . Utils::prepareJson($comm['comm']) . '" ';
@@ -110,5 +113,15 @@ class CommController extends Controller
         # parse page
         require dirname(__FILE__) . '/../classes/ParseJson.php';
         ParseJson::inst($json);
+    }
+
+    private static function getCanonicalUrl($page)
+    {
+        if ($page <= 1) {
+            $canonicalUrl = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/comm.php';
+        } else {
+            $canonicalUrl = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/comm.php?page=' . $page;
+        }
+        return $canonicalUrl;
     }
 }

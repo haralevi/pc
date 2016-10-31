@@ -133,7 +133,7 @@ class WorkController extends Controller
         WorkController::$tpl_main_var = Utils::setMenuStyles(WorkController::$tpl_main_var);
 
         # set seo vars
-        WorkController::$tpl_main_var['canonical_url'] = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/work/' . $work['id_photo'];
+        WorkController::$tpl_main_var['canonical_url'] = WorkController::getCanonicalUrl($work['id_photo']);
         WorkController::$tpl_main_var['port_seo_title'] = $work['ph_name'] . ' / ' . $work['auth_name_photo'] . ' / ' . Utils::getSiteName();
 
         # parse page
@@ -146,6 +146,7 @@ class WorkController extends Controller
         $json = '{';
         if ($work) {
             if (Config::getDebug()) $json .= '"debug": "#debug#", ';
+            $json .= '"canonicalUrl": "' . WorkController::getCanonicalUrl($work['id_photo']) . '", ';
             $json .= '"hrefPrev": "' . Utils::prepareJson($work['hrefPrev']) . '", ';
             $json .= '"hrefNext": "' . Utils::prepareJson($work['hrefNext']) . '", ';
             $json .= '"title": "' . Utils::prepareJson($work['ph_name'] . ' / ' . $work['auth_name_photo']) . '", ';
@@ -157,5 +158,9 @@ class WorkController extends Controller
         # parse page
         require dirname(__FILE__) . '/../classes/ParseJson.php';
         ParseJson::inst($json);
+    }
+
+    private static function getCanonicalUrl ($id_photo) {
+        return Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/work/' . $id_photo;
     }
 }

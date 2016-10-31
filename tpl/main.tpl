@@ -82,7 +82,7 @@
 <div class="footer">
     <div class="wrapContent clearfix">
         <div style="float: left; width: 190px;">
-            <a href="{canonical_url}" class="footerLnk">{site_full_ver_loc}</a>
+            <a id="canonicalUrl" href="{canonical_url}" class="footerLnk">{site_full_ver_loc}</a>
         </div>
         <div class="prevNext">
             <a rel="next" href="{home_url}{href_next_page}" class="nextLnk menuItem" style="border-right: 1px solid #111;">&nbsp;</a>

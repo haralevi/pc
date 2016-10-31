@@ -66,6 +66,7 @@ class Consta
     const ANON_OFFSET = 86400;
     const RECOMM_MIN_RATING = 3;
     const WORKS_PER_PAGE = 10;
+    const WORKS_PER_PAGE_CANONICAL = 30;
     const COMM_PER_PAGE = 20;
     const MOBILE_MAX_WIDTH = 400;
     const RECS_SEC_LIMIT = 84600;

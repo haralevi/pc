@@ -35,4 +35,8 @@ class Pager
         else
             return '&amp;page=' . $page;
     }
+
+    public static function getCanonicalPageIndex ($page) {
+        return floor(($page - 1) / (Consta::WORKS_PER_PAGE_CANONICAL / Consta::WORKS_PER_PAGE)) + 1;
+    }
 }
