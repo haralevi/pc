@@ -27,7 +27,7 @@ class WorkModel
             $where .= ' AND ph_special_rec_cnt>=' . Consta::MIN_SPECIAL_REC_CNT;
             $index_cache_tag = array('ds_photos=special');
         } else if (isset($params['popular'])) {
-            $where .= ' AND ph_rating>=20';
+            $where .= ' AND ph_rating>=' . Consta::POPULAR_PH_RATING;
             $index_cache_tag = array('ds_photos=popular');
         } else if (isset($params['favorites'])) {
             $where .= ' AND id_cat_new<' . Consta::FIRST_SPEC_CAT;
@@ -123,7 +123,7 @@ class WorkModel
         } else if (isset($params['special'])) {
             $where .= ' AND ph_special_rec_cnt>=' . Consta::MIN_SPECIAL_REC_CNT;
         } else if (isset($params['popular'])) {
-            $where .= ' AND ph_rating>=20';
+            $where .= ' AND ph_rating>=' . Consta::POPULAR_PH_RATING;
         } else if (isset($params['favorites'])) {
             $where .= ' AND id_cat_new<' . Consta::FIRST_SPEC_CAT;
             $where .= WorkModel::getWhereFollowers();

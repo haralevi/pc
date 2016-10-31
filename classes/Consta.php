@@ -73,6 +73,7 @@ class Consta
     const PH_NO_COMM = 1;
     const MIN_SPECIAL_REC_CNT = 2;
     const HOME_BTN_MIN_RATING = 2;
+    const POPULAR_PH_RATING = 20;
 
     public static $cur_day;
 
