@@ -62,33 +62,26 @@ class Geo
                 Geo::$Gmtoffset = $dateTime->format('Z'); # 'Z' is UTC Offset in seconds
 
                 if (strstr(Geo::$RegionName, 'Novosibirskaya Oblast') || strstr(Geo::$RegionName, 'Ulyanovsk Oblast') || strstr(Geo::$RegionName, 'Samarskaya Oblast') || strstr(Geo::$RegionName, 'Kemerovskaya Oblast') || Geo::$RegionName == 'Udmurtskaya Respublika') {
-                    if (Config::$is_winter_time) Geo::$Gmtoffset += 3600; # todo - check in winter
-                    else Geo::$Gmtoffset += 3600;
+                    Geo::$Gmtoffset += 3600;
                 } else if (Geo::$RegionName == 'Republic of Crimea' || Geo::$RegionName == 'Gorod Sevastopol') {
-                    if (Config::$is_winter_time) Geo::$Gmtoffset -= 3600; # todo - check in winter
-                    else Geo::$Gmtoffset -= 3600;
+                    Geo::$Gmtoffset -= 3600;
                 } else if (Geo::$CountryCode == 'AZ') {
-                    if (Config::$is_winter_time) Geo::$Gmtoffset -= 3600; # todo - check in winter
+                    if (Config::$is_winter_time) Geo::$Gmtoffset -= 0;
                     else Geo::$Gmtoffset -= 3600;
                 }
             } else if (Geo::$CountryCode == 'RU') { # Moscow
-                if (Config::$is_winter_time) Geo::$Gmtoffset = 14400; # todo - check in winter
-                else Geo::$Gmtoffset = 14400;
+                Geo::$Gmtoffset = 14400;
             } else if (Geo::$CountryCode == 'BY') { # Minsk
-                if (Config::$is_winter_time) Geo::$Gmtoffset = 10800; # todo - check in winter
-                else Geo::$Gmtoffset = 10800;
+                Geo::$Gmtoffset = 10800;
             } else if (Geo::$CountryCode == 'UA') { # Kiev
-                if (Config::$is_winter_time) Geo::$Gmtoffset = 7200; # todo - check in winter
-                else Geo::$Gmtoffset = 7200;
+                if (Config::$is_winter_time) Geo::$Gmtoffset = 7200;
+                else Geo::$Gmtoffset = 10800;
             } else if (Geo::$CountryCode == 'CA') { # Toronto
-                if (Config::$is_winter_time) Geo::$Gmtoffset = -14400; # todo - check in winter
-                else Geo::$Gmtoffset = -14400;
+                Geo::$Gmtoffset = -14400;
             } else if (Geo::$CountryCode == 'US') { # New York
-                if (Config::$is_winter_time) Geo::$Gmtoffset = -14400; # todo - check in winter
-                else Geo::$Gmtoffset = -14400;
+                Geo::$Gmtoffset = -14400;
             } else { # Berlin
-                if (Config::$is_winter_time) Geo::$Gmtoffset = 3600; # todo - check in winter
-                else Geo::$Gmtoffset = 7200;
+                Geo::$Gmtoffset = 3600;
             }
 
             if (isset($_SESSION['auth']['id_auth']) || (!isset($_SESSION['auth']['id_auth']) && isset($_COOKIE['X']))) {
@@ -113,16 +106,14 @@ class Geo
                         Geo::$Gmtoffset = $Gmtoffset_arr[0] * 3600 + $Gmtoffset_arr[1] * 60;
 
                         if (Geo::$CountryCode == 'RU') {
-                            if (Config::$is_winter_time) Geo::$Gmtoffset += 3600; # todo - check in winter
-                            else Geo::$Gmtoffset += 3600;
-
+                            Geo::$Gmtoffset += 3600;
                             if (Geo::$RegionName == 'Kemerovo' || Geo::$RegionName == 'Udmurt' || Geo::$RegionName == 'Altaisky krai') {
-                                if (Config::$is_winter_time) Geo::$Gmtoffset += 7200; # todo - check in winter
-                                else Geo::$Gmtoffset += 7200;
+                                Geo::$Gmtoffset += 7200;
                             }
                         } else if (Geo::$CountryCode == 'BY') {
-                            if (Config::$is_winter_time) Geo::$Gmtoffset += 3600; # todo - check in winter
-                            else Geo::$Gmtoffset += 3600;
+                            Geo::$Gmtoffset += 3600;
+                        } else if (Geo::$CountryCode == 'UZ') {
+                            Geo::$Gmtoffset -= 3600;
                         }
                     }
                 }
@@ -135,10 +126,10 @@ class Geo
             $_SESSION['City'] = Geo::$City;
             $_SESSION['Gmtoffset'] = Geo::$Gmtoffset;
 
-            if (Config::$http_referrer != '' && !strstr(Config::$http_referrer, 'http://googleads.') && !strstr(Config::$http_referrer, 'http://' . Config::SITE_DOMAIN ) && !strstr(Config::$http_referrer, 'http://' . Config::SITE_DOMAIN_BY)) $_SESSION['Referer'] = Config::$http_referrer;
+            if (Config::$http_referrer != '' && !strstr(Config::$http_referrer, 'http://googleads.') && !strstr(Config::$http_referrer, 'http://' . Config::SITE_DOMAIN) && !strstr(Config::$http_referrer, 'http://' . Config::SITE_DOMAIN_BY)) $_SESSION['Referer'] = Config::$http_referrer;
             else $_SESSION['Referer'] = '';
 
-            if(Config::$SiteDom)
+            if (Config::$SiteDom)
                 setcookie('ccode', Geo::$CountryCode, Config::$cookie_expires, '/', '.' . Config::$SiteDom . '.' . Config::$domainEnd);
         } else {
             Geo::$CountryCode = $_SESSION['CountryCode'];
@@ -241,7 +232,7 @@ class Geo
         else $chla = 0;
         if (isset($_GET['chla'])) {
             $chla = 1;
-            if(Config::$SiteDom)
+            if (Config::$SiteDom)
                 setcookie('chla', $chla, Config::$cookie_expires, '/', '.' . Config::$SiteDom . '.' . Config::$domainEnd);
         }
         return $chla;
