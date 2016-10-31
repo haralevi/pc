@@ -9,9 +9,6 @@ namespace photocommunity\mobile;
 
 #require dirname(__FILE__) . '/../../down.php'; die();
 
-# static classes
-use SebastianBergmann\CodeCoverage\Util;
-
 require dirname(__FILE__) . '/Utils.php';
 require dirname(__FILE__) . '/Request.php';
 
@@ -107,7 +104,7 @@ class Init
                 $is_down_exists = true;
             else {
                 $file_headers = Utils::get_headers_curl('http://cdn.photocentra.ru/' . $down_local_file);
-                if (isset($file_headers[0]) && !strstr($file_headers[0], '404 Not Found'))
+                if (isset($file_headers[0]) && $file_headers[0] != '' && !strstr($file_headers[0], '404 Not Found'))
                     $is_down_exists = true;
             }
             if ($is_down_exists) {
