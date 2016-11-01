@@ -92,6 +92,9 @@
     #debug#
 </div>
 
+<script type="text/javascript">
+    var id_auth_log = "{id_auth_log}";
+</script>
 <script type="text/javascript" src="{js_url}plugins.min.js?v={js_ver}"></script>
 <script type="text/javascript" src="{js_url}default.js?v={js_ver}"></script>
 <!--[GO_BLK]-->
