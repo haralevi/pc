@@ -235,6 +235,8 @@ var app = {
             for (var i = 0; i < app.viewedNudes.length; i++) {
                 if ($mainImage.data("idPhoto") == app.viewedNudes[i]) {
                     $mainImage.removeClass("nudePreview");
+                    if(typeof $mainImage.data("isAllowedNude") !== "undefined")
+                        $mainImage.addClass("blur");
                     $mainImage.attr("src", $mainImage.data("phPath") + $mainImage.data("idPhoto") + "_mobile.jpg").css({
                         width: "auto",
                         height: "auto"
@@ -245,17 +247,19 @@ var app = {
         }
         var imgSrc = $mainImage.attr("src");
 
+        var srcReplace = 'main';
+        if(typeof $mainImage.data("isAllowedNude") !== "undefined")
+            srcReplace = 'council';
+
         if (app.winW >= 420) {
             var $mobileImage = $("#mobileImage");
-            if(typeof $mainImage.data("isAllowedNude") === "undefined") {
-                $mobileImage.attr("src", imgSrc.replace(/mobile/g, 'main'));
-                $mobileImage.waitForImages(function () {
-                    $mainImage.attr("src", imgSrc.replace(/mobile/g, 'main'));
-                });
-            }
+            $mobileImage.attr("src", imgSrc.replace(/mobile/g, srcReplace));
+            $mobileImage.waitForImages(function () {
+                $mainImage.attr("src", imgSrc.replace(/mobile/g, srcReplace));
+            });
         }
         else {
-            $mainImage.attr("src", imgSrc.replace(/main/g, 'mobile'));
+            $mainImage.attr("src", imgSrc.replace(new RegExp(srcReplace, 'g'), 'mobile'));
         }
 
         // resize image according to app width
