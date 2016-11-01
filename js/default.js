@@ -403,6 +403,10 @@ $(function () {
                 e.preventDefault();
             }
         })
+        // allow full version
+        .on("click", "#canonicalUrl", function (e) {
+            cookie.setCookie("allowFullVer", 1);
+        })
         // enlarge comm text area
         .on("click", "#commText", function () {
             $(this).css({height: "100px"});

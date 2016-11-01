@@ -23,7 +23,7 @@ class Config
     const DB_NAME = 'photocommunity';
 
     public static $css_ver = 1.37;
-    public static $js_ver = 1.68;
+    public static $js_ver = 1.69;
 
     public static $http_scheme = '//';
     public static $http_host;
