@@ -79,8 +79,6 @@ class Init
         return session_start();
     }
 
-
-
     private static function startSession()
     {
         if (!isset(Auth::$guest_sess)) {
@@ -103,7 +101,7 @@ class Init
             if (file_exists(dirname(__FILE__) . '/../../' . $down_local_file))
                 $is_down_exists = true;
             else {
-                $file_headers = Utils::get_headers_curl('http://cdn.photocentra.ru/' . $down_local_file, 10);
+                $file_headers = Utils::get_headers_curl('http://cdn.' . Config::$SiteDom . '.' . Config::$domainEnd . '/' . $down_local_file, 10);
                 if (isset($file_headers[0]) && $file_headers[0] != '' && !strstr($file_headers[0], '404 Not Found'))
                     $is_down_exists = true;
             }

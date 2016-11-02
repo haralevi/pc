@@ -32,13 +32,14 @@ $sql = "SELECT VS.id_auth
         FROM ds_views VS
         WHERE VS.id_photo=" . $id_photo . " AND id_auth=" . Auth::getIdAuth() . "
         LIMIT 1";
-$res_views = Db::execute($sql); #utils::printArr($res_views);
+$res_views = Mcache::cacheDbi($sql, 3600, array('ds_views=' . $id_photo));
 
 $result = 0;
 if (!sizeof($res_views)) {
     if ($id_auth_photo != Auth::getIdAuth()) {
         $sql = "INSERT INTO ds_views (id_photo, id_auth) VALUES ($id_photo, " . Auth::getIdAuth() . ")";
         Db::execute($sql);
+        Mcache::delCache('ds_views=' . $id_photo);
         $result = 1;
     }
 }

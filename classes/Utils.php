@@ -331,7 +331,7 @@ From: ' . $from_email . '
 
     public static function logVisits()
     {
-        if (!stristr(Config::$http_user_agent, 'bot') && !stristr(Config::$http_user_agent, 'slurp') && !in_array(Auth::getIdAuth(), array(1, 24))) {
+        if (!stristr(Config::$http_user_agent, 'bot') && !stristr(Config::$http_user_agent, 'slurp') && !in_array(Auth::getIdAuth(), array(-1, 1, 24, 26))) {
             $log = date("d.m.Y H:i:s") . ' | ';
             if (Config::$remote_addr) $log .= Config::$remote_addr . ' | ';
             if (Auth::getIdAuth() != -1) $log .= 'ID_AUTH: ' . Auth::getIdAuth() . ' | ';

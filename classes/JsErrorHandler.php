@@ -18,7 +18,7 @@ class JsErrorHandler
         if (!isset($_REQUEST['jserror']))
             die();
 
-        $jserror = trim($_REQUEST['jserror']);
+        $jserror = trim(mb_substr($_REQUEST['jserror'], 0, 10000));
 
         if (JsErrorHandler::isReallyJsError($jserror))
             JsErrorHandler::writeJsError($jserror);
@@ -29,7 +29,7 @@ class JsErrorHandler
         $isReal = true;
         if ($jserror == '')
             $isReal = false;
-        else if (strstr($jserror, 'mecash'))
+        else if (strstr($jserror, 'mecash') || strstr($jserror, 'metabar') || strstr($jserror, 'prod2016'))
             $isReal = false;
         return $isReal;
     }

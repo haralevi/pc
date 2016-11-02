@@ -320,7 +320,7 @@ class Auth
                 'cur_time' => Config::$cur_time,
                 'guest_gmtoffset' => Geo::$Gmtoffset,
                 'guest_ip' => Config::$remote_addr,
-                'guest_agent' => 'MOBILE_VER | ' . Config::$http_user_agent,
+                'guest_agent' => 'MOB_VER | ' . Config::$http_user_agent,
                 'guest_country' => Geo::$CountryName, 'guest_country_code' => Geo::$CountryCode, 'guest_city' => Geo::$City,
                 'guest_uri' => str_replace('//', '/', Config::$home_url . Config::$request_uri),
                 'online_theme' => Config::$theme,
