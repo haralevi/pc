@@ -1,0 +1,89 @@
+#map_canvas img,
+.google-maps img {
+    max-width: none;
+}
+
+button,
+input,
+select,
+textarea {
+    font-size: 100%;
+    margin: 0;
+    vertical-align: middle;
+}
+
+button,
+input {
+    line-height: normal;
+    *overflow: visible;
+}
+
+button,
+input[type='button'],
+input[type='reset'],
+input[type='submit'] {
+    -webkit-appearance: button;
+}
+
+label,
+select,
+button,
+input[type='button'],
+input[type='reset'],
+input[type='submit'],
+input[type='radio'],
+input[type='checkbox'] {
+    cursor: pointer;
+}
+
+input[type='search'] {
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    -webkit-appearance: textfield;
+}
+
+textarea {
+    overflow: auto;
+    vertical-align: top;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+.clearfix:before,
+.clearfix:after {
+    line-height: 0;
+    display: table;
+    content: '';
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.breakfix {
+    clear: both;
+}
+
+img {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+    -ms-interpolation-mode: bicubic;
+    border: 0;
+}
+
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+td {
+    padding: 0;
+}
+
+.hidden {
+    display: none;
+}

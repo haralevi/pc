@@ -29,7 +29,10 @@ class JsErrorHandler
         $isReal = true;
         if ($jserror == '')
             $isReal = false;
-        else if (strstr($jserror, 'mecash') || strstr($jserror, 'metabar') || strstr($jserror, 'prod2016'))
+        else if (
+            strstr($jserror, 'mecash') || strstr($jserror, 'metabar') ||
+            strstr($jserror, 'prod2016') || strstr($jserror, 'reckonstat')
+        )
             $isReal = false;
         return $isReal;
     }

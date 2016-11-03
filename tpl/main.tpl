@@ -20,7 +20,7 @@
     <meta property="og:site_name" content="{og_site_name}"/>
     <meta property="og:description" content="{port_seo_desc}"/>
     <link rel="canonical" href="{canonical_url}">
-    <link href="{css_url}default.css?v={css_ver}" rel="stylesheet" type="text/css">
+    <link href="{css_url}css.min.css?v={css_ver}" rel="stylesheet" type="text/css">
     <link href="//fonts.googleapis.com/css?family=Open+Sans&amp;subset=latin,cyrillic" rel="stylesheet" type="text/css">
     <link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:700,300&amp;subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <style type="text/css">
@@ -96,7 +96,7 @@
     var id_auth_log = "{id_auth_log}";
 </script>
 <script type="text/javascript" src="{js_url}plugins.min.js?v={js_ver}"></script>
-<script type="text/javascript" src="{js_url}default.js?v={js_ver}"></script>
+<script type="text/javascript" src="{js_url}js.js?v={js_ver}"></script>
 <!--[GO_BLK]-->
 <script type="text/javascript">
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

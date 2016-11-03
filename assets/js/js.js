@@ -1,3 +1,161 @@
+/* domain vars */
+var domain=document.domain,dotPos=domain.lastIndexOf("."),domainEnd=domain.substr(dotPos+1),SiteDom=domain.substr(0,dotPos);-1!=SiteDom.lastIndexOf(".")&&(SiteDom=SiteDom.substr(SiteDom.lastIndexOf(".")+1));var expireDate=new Date;expireDate.setTime(expireDate.getTime()+2592E6);
+
+/* error logger */
+window.onerror = function (message, file, line, column) {
+try{if(line!==1 && file.indexOf("uptolike")==-1 && file.indexOf("bot")==-1 && file.indexOf("yandex")==-1 && file.indexOf("leechlink")==-1 && file!=""){
+if(typeof id_auth_log === "undefined") id_auth_log = -1;
+var jserror = "<i>" + (new Date()).toString() + "</i><br><a href=\"" + window.location.href + "\" target=\"_blank\">" + window.location.href + "</a><br><b>id_auth</b>: " + id_auth_log + "<br>" + navigator.userAgent + "<br>" + message + "<br><b>file</b>: " + file + " <b>line</b>: " + line + " <b>column</b>: " + column;
+$.get('/classes/JsErrorHandler.php?jserror=' + encodeURIComponent(jserror));
+}}catch(e){}};
+
+/* cookie class */
+var cookie={setCookie:function(a,b){document.cookie=a+"="+b+";expires="+expireDate.toGMTString()+";path=/;domain=."+SiteDom+"."+domainEnd},getCookie:function(a){a=new RegExp(a+"=[^;]+","i");return document.cookie.match(a)?document.cookie.match(a)[0].split("=")[1]:null}};
+
+/* jQuery ajax cache */
+var localCache={timeout:6E4,data:{},remove:function(a){delete localCache.data[a]},exist:function(a){return!!localCache.data[a]&&(new Date).getTime()-localCache.data[a]._<localCache.timeout},get:function(a){return localCache.data[a].data},set:function(a,b,c){localCache.remove(a);localCache.data[a]={_:(new Date).getTime(),data:b};$.isFunction(c)&&c(b)}};$.ajaxPrefilter(function(a,b,c){if(a.cache){var e=b.complete||$.noop,d=b.url;a.cache=!1;a.beforeSend=function(){return localCache.exist(d)?(e(localCache.get(d)),!1):!0};a.complete=function(a,b){localCache.set(d,a,e)}}});
+
+/* utils class */
+var utils = {
+info: function (o) {
+    if (typeof console != "undefined") console.info(o);
+},
+dir: function (o) {
+    if (typeof console != "undefined") console.dir(o);
+},
+table: function (o) {
+    if (typeof console != "undefined" && typeof console.table != "undefined") console.table(o);
+},
+trim: function (str) {
+    var res = str.replace(/^ */, '');
+    return (res.replace(/ *$/, ''));
+},
+floor: function (num, decimals) {
+    return Math.floor(num * Math.pow(10, decimals)) / Math.pow(10, decimals);
+},
+winW: function () {
+    return $(window).width();
+}, winH: function () {
+    return $(window).height();
+},
+isMobile: function () {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+},
+isTouch: function () {
+    return 'ontouchstart' in document.documentElement;
+},
+getURLParam: function (param, url) {
+    return decodeURIComponent((url.match(new RegExp("[?|&]" + param + "=(.+?)(&|$)")) || [, null])[1]);
+},
+endsWith: function (str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+},
+isIE: function () {
+    return (/MSIE (\d+\.\d+);/.test(navigator.userAgent));
+},
+getIEVer: function () {
+    var ieversion = 9;
+    if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)) ieversion = Number(RegExp.$1);
+    return ieversion;
+},
+getBrowserLang: function () {
+    if (typeof navigator.language != 'undefined') lang = navigator.language;
+    else if (typeof navigator.browserLanguage != 'undefined') lang = navigator.browserLanguage;
+    else if (typeof navigator.systemLanguage != 'undefined') lang = navigator.systemLanguage;
+    else if (typeof navigator.userLanguage != 'undefined') lang = navigator.userLanguage;
+    else lang = 'ru';
+    return lang;
+},
+isIE7: function () {
+    return (utils.isIE() && utils.getIEVer() <= 7) ? true : false;
+}, isIE8: function () {
+    return (utils.isIE() && utils.getIEVer() == 8) ? true : false;
+},
+rotateVal: function (el, type) {
+    if (!el.length || !(type == "int" || type == "float")) return;
+    var origV = el.text();
+    if (parseFloat(origV) <= 0) return;
+    var maxV = (type == "int") ? parseInt(origV) : parseFloat(origV);
+    var step = 1;
+    if (type == "int" && maxV > 10) step = maxV / 10;
+    if (type == "float" && maxV > 0.1) step = maxV / 10;
+    var curV = 0;
+    var intId = setInterval(function () {
+        if (curV < maxV) {
+            (type == "int") ? el.text(parseInt(curV)) : el.text(utils.floor(curV, 2).toFixed(2));
+            curV += step;
+        } else {
+            el.text(origV).addClass("animated bounceIn");
+            clearInterval(intId);
+        }
+    }, 100);
+},
+handleHistory: function (links, ajaxFld) {
+    var appRoot = location.pathname.substr(0, location.pathname.lastIndexOf("/"));
+    if ((history.pushState && history.replaceState)) {
+        // click listener for ajax calls
+        $(document).on("click", links, function (e) {
+            var href = this.href;
+            if (href != location.href) {
+                href = href.substr(href.lastIndexOf("/"));
+                window.history.pushState(null, null, appRoot + href);
+                ajax.handelAjax(appRoot + ajaxFld + href);
+            }
+            e.preventDefault();
+        });
+        // handle browser back-forward buttons
+        var popped = ('state' in window.history);
+        var initialURL = location.href;
+        $(window).bind("popstate", function () {
+            var initialPop = !popped && location.href == initialURL;
+            popped = true;
+            if (initialPop) return; // prevent from firing on first page load
+            var href = location.href;
+            href = href.substr(href.lastIndexOf("/"));
+            ajax.handelAjax(appRoot + ajaxFld + href);
+        });
+    }
+}
+};
+
+/* localizer class */
+var minCommLen = 5, maxCommLen = 30000;
+var ploc = {
+by: {
+    already_rec_note_loc: 'Спасибо, ваша<br />рекомендация принята',
+    be_constructive_loc: 'Текст сообщения должен содержать хотя бы ' + minCommLen + ' букв',
+    max_comm_len_loc: 'Сообщение должно содержать не более ' + maxCommLen + ' символов',
+    really_do_home_album_loc: 'Вы действительно считаете, что эта работа\nне должна присутствовать в галерее?',
+    loc: ''
+},
+en: {
+    already_rec_note_loc: 'Thanks, your<br />recommendation is received',
+    be_constructive_loc: 'Please write some words',
+    max_comm_len_loc: 'Max ' + maxCommLen + ' characters',
+    really_do_home_album_loc: 'Do you really want that this work will be deleted from the gallery?',
+    loc: ''
+},
+de: {
+    already_rec_note_loc: 'Danke, Ihre Empfehlung<br />wurde gezählt',
+    be_constructive_loc: 'Ihre Anmerkung soll mindestens ' + minCommLen + ' Buchstaben enthalten',
+    max_comm_len_loc: 'Eine Anmerkung darf bis zu ' + maxCommLen + ' Zeichen enthalten',
+    really_do_home_album_loc: 'Möchten Sie wirklich, dass dieses Bild von der Bildergalerie entfernt wird?',
+    loc: ''
+},
+ru: {
+    already_rec_note_loc: 'Рекомендация<br />принята',
+    be_constructive_loc: 'Текст сообщения должен содержать хотя бы ' + minCommLen + ' букв',
+    max_comm_len_loc: 'Сообщение должно содержать не более ' + maxCommLen + ' символов',
+    really_do_home_album_loc: 'Вы действительно считаете, что эта работа\nне должна присутствовать в галерее?',
+    loc: ''
+}
+};
+var $lang = cookie.getCookie("lang");
+if ($lang == 'by') ploc = ploc.by;
+else if ($lang == 'en') ploc = ploc.en;
+else if ($lang == 'de') ploc = ploc.de;
+else ploc = ploc.ru;
+
 var ajax = {
     ajaxFld: "/ajax",
     loader: '<img src="/css/black/' + 'loader_gray.new.gif' + '" alt="">',
