@@ -36,7 +36,6 @@ class Config
 
     public static $lang = 'ru';
 
-    public static $documentRoot;
     public static $templatePath = 'tpl/';
     public static $templateExt = 'tpl';
 
@@ -48,7 +47,8 @@ class Config
     public static $canonical_url;
     public static $css_url;
     public static $js_url;
-    public static $js_type;
+    public static $css_type = 'min.';
+    public static $js_type = 'min.';
 
     public static $noreply_email;
 
@@ -133,9 +133,6 @@ class Config
         else Config::$http_referrer = '';
         if (isset($_SERVER['HTTP_USER_AGENT'])) Config::$http_user_agent = $_SERVER['HTTP_USER_AGENT'];
         else Config::$http_user_agent = '';
-        if (isset($_SERVER['DOCUMENT_ROOT'])) Config::$documentRoot = $_SERVER['DOCUMENT_ROOT'];
-        else Config::$documentRoot = '';
-        if (substr(Config::$documentRoot, -1) != '/') Config::$documentRoot .= '/';
 
         Config::$SiteDom = substr(Config::$http_host, 0, (strrpos(Config::$http_host, '.')));
         Config::$isSubDomain = false;
@@ -150,8 +147,6 @@ class Config
         Config::$canonical_url = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . Config::$request_uri;
         Config::$css_url = Config::$home_url . 'css/';
         Config::$js_url = Config::$home_url . 'js/';
-        if(Config::getDebug())
-            Config::$js_type = 'min.';
 
         if (Config::$domainEnd == 'by')
             Config::$domainEndImg = 'ru';

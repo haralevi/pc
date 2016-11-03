@@ -71,7 +71,7 @@ $(function () {
         //cropClick
         .on("click", ".cropClick", function (e) {
             var cropCoordinates = $(this).data("cropCoordinates").split(";");
-            if(cropCoordinates.length == 4) {
+            if (cropCoordinates.length == 4) {
                 app.cropX = cropCoordinates[0];
                 app.cropY = cropCoordinates[1];
                 app.cropW = cropCoordinates[2];

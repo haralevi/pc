@@ -67,7 +67,6 @@ class CommModel
                     continue;
 
                 $id_auth_comm = $v['comm_id_auth'];
-                $auth_name_comm = $v['comm_auth_name'];
                 $id_photo = $v['id_photo'];
                 $id_auth_photo = $v['id_auth_photo'];
 
@@ -78,6 +77,7 @@ class CommModel
                 if ($is_ph_anon && $id_auth_comm == $id_auth_photo) {
                     $auth_name_str = Localizer::$loc['author_loc'];
                 } else {
+                    $auth_name_comm = $v['comm_auth_name'];
                     $auth_name_str = '<a href="' . Config::$home_url . 'author.php?id_auth=' . $id_auth_comm . '">' . $auth_name_comm . '</a>';
                 }
 
@@ -125,7 +125,6 @@ class CommModel
                 if (Auth::isAuthIgnored($v['id_auth']))
                     continue;
 
-                $auth_avatar_src = Utils::parseAvatar($v['id_auth'], $v['auth_avatar'], $v['auth_gender'], 'square');
                 $comm_text = $v[Localizer::$col_comm_text];
                 if ($comm_text == '') {
                     continue;
@@ -143,15 +142,17 @@ class CommModel
                 $comm_cnt++;
 
                 $id_auth_comm = $v['id_auth'];
-                $auth_name_comm = $v[Localizer::$col_auth_name];
 
                 $authNameAnswerClass = '';
                 if ($is_ph_anon && $id_auth_comm == $id_auth_photo) {
+                    $auth_name_comm = Localizer::$loc['author_loc'];
                     $auth_avatar_str = '<img src="' . Config::$css_url . Config::$theme . '/male.png" width="31" height="31" alt="">';
                     if (Auth::getIdAuth() != -1)
                         $authNameAnswerClass = 'class="authNameAnswer" data-id-auth="0"';
-                    $auth_name_str = '<a id="authName0" class="authNameAnswer" '.$authNameAnswerClass.' href="#">' . Localizer::$loc['author_loc'] . '</a>';
+                    $auth_name_str = '<a id="authName0" class="authNameAnswer" '.$authNameAnswerClass.' href="#">' . $auth_name_comm . '</a>';
                 } else {
+                    $auth_name_comm = $v[Localizer::$col_auth_name];
+                    $auth_avatar_src = Utils::parseAvatar($v['id_auth'], $v['auth_avatar'], $v['auth_gender'], 'square');
                     $auth_avatar_str = '<a href="' . Config::$home_url . 'author.php?id_auth=' . $id_auth_comm . '"><img src="' . $auth_avatar_src . '" alt=""></a>';
                     if (Auth::getIdAuth() != -1)
                         $authNameAnswerClass = 'class="authNameAnswer" data-id-auth="' . $id_auth_comm . '"';

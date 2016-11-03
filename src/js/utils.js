@@ -28,7 +28,7 @@ window.onerror = function (message, file, line, column) {
         if (parseInt(line) > 1 && file.indexOf("uptolike") == -1 && file.indexOf("bot") == -1 && file.indexOf("yandex") == -1 && file.indexOf("leechlink") == -1 && file != "") {
             if (typeof id_auth_log === "undefined") var id_auth_log = -1;
             let jserror = "<i>" + (new Date()).toString() + "</i><br><a href=\"" + window.location.href + "\" target=\"_blank\">" + window.location.href + "</a><br><b>id_auth</b>: " + id_auth_log + "<br>" + navigator.userAgent + "<br>" + message + "<br><b>file</b>: " + file + " <b>line</b>: " + line + " <b>column</b>: " + column;
-            $.get('/classes/JsErrorHandler.php?jserror=' + encodeURIComponent(jserror));
+            $.get(ajax.ajaxFld + '/JsErrorHandler.php?jserror=' + encodeURIComponent(jserror));
         }
     } catch (e) {
     }
@@ -46,6 +46,7 @@ const cookie = {
         return document.cookie.match(a) ? document.cookie.match(a)[0].split("=")[1] : null
     }
 };
+const lang = cookie.getCookie("lang");
 
 /* jQuery ajax cache */
 const localCache = {
@@ -119,12 +120,12 @@ const utils = {
         return ieversion;
     },
     getBrowserLang: function () {
-        if (typeof navigator.language != 'undefined') lang = navigator.language;
-        else if (typeof navigator.browserLanguage != 'undefined') lang = navigator.browserLanguage;
-        else if (typeof navigator.systemLanguage != 'undefined') lang = navigator.systemLanguage;
-        else if (typeof navigator.userLanguage != 'undefined') lang = navigator.userLanguage;
-        else lang = 'ru';
-        return lang;
+        let browserLang = 'ru';
+        if (typeof navigator.language != 'undefined') browserLang = navigator.language;
+        else if (typeof navigator.browserLanguage != 'undefined') browserLang = navigator.browserLanguage;
+        else if (typeof navigator.systemLanguage != 'undefined') browserLang = navigator.systemLanguage;
+        else if (typeof navigator.userLanguage != 'undefined') browserLang = navigator.userLanguage;
+        return browserLang;
     },
     isIE7: function () {
         return (utils.isIE() && utils.getIEVer() <= 7) ? true : false;
@@ -210,14 +211,9 @@ let ploc = {
         loc: ''
     }
 };
-let lang = cookie.getCookie("lang");
 if (lang == 'by') ploc = ploc.by;
 else if (lang == 'en') ploc = ploc.en;
 else if (lang == 'de') ploc = ploc.de;
 else ploc = ploc.ru;
 
-export {waitForFinalEvent};
-export {cookie};
-export {localCache};
-export {ploc};
-export {utils};
+export {waitForFinalEvent, cookie, lang, localCache, ploc, utils};

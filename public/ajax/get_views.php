@@ -1,7 +1,7 @@
 <?php
 namespace photocommunity\mobile;
 
-require dirname(__FILE__) . '/../classes/Init.php';
+require dirname(__FILE__) . '/../../classes/Init.php';
 
 if (isset($_REQUEST['id']))
     $id_photo = Request::getParam('id', 'integer', 5);
@@ -47,5 +47,5 @@ if (!sizeof($res_views)) {
 $json = '{"result": ' . $result . '}';
 
 # parse page
-require dirname(__FILE__) . '/../classes/ParseJson.php';
+require dirname(__FILE__) . '/../../classes/ParseJson.php';
 ParseJson::inst($json);

@@ -177,7 +177,6 @@ class WorkModel
                 LIMIT 1";
             $author_cache_tag = array('ds_authors=' . $id_auth_photo);
             $res_author = Mcache::cacheDbi($sql_author, 300, $author_cache_tag);
-            $auth_avatar_src = Utils::parseAvatar($id_auth_photo, $res_author[0]['auth_avatar'], $res_author[0]['auth_gender'], 'square');
 
             $sql_recs = "SELECT id_auth, rec_power FROM ds_recs
                 WHERE id_photo = " . $id_photo;
@@ -248,7 +247,7 @@ class WorkModel
                         $homeAlbumBtnBg = 'button_no.png';
                         $homeAlbumBtnW = 47;
                     }
-                    $homeAlbumStr .= '<a id="homeAlbumBtn" href="#" class="saveBtn" style="width: ' . $homeAlbumBtnW . 'px; background: url(/assets/css/def/' . $homeAlbumBtnBg . ') 0 0 no-repeat;"></a>';
+                    $homeAlbumStr .= '<a id="homeAlbumBtn" href="#" class="saveBtn" style="width: ' . $homeAlbumBtnW . 'px; background: url(/css/def/' . $homeAlbumBtnBg . ') 0 0 no-repeat;"></a>';
                 }
             }
             $tpl_work_main_img_var['homeAlbumStr'] = $homeAlbumStr;
@@ -271,6 +270,7 @@ class WorkModel
                 $auth_name_str = '<a id="authName0" class="authNameAnswer" ' . $authNameAnswerClass . ' href="#">' . $auth_name_photo . '</a>';
             } else {
                 $auth_name_photo = $res_work[0][Localizer::$col_auth_name];
+                $auth_avatar_src = Utils::parseAvatar($id_auth_photo, $res_author[0]['auth_avatar'], $res_author[0]['auth_gender'], 'square');
                 $auth_avatar_str = '<a href="' . Config::$home_url . 'author.php?id_auth=' . $id_auth_photo . '"><img src="' . $auth_avatar_src . '" alt=""></a>';
                 if (Auth::getIdAuth() != -1)
                     $authNameAnswerClass = 'class="authNameAnswer" data-id-auth="' . $id_auth_photo . '"';

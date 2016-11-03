@@ -3,7 +3,7 @@ import {app} from "./app";
 
 const ajax = {
     ajaxFld: "/ajax",
-    loader: '<img src="/assets/css/black/' + 'loader_gray.new.gif' + '" alt="">',
+    loader: '<img src="/css/black/' + 'loader_gray.new.gif' + '" alt="">',
 
     handelAjax: function (url) {
         $("html, body").animate({scrollTop: 0}, 300);

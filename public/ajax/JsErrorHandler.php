@@ -19,7 +19,6 @@ class JsErrorHandler
             die();
 
         $jserror = trim(mb_substr($_REQUEST['jserror'], 0, 10000));
-
         if (JsErrorHandler::isReallyJsError($jserror))
             JsErrorHandler::writeJsError($jserror);
     }
@@ -39,7 +38,7 @@ class JsErrorHandler
 
     private static function writeJsError($jserror)
     {
-        $fp = fopen(__DIR__ . '/../../classes/jserror.html', 'a');
+        $fp = fopen(__DIR__ . '/../../../classes/jserror.html', 'a');
         fwrite($fp, strval($jserror) . "<br>------------------------<br>\n");
         fclose($fp);
     }

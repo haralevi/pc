@@ -13,7 +13,7 @@ class Tpl
 
     function __construct()
     {
-        $this->path = Config::$documentRoot . Config::$templatePath;
+        $this->path = __DIR__ . '/../' . Config::$templatePath;
         $this->ext = Config::$templateExt;
     }
 

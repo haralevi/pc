@@ -4,7 +4,7 @@ namespace photocommunity\mobile;
 error_reporting(30719);
 ini_set("display_errors", 1);
 
-require dirname(__FILE__) . '/classes/Config.php';
+require dirname(__FILE__) . '/../classes/Config.php';
 
 Config::inst();
 

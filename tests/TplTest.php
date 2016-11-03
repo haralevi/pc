@@ -16,7 +16,6 @@ class TplTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         # init necessary objects
-        Config::$documentRoot = '../';
         $this->tpl = new Tpl();
         $this->content = '<div class="wrapContentImg clearfix" id="ajaxBody">{work}<div class="wrapContent">{comments}</div></div>';
         $this->tpl_var['work'] = 'work';
