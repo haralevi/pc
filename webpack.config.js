@@ -4,7 +4,7 @@ const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 let PROD = JSON.parse(process.env.PROD_ENV || '0');
-//PROD = true;
+PROD = true;
 
 let cssLoader = 'css?-url!sass';
 if(PROD) cssLoader = 'css?-url&minimize!sass';
@@ -17,7 +17,7 @@ module.exports = {
     output: {
         filename: "[name].min.js",
         path: __dirname + "/assets",
-        //publicPath: "/assets",
+        publicPath: '/assets/',
     },
     module: {
         rules: [
@@ -32,11 +32,11 @@ module.exports = {
                 test: /\.(sass|scss)$/,
                 loader: ExtractTextPlugin.extract({loader: cssLoader}),
             },
+            /*
             {
                 test: /\.(png|jpg|gif)$/, 
                 loader: 'raw'
             },
-            /* 
             {
 				test: /\.css$/,
 				loader: ExtractTextPlugin.extract({

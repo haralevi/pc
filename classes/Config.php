@@ -48,6 +48,7 @@ class Config
     public static $canonical_url;
     public static $css_url;
     public static $js_url;
+    public static $js_type;
 
     public static $noreply_email;
 
@@ -149,6 +150,8 @@ class Config
         Config::$canonical_url = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . Config::$request_uri;
         Config::$css_url = Config::$home_url . 'css/';
         Config::$js_url = Config::$home_url . 'js/';
+        if(Config::getDebug())
+            Config::$js_type = 'min.';
 
         if (Config::$domainEnd == 'by')
             Config::$domainEndImg = 'ru';

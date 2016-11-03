@@ -249,17 +249,16 @@ class Geo
             if (Config::$domainEnd == 'de') {
                 if (Geo::$CountryCode != 'DE' && Geo::$CountryCode != 'AT' && Geo::$CountryCode != 'CH') {
                     header('location: http://m.' . Config::SITE_DOMAIN . '.ru' . Config::$request_uri);
-                    return false;
+                    die();
                 }
             } else if (Config::$domainEnd == 'com') {
                 # ok do nothing
             } else if (Config::$domainEnd == 'ru' || Config::$domainEnd == 'by') { # .ru .by
                 if (Geo::$CountryCode == 'DE' || Geo::$CountryCode == 'AT' || Geo::$CountryCode == 'CH') {
                     header('location: http://m.' . Config::SITE_DOMAIN . '.de' . Config::$request_uri);
-                    return false;
+                    die();
                 }
             }
         }
-        return true;
     }
 }

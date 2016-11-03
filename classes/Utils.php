@@ -288,9 +288,9 @@ From: ' . $from_email . '
         $comm_text = Utils::bbParse($comm_text);
         $comm_text = Utils::bbUrlParse($comm_text);
         $comm_text = Utils::correctLangUrls($comm_text);
-
+        
         if ($is_crop)
-            $replacement = '<img onclick="app.cropX=$1; app.cropY=$2; app.cropW=$3; app.cropH=$4; app.toggleCrop();" class="cropIcon" alt="" src="' . Config::$home_url . 'img/tool_crop2.gif" border="0" width="16" height="16" />';
+            $replacement = '<img class="cropIcon cropClick" data-crop-coordinates="$1;$2;$3;$4" alt="" src="' . Config::$home_url . 'img/tool_crop2.gif" border="0" width="16" height="16" />';
         else
             $replacement = '<img class="cropIcon" alt="" src="' . Config::$home_url . 'img/tool_crop2.gif" border="0" width="16" height="16" />';
         $comm_text = preg_replace(Consta::$crop_pattern, $replacement, $comm_text);

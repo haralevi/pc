@@ -248,7 +248,7 @@ class WorkModel
                         $homeAlbumBtnBg = 'button_no.png';
                         $homeAlbumBtnW = 47;
                     }
-                    $homeAlbumStr .= '<a id="homeAlbumBtn" href="#" class="saveBtn" style="width: ' . $homeAlbumBtnW . 'px; background: url(/css/def/' . $homeAlbumBtnBg . ') 0 0 no-repeat;"></a>';
+                    $homeAlbumStr .= '<a id="homeAlbumBtn" href="#" class="saveBtn" style="width: ' . $homeAlbumBtnW . 'px; background: url(/assets/css/def/' . $homeAlbumBtnBg . ') 0 0 no-repeat;"></a>';
                 }
             }
             $tpl_work_main_img_var['homeAlbumStr'] = $homeAlbumStr;
@@ -262,14 +262,19 @@ class WorkModel
             }
             $tpl_work_main_img_var['fineartStr'] = $fineartStr;
 
+            $authNameAnswerClass = '';
             if ($is_ph_anon) {
-                $auth_name_photo = Localizer::$loc['anonymous_loc'];
+                $auth_name_photo = Localizer::$loc['author_loc'];
                 $auth_avatar_str = '<img src="' . Config::$css_url . Config::$theme . '/male.png" alt="">';
-                $auth_name_str = '<a id="authName0" onclick="app.emoticon(0); return false;" href="#">' . Localizer::$loc['author_loc'] . '</a>';
+                if (Auth::getIdAuth() != -1)
+                    $authNameAnswerClass = 'class="authNameAnswer" data-id-auth="0"';
+                $auth_name_str = '<a id="authName0" class="authNameAnswer" ' . $authNameAnswerClass . ' href="#">' . $auth_name_photo . '</a>';
             } else {
                 $auth_name_photo = $res_work[0][Localizer::$col_auth_name];
                 $auth_avatar_str = '<a href="' . Config::$home_url . 'author.php?id_auth=' . $id_auth_photo . '"><img src="' . $auth_avatar_src . '" alt=""></a>';
-                $auth_name_str = '<a id="authName' . $id_auth_photo . '" onclick="app.emoticon(' . $id_auth_photo . '); return false;" href="' . Config::$home_url . 'author.php?id_auth=' . $id_auth_photo . '">' . $auth_name_photo . '</a>';
+                if (Auth::getIdAuth() != -1)
+                    $authNameAnswerClass = 'class="authNameAnswer" data-id-auth="' . $id_auth_photo . '"';
+                $auth_name_str = '<a id="authName' . $id_auth_photo . '" ' . $authNameAnswerClass . ' href="' . Config::$home_url . 'author.php?id_auth=' . $id_auth_photo . '">' . $auth_name_photo . '</a>';
             }
             $tpl_work_main_img_var['auth_avatar_str'] = $auth_avatar_str;
             $tpl_work_main_img_var['auth_name_str'] = $auth_name_str;

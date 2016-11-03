@@ -145,12 +145,17 @@ class CommModel
                 $id_auth_comm = $v['id_auth'];
                 $auth_name_comm = $v[Localizer::$col_auth_name];
 
+                $authNameAnswerClass = '';
                 if ($is_ph_anon && $id_auth_comm == $id_auth_photo) {
                     $auth_avatar_str = '<img src="' . Config::$css_url . Config::$theme . '/male.png" width="31" height="31" alt="">';
-                    $auth_name_str = '<a id="authName' . $comm_cnt . '" onclick="app.emoticon(' . $comm_cnt . '); return false;" href="#">' . Localizer::$loc['author_loc'] . '</a>';
+                    if (Auth::getIdAuth() != -1)
+                        $authNameAnswerClass = 'class="authNameAnswer" data-id-auth="0"';
+                    $auth_name_str = '<a id="authName0" class="authNameAnswer" '.$authNameAnswerClass.' href="#">' . Localizer::$loc['author_loc'] . '</a>';
                 } else {
                     $auth_avatar_str = '<a href="' . Config::$home_url . 'author.php?id_auth=' . $id_auth_comm . '"><img src="' . $auth_avatar_src . '" alt=""></a>';
-                    $auth_name_str = '<a id="authName' . $id_auth_comm . '" onclick="app.emoticon(' . $id_auth_comm . '); return false;" href="' . Config::$home_url . 'author.php?id_auth=' . $id_auth_comm . '">' . $auth_name_comm . '</a>';
+                    if (Auth::getIdAuth() != -1)
+                        $authNameAnswerClass = 'class="authNameAnswer" data-id-auth="' . $id_auth_comm . '"';
+                    $auth_name_str = '<a id="authName' . $id_auth_comm . '" '.$authNameAnswerClass.' href="' . Config::$home_url . 'author.php?id_auth=' . $id_auth_comm . '">' . $auth_name_comm . '</a>';
                 }
 
                 $tpl_work_comm_row_var['auth_avatar_str'] = $auth_avatar_str;

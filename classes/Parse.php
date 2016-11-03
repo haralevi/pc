@@ -101,6 +101,7 @@ class Parse
         $tpl_var['css_ver'] = Config::$css_ver;
         $tpl_var['js_url'] = Config::$js_url;
         $tpl_var['js_ver'] = Config::$js_ver;
+        $tpl_var['js_type'] = Config::$js_type;
         return $tpl_var;
     }
 

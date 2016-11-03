@@ -1,3 +1,6 @@
+/* waitForFinalEvent - is used for delayed window resize event */
+var waitForFinalEvent = (function () {var timers = {};return function (callback, ms, uniqueId) {if (!uniqueId) {uniqueId = "Don't call this twice without a uniqueId";}if (timers[uniqueId]) {clearTimeout(timers[uniqueId]);}timers[uniqueId] = setTimeout(callback, ms);};})();
+
 /* domain vars */
 var domain=document.domain,dotPos=domain.lastIndexOf("."),domainEnd=domain.substr(dotPos+1),SiteDom=domain.substr(0,dotPos);-1!=SiteDom.lastIndexOf(".")&&(SiteDom=SiteDom.substr(SiteDom.lastIndexOf(".")+1));var expireDate=new Date;expireDate.setTime(expireDate.getTime()+2592E6);
 
@@ -10,7 +13,7 @@ $.get('/classes/JsErrorHandler.php?jserror=' + encodeURIComponent(jserror));
 }}catch(e){}};
 
 /* cookie class */
-var cookie={setCookie:function(a,b){document.cookie=a+"="+b+";expires="+expireDate.toGMTString()+";path=/;domain=."+SiteDom+"."+domainEnd},getCookie:function(a){a=new RegExp(a+"=[^;]+","i");return document.cookie.match(a)?document.cookie.match(a)[0].split("=")[1]:null}};
+var cookie={setCookie:function(a,b){document.cookie=a+"="+b+";expires="+expireDate.toUTCString()+";path=/;domain=."+SiteDom+"."+domainEnd},getCookie:function(a){a=new RegExp(a+"=[^;]+","i");return document.cookie.match(a)?document.cookie.match(a)[0].split("=")[1]:null}};
 
 /* jQuery ajax cache */
 var localCache={timeout:6E4,data:{},remove:function(a){delete localCache.data[a]},exist:function(a){return!!localCache.data[a]&&(new Date).getTime()-localCache.data[a]._<localCache.timeout},get:function(a){return localCache.data[a].data},set:function(a,b,c){localCache.remove(a);localCache.data[a]={_:(new Date).getTime(),data:b};$.isFunction(c)&&c(b)}};$.ajaxPrefilter(function(a,b,c){if(a.cache){var e=b.complete||$.noop,d=b.url;a.cache=!1;a.beforeSend=function(){return localCache.exist(d)?(e(localCache.get(d)),!1):!0};a.complete=function(a,b){localCache.set(d,a,e)}}});
@@ -560,6 +563,25 @@ $(function () {
                 e.stopPropagation();
                 e.preventDefault();
             }
+        })
+        // author answer
+        .on("click", ".authNameAnswer", function (e) {
+            app.emoticon($(this).data("idAuth"));
+            e.stopPropagation();
+            e.preventDefault();
+        })
+        //cropClick
+        .on("click", ".cropClick", function (e) {
+            var cropCoordinates = $(this).data("cropCoordinates").split(";")
+            if(cropCoordinates.length == 4) {
+                app.cropX = cropCoordinates[0];
+                app.cropY = cropCoordinates[1];
+                app.cropW = cropCoordinates[2];
+                app.cropH = cropCoordinates[3];
+                app.toggleCrop();
+            }
+            e.stopPropagation();
+            e.preventDefault();
         })
         // allow full version
         .on("click", "#canonicalUrl", function (e) {

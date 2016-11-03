@@ -96,7 +96,7 @@
     var id_auth_log = "{id_auth_log}";
 </script>
 <script type="text/javascript" src="{js_url}plugins.min.js?v={js_ver}"></script>
-<script type="text/javascript" src="{js_url}js.js?v={js_ver}"></script>
+<script type="text/javascript" src="{js_url}js.{js_type}js?v={js_ver}"></script>
 <!--[GO_BLK]-->
 <script type="text/javascript">
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
