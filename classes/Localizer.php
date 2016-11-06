@@ -161,6 +161,7 @@ class Localizer
         'fav_auth_works_loc' => 'I follow',
         'works_loc' => 'Работы',
         'rating_loc' => 'Рейтинг',
+        'without_name' => 'Untitled',
     );
 
     private static $cat_names_en = array(
@@ -295,6 +296,7 @@ class Localizer
         'del_favorite_loc' => 'Entfolgen',
         'forbidden_write_comm_loc' => 'Die Anmerkung Option zu diesem Bild deaktiviert',
         'portfolio_loc' => 'Portfolio',
+        'without_name' => 'Ohne Titel',
 
         'smile_loc' => 'Grinsen',
         'wink_loc' => 'Zwinkern',
@@ -564,6 +566,7 @@ class Localizer
         'del_favorite_loc' => 'Отписаться',
         'forbidden_write_comm_loc' => 'Возможность написания сообщений к этой работе отключена',
         'portfolio_loc' => 'Портфолио',
+        'without_name' => 'Без названия',
 
         'smile_loc' => 'Улыбка',
         'wink_loc' => 'Подмигивание',

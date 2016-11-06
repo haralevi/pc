@@ -46,18 +46,21 @@ class AuthorController extends Controller
         # /handle request
 
         # parse author
-        $auth_name_photo = '';
-        $author = '';
-        if (!AuthorController::$isJson) {
-            require dirname(__FILE__) . '/../models/AuthorModel.php';
-            $res_author = AuthorModel::getAuthor($id_auth_photo);
-            if (!sizeof($res_author)) {
-                header('location: index.php');
-                return false;
-            }
-            $auth_name_photo = $res_author['auth_name_photo'];
-            $author = $res_author['author'];
+        require dirname(__FILE__) . '/../models/AuthorModel.php';
+        $res_author = AuthorModel::getAuthor($id_auth_photo);
+        if (!sizeof($res_author)) {
+            header('location: index.php');
+            return false;
         }
+        $auth_premium_photo = $res_author['auth_premium_photo'];
+        $auth_name_photo = $res_author['auth_name_photo'];
+        $author = $res_author['author'];
+
+        // don't show more than WORK_GALL_LIMIT_0 photos for not premium author on '.de'
+        $work_gall_limit = Utils::getWorkGallLimit($auth_premium_photo);
+        if (Consta::WORKS_PER_PAGE * $page > $work_gall_limit)
+            return false;
+
         # /parse author
 
         # parse works
@@ -154,7 +157,7 @@ class AuthorController extends Controller
         if ($page <= 1) {
             $canonicalUrl = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/author.php?id_auth=' . $id_auth;
         } else {
-            $canonicalUrl = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/author.php?id_auth=' . $id_auth . '&works=1#id_auth_photo=' . $id_auth . '&page=' . Pager::getCanonicalPageIndex ($page);
+            $canonicalUrl = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/author.php?id_auth=' . $id_auth . '&works=1#id_auth_photo=' . $id_auth . '&page=' . Pager::getCanonicalPageIndex($page);
         }
         return $canonicalUrl;
     }

@@ -67,10 +67,7 @@ class Db
 	public static function connect()
 	{
 		if (Db::$db_conn === null) {
-			if (Config::$script_name == '/down.php') Db::$db_conn = mysqli_connect(Db::$db_host, Db::$db_user, Db::$db_password) or die ('<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><div style="text-align:center;width:100%;"><h4>We are sorry for technical problems.<br/>Please try again in 5 minutes.</h4></div>');
-			else
-				if (Config::getDebug()) Db::$db_conn = mysqli_connect(Db::$db_host, Db::$db_user, Db::$db_password);
-				else Db::$db_conn = mysqli_connect(Db::$db_host, Db::$db_user, Db::$db_password) or header('location: down.php');
+			Db::$db_conn = mysqli_connect(Db::$db_host, Db::$db_user, Db::$db_password) or require dirname(__FILE__) . '/../../down.php';
 			mysqli_set_charset(Db::$db_conn, Config::CHARSET);
 			mysqli_select_db(Db::$db_conn, Db::$db_name);
 		}

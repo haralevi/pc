@@ -152,6 +152,7 @@ class WorkModel
         } else {
             $id_photo = $res_work[0]['id_photo'];
             $ph_name = $res_work[0][Localizer::$col_ph_name];
+            $ph_name = Utils::setEmptyName($ph_name);
             $ph_comm = $res_work[0]['ph_comm'];
             $ph_comm = Utils::parseComm($ph_comm, false, false);
             $ph_comm = Utils::hideRussian($ph_comm);

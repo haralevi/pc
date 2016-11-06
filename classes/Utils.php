@@ -571,4 +571,16 @@ From: ' . $from_email . '
         $r = explode("\n", $r);
         return $r;
     }
+
+    public static function isEmptyName($ph_name)
+    {
+        return preg_match('/^[\.\*_\-\+\\/]+$/', $ph_name);
+    }
+
+    public static function setEmptyName($ph_name)
+    {
+        if (Utils::isEmptyName($ph_name))
+            $ph_name = Localizer::$loc['without_name'];
+        return $ph_name;
+    }
 }

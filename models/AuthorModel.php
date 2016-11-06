@@ -30,6 +30,7 @@ class AuthorModel
         if (!sizeof($res_author)) {
             return array();
         } else {
+            $auth_premium_photo = $res_author[0]['auth_premium'];
             $id_auth_photo = $res_author[0]['id_auth'];
             $auth_avatar_src = Utils::parseAvatar($res_author[0]['id_auth'], $res_author[0]['auth_avatar'], $res_author[0]['auth_gender'], 'small');
             $auth_name_photo = $res_author[0][Localizer::$col_auth_name];
@@ -83,6 +84,7 @@ class AuthorModel
         }
 
         return array(
+            'auth_premium_photo' => $auth_premium_photo,
             'auth_name_photo' => $auth_name_photo,
             'author' => $author,
         );

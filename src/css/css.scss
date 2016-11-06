@@ -220,7 +220,7 @@ a:focus {
 }
 
 .title a:hover {
-    color: $a-color-hover;
+    color: $body-color-hover;
 }
 
 .header {
@@ -347,7 +347,7 @@ $btn-color: #fff;
     @include gradient(#739dcb, #6791bf);
 }
 
-.saveBtn:active {
+.saveBtn:active,.saveBtn:focus {
     color: $btn-color;
     background: #618bb9;
     @include btn-box-shadow();
@@ -371,7 +371,7 @@ $btn-color: #fff;
     @include gradient(#d96a6a, #d96a6a);
 }
 
-.unfollowBtn:active, .undoBtn:active {
+.unfollowBtn:active, .undoBtn:active, .unfollowBtn:focus, .undoBtn:focus {
     color: $btn-color;
     border: solid 1px #962727;
     background: #d96a6a;

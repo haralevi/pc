@@ -132,13 +132,5 @@ $(function () {
     ajax.getViews();
 
     // rotate author metrics
-    //utils.rotateVal($("#authImgCnt"), "int");
     utils.rotateVal($("#authRating"), "float");
-
-    // dummy, never called -:)
-    if (0) {
-        app.emoticon(0);
-        app.toggleCrop();
-        console.info(9);
-    }
 });
