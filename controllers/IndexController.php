@@ -17,6 +17,15 @@ class IndexController extends Controller
     private function __construct($tpl_name)
     {
         Controller::initTpl($tpl_name);
+        IndexController::handleUnsubscribe();
+    }
+
+    private static function handleUnsubscribe() {
+        $success_unsubscribe = Auth::handleUnsubscribe();
+        if($success_unsubscribe == '')
+            Controller::$tpl->clear('UNSUBSCRIBE_BLK');
+        else
+            Controller::$tpl_var['success_unsubscribe'] = $success_unsubscribe;
     }
 
     public static function buildJson()

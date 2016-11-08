@@ -37,7 +37,7 @@
             <a href="{home_url}index.php"><img src="{css_url}{logo_img}" alt=""/></a>
         </div>
         <div class="menuItem" id="menuLnk" style="border-right: 1px solid #111;">
-            <span class="icon_bar" style="margin-top: 14px;"></span>
+            <span class="icon_bar" style="margin-top: 13px;"></span>
             <span class="icon_bar"></span>
             <span class="icon_bar"></span>
         </div>
@@ -50,7 +50,7 @@
 
 <!--[WRONG_LOGIN_BLK]-->
 <div class="wrapContent clearfix">
-    <div id="resultMsg" class="errMsg" style="display: block;">{wrong_login_pass_short_loc}</div>
+    <div id="resultMsg" class="msg errMsg" style="display: block;">{wrong_login_pass_short_loc}</div>
 </div>
 <!--[WRONG_LOGIN_BLK]-->
 

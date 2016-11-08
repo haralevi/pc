@@ -161,6 +161,7 @@ class Localizer
         'fav_auth_works_loc' => 'I follow',
         'works_loc' => 'Работы',
         'rating_loc' => 'Рейтинг',
+        'recs_loc' => 'Рекомендации',
         'without_name' => 'Untitled',
     );
 
@@ -283,6 +284,7 @@ class Localizer
         'auth_works_you_follow_loc' => 'Bilder von mir gefolgten Benutzern',
         'works_loc' => 'Bilder',
         'rating_loc' => 'Rating',
+        'recs_loc' => 'Empfehlungen',
         'add_rec_loc' => 'Empfehlen',
         'already_rec_note_loc' => 'Empfehlung<br />wurde gezählt',
         'add_comm_loc' => 'Anmerkung hinzufügen',
@@ -297,6 +299,8 @@ class Localizer
         'forbidden_write_comm_loc' => 'Die Anmerkung Option zu diesem Bild deaktiviert',
         'portfolio_loc' => 'Portfolio',
         'without_name' => 'Ohne Titel',
+        'success_unsubscribe' => 'Sie haben den Newsletter abbestellt',
+        'success_unsubscribe_top' => 'Sie haben den Newsletter<br> mit besten Bildern und interessanten Anmerkungen abbestellt',
 
         'smile_loc' => 'Grinsen',
         'wink_loc' => 'Zwinkern',
@@ -553,6 +557,7 @@ class Localizer
         'auth_works_you_follow_loc' => 'Работы авторов на которых я подписан',
         'works_loc' => 'Работы',
         'rating_loc' => 'Рейтинг',
+        'recs_loc' => 'Рекомендации',
         'add_rec_loc' => 'Рекомендовать',
         'already_rec_note_loc' => 'Рекомендация<br />принята',
         'add_comm_loc' => 'Добавить сообщение',
@@ -567,6 +572,8 @@ class Localizer
         'forbidden_write_comm_loc' => 'Возможность написания сообщений к этой работе отключена',
         'portfolio_loc' => 'Портфолио',
         'without_name' => 'Без названия',
+        'success_unsubscribe' => 'Вы успешно отписались от рассылки',
+        'success_unsubscribe_top' => 'Вы успешно отписались<br>от рассылки о самых интересных событиях на сайте',
 
         'smile_loc' => 'Улыбка',
         'wink_loc' => 'Подмигивание',

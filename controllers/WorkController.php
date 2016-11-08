@@ -125,7 +125,6 @@ class WorkController extends Controller
 
         WorkController::$tpl_main_var['content'] = WorkController::$tpl->get();
 
-
         WorkController::$tpl_main_var['href_prev_page'] = $work['hrefPrev'];
         WorkController::$tpl_main_var['href_next_page'] = $work['hrefNext'];
 
@@ -160,7 +159,8 @@ class WorkController extends Controller
         ParseJson::inst($json);
     }
 
-    private static function getCanonicalUrl ($id_photo) {
+    private static function getCanonicalUrl($id_photo)
+    {
         return Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/work/' . $id_photo;
     }
 }

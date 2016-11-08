@@ -47,7 +47,7 @@ class WorkModel
         }
 
         $sql_works = "SELECT PH.id_photo, PH.id_auth id_auth_photo, PH.id_cat_new, PH.ph_main_w, PH.ph_main_h, PH.ph_date, PH.ph_anon, PH.id_comp,
-                        PH.ph_rating, PH.ph_comm_cnt
+                        PH.ph_rating, PH.ph_rec_cnt, PH.ph_comm_cnt
                 FROM ds_photos PH
                 WHERE " . $where . " AND ph_status='1'
                 ORDER BY id_photo DESC
@@ -92,7 +92,7 @@ class WorkModel
                 $works .= Utils::parseTpl($tpl_work_row_content, $tpl_work_row_var);
 
                 if ($v['id_auth_photo'] == Auth::getIdAuth())
-                    $works .= '<div class="imgMetrics">' . Localizer::$loc['comm_loc'] . ': <b>' . $v['ph_comm_cnt'] . '</b> &nbsp;' . Localizer::$loc['rating_loc'] . ': <b>' . $v['ph_rating'] . '</b></div>';
+                    $works .= '<div class="imgMetrics">' . Localizer::$loc['comm_loc'] . ': <b>' . $v['ph_comm_cnt'] . '</b> &nbsp;' . Localizer::$loc['rating_loc'] . ': <b>' . $v['ph_rating'] . '</b> &nbsp;' . Localizer::$loc['recs_loc'] . ': <b>' . $v['ph_rec_cnt'] . '</b></div>';
             }
 
             return array(

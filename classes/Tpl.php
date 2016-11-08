@@ -105,4 +105,9 @@ class Tpl
             },
             $this->content);
     }
+
+    public function parseSimple($content)
+    {
+        return preg_replace("/\{(\w+)\}/e", "$$1", $content);
+    }
 }

@@ -342,6 +342,86 @@ class Auth
     }
 
     /**
+     * Handle unsubscribe message
+     * @return string
+     */
+    public static function handleUnsubscribe () {
+        $success_unsubscribe = '';
+
+        if(isset($_REQUEST['unsubscribe_id']) && isset($_REQUEST['unsubscribe_type'])) {
+            $auth_key = Utils::cleanRequest($_REQUEST['unsubscribe_id']);
+
+            if($_REQUEST['unsubscribe_type'] == 'auth_comm_alert') {
+                $sql = "UPDATE ds_authors SET auth_comm_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
+                Db::execute($sql);
+                $success_unsubscribe = Localizer::$loc['success_unsubscribe'];
+            }
+            else if($_REQUEST['unsubscribe_type'] == 'auth_rec_alert') {
+                $sql = "UPDATE ds_authors SET auth_rec_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
+                Db::execute($sql);
+                $success_unsubscribe = Localizer::$loc['success_unsubscribe'];
+            }
+            else if($_REQUEST['unsubscribe_type'] == 'auth_favor_alert') {
+                $sql = "UPDATE ds_authors SET auth_favor_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
+                Db::execute($sql);
+                $success_unsubscribe = Localizer::$loc['success_unsubscribe'];
+            }
+            else if($_REQUEST['unsubscribe_type'] == 'auth_top_alert') {
+                $sql = "UPDATE ds_authors SET auth_top_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
+                Db::execute($sql);
+                $success_unsubscribe = Localizer::$loc['success_unsubscribe_top'];
+            }
+            else if($_REQUEST['unsubscribe_type'] == 'auth_choice_alert') {
+                $sql = "UPDATE ds_authors SET auth_choice_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
+                Db::execute($sql);
+                $success_unsubscribe = Localizer::$loc['success_unsubscribe'];
+            }
+            else if($_REQUEST['unsubscribe_type'] == 'auth_comp_alert') {
+                $sql = "UPDATE ds_authors SET auth_comp_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
+                Db::execute($sql);
+                if(isset($_REQUEST['invite']) && $_REQUEST['invite'] == 'ru') {
+                    $sql = "UPDATE ds_invitations SET auth_comp_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
+                    Db::execute($sql);
+                }
+                if(isset($_REQUEST['invite']) && $_REQUEST['invite'] == 'de') {
+                    $sql = "UPDATE ds_invitations_de SET auth_comp_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
+                    Db::execute($sql);
+                }
+                $success_unsubscribe = Localizer::$loc['success_unsubscribe'];
+            }
+            else if($_REQUEST['unsubscribe_type'] == 'auth_flashmob_alert') {
+                $sql = "UPDATE ds_authors SET auth_flashmob_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
+                Db::execute($sql);
+                $success_unsubscribe = Localizer::$loc['success_unsubscribe'];
+            }
+            else if($_REQUEST['unsubscribe_type'] == 'auth_popular_alert') {
+                $sql = "UPDATE ds_authors SET auth_popular_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
+                Db::execute($sql);
+                $success_unsubscribe = Localizer::$loc['success_unsubscribe'];
+            }
+            else if($_REQUEST['unsubscribe_type'] == 'auth_news_alert') {
+                $sql = "UPDATE ds_authors SET auth_news_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
+                Db::execute($sql);
+                if(isset($_REQUEST['invite']) && $_REQUEST['invite'] == 'ru') {
+                    $sql = "UPDATE ds_invitations SET auth_news_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
+                    Db::execute($sql);
+                }
+                if(isset($_REQUEST['invite']) && $_REQUEST['invite'] == 'de') {
+                    $sql = "UPDATE ds_invitations_de SET auth_news_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
+                    Db::execute($sql);
+                }
+                $success_unsubscribe = Localizer::$loc['success_unsubscribe'];
+            }
+            else {
+                header('location: /');
+                die();
+            }
+        }
+
+        return $success_unsubscribe;
+    }
+
+    /**
      * @return int
      */
     public static function getIdAuth()
