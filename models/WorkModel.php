@@ -46,8 +46,10 @@ class WorkModel
             $index_cache_tag = array('ds_photos_recomm_min_rating=' . Auth::getAuthFeaturedRating());
         }
 
-        $sql_works = "SELECT PH.id_photo, PH.id_auth id_auth_photo, PH.id_cat_new, PH.ph_main_w, PH.ph_main_h, PH.ph_date, PH.ph_anon, PH.id_comp,
-                        PH.ph_rating, PH.ph_rec_cnt, PH.ph_comm_cnt
+        $sql_works = "SELECT PH.id_photo, PH.id_auth id_auth_photo, 
+                        PH.id_auth id_auth_photo, PH.auth_name, PH.auth_name_en,
+                        PH.id_cat_new, PH.ph_main_w, PH.ph_main_h, PH.ph_date, PH.ph_anon, PH.id_comp,
+                        PH.ph_rating, PH.ph_rec_cnt, PH.ph_comm_cnt, PH.ph_comm_cnt, PH.ph_comm_cnt_de, PH.ph_comm_cnt_en
                 FROM ds_photos PH
                 WHERE " . $where . " AND ph_status='1'
                 ORDER BY id_photo DESC
@@ -91,8 +93,16 @@ class WorkModel
                 $tpl_work_row_var['workImg'] = $workImg;
                 $works .= Utils::parseTpl($tpl_work_row_content, $tpl_work_row_var);
 
-                if ($v['id_auth_photo'] == Auth::getIdAuth())
-                    $works .= '<div class="imgMetrics">' . Localizer::$loc['comm_loc'] . ': <b>' . $v['ph_comm_cnt'] . '</b> &nbsp;' . Localizer::$loc['rating_loc'] . ': <b>' . $v['ph_rating'] . '</b> &nbsp;' . Localizer::$loc['recs_loc'] . ': <b>' . $v['ph_rec_cnt'] . '</b></div>';
+                if ($v['id_auth_photo'] == Auth::getIdAuth()) {
+                    $works .= '<div class="imgMetrics">' . Localizer::$loc['rating_loc'] . ': <b>' . $v['ph_rating'] . '</b> &nbsp;' . Localizer::$loc['recs_loc'] . ': <b>' . $v['ph_rec_cnt'] . '</b> &nbsp;' . Localizer::$loc['comm_loc'] . ': <b>' . $v['ph_comm_cnt'] . '</b></div>';
+                } else {
+                    $works .= '<div class="imgMetrics">';
+                    $works .= '<div class="phRating">' . Localizer::$loc['rating_loc'] . ': <b>' . $v['ph_rating'] . '</b></div>';
+                    if (!isset($params['id_auth_photo'])) {
+                        $works .= '<div class="authName"><a href="' . Config::$home_url . 'author.php?id_auth=' . $v['id_auth_photo'] . '">' . $v[Localizer::$col_auth_name] . '</a></div>';
+                    }
+                    $works .= '</div>';
+                }
             }
 
             return array(
@@ -139,7 +149,8 @@ class WorkModel
         $sql_work = "SELECT
             PH.id_photo, PH.id_cat_new, PH.ph_is_fineart, PH.ph_special_rec_cnt, PH.ph_name, PH.ph_name_en, PH.ph_name_de, PH.ph_main_w, PH.ph_main_h, PH.ph_comm, PH.ph_date, PH.ph_anon, PH.id_comp,
             PH.ph_rating,
-            PH.id_auth id_auth_photo, PH.auth_name, PH.auth_name_en
+            PH.id_auth id_auth_photo, PH.auth_name, PH.auth_name_en, 
+            PH.ph_comm_cnt, PH.ph_comm_cnt_de, PH.ph_comm_cnt_en
             FROM ds_photos PH
             WHERE " . $where . " AND ph_status='1'
             ORDER BY " . $order_by . "
@@ -160,6 +171,7 @@ class WorkModel
 
             $ph_anon = $res_work[0]['ph_anon'];
             $is_ph_anon = Utils::isAnon($ph_anon, $res_work[0]['ph_date'], $res_work[0]['id_comp']);
+            $ph_comm_cnt = $res_work[0][Localizer::$col_ph_comm_cnt];
 
             // skip photo, if it's anon and if navigation from author's page
             if ($is_ph_anon && isset($params['id_auth_photo']) && ($prev || $next)) {
@@ -192,6 +204,7 @@ class WorkModel
                 $ph_rating += $v_rec['rec_power'];
             }
             $ph_rating = number_format($ph_rating, 2);
+            $ph_rec_cnt = sizeof($res_recs);
 
             $workImg = Utils::parseWorkImg($id_photo, $res_work[0]['id_auth_photo'], $res_work[0]['id_cat_new'], $res_work[0]['ph_main_w'], $res_work[0]['ph_main_h'], true);
 
@@ -218,6 +231,10 @@ class WorkModel
             if ($res_work[0]['id_cat_new'] < Consta::FIRST_SPEC_CAT) { # no rating category
                 $phRatingStr .= Localizer::$loc['rating_loc'] . ': <b id="phRating">' . $ph_rating . '</b>';
             }
+            if (Auth::getIdAuth() == $id_auth_photo) {
+                $phRatingStr .= ' &nbsp;' . Localizer::$loc['recs_loc'] . ': <b id="phRating">' . $ph_rec_cnt . '</b>';
+                $phRatingStr .= ' &nbsp;' . Localizer::$loc['comm_loc'] . ': <b id="phRating">' . $ph_comm_cnt . '</b>';
+            }
             $tpl_work_main_img_var['phRatingStr'] = $phRatingStr;
 
             $addRecStr = '';
@@ -237,7 +254,8 @@ class WorkModel
             $tpl_work_main_img_var['addRecStr'] = $addRecStr;
 
             $homeAlbumStr = '';
-            if (Auth::getIdAuth() != -1 && !$is_recommended && $res_work[0]['id_cat_new'] < Consta::FIRST_SPEC_CAT && (Auth::getAuthRating() >= Consta::HOME_BTN_MIN_RATING || Auth::getAuthType() == Consta::AUTH_TYPE_ADMIN)) {
+
+            if (Auth::getIdAuth() != -1 && Auth::getIdAuth() != $id_auth_photo && !$is_recommended && $res_work[0]['id_cat_new'] < Consta::FIRST_SPEC_CAT && (Auth::getAuthRating() >= Consta::HOME_BTN_MIN_RATING || Auth::getAuthType() == Consta::AUTH_TYPE_ADMIN)) {
                 $sql_home_album = "SELECT id_photo FROM ds_home_album WHERE id_photo=" . $id_photo . " AND id_auth=" . Auth::getIdAuth() . " LIMIT 1";
                 $res_home_album = Mcache::cacheDbi($sql_home_album, 300, array('ds_home_album=' . $id_photo));
                 if (!sizeof($res_home_album)) {

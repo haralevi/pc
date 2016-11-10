@@ -61,7 +61,7 @@ class Parse
             $tpl->clear('LOGGED_BLK');
         }
 
-        if (!isset($_REQUEST['wrn_login']))
+        if (!isset($_REQUEST['wrn_login']) || Auth::getIdAuth() != -1)
             $tpl->clear('WRONG_LOGIN_BLK');
 
         $tpl->parse($tpl_var);

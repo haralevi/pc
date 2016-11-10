@@ -312,7 +312,7 @@ class Auth
 
     public static function updateOnliners()
     {
-        if (Auth::$id_auth != -1 && !strstr(Config::$request_uri, 'ajax/')) {
+        if (!Geo::$is_robot && !strstr(Config::$request_uri, 'ajax/')) {
             $online_sess = array('id_auth' => Auth::$id_auth,
                 'auth_name' => Auth::$auth_name, 'auth_name_en' => Auth::$auth_name_en, 'auth_type' => Auth::$auth_type,
                 'cur_time' => Config::$cur_time,
@@ -326,17 +326,11 @@ class Auth
                 'auth_mood' => Auth::$auth_mood, 'auth_mood_en' => Auth::$auth_mood_en, 'auth_mood_de' => Auth::$auth_mood_de, 'auth_gender' => Auth::$auth_gender,
                 'guest_referrer' => '');
 
-            $now_online_old = Mcache::get(md5('now_online'));
+            $now_online = Mcache::get(md5('now_online'));
+            if (isset($now_online['data']))
+                $now_online = $now_online['data'];
             $now_online[Auth::$guest_sess] = $online_sess;
-            foreach ($now_online_old as $k => $v)
-                if ($v['id_auth'] == Auth::$id_auth)
-                    continue;
-                else
-                    $now_online[$k] = $v;
-
-
-            Mcache::set(md5('now_online'), $now_online, 0);
-            unset($now_online_old);
+            Mcache::set(md5('now_online'), $now_online);
             unset($now_online);
         }
     }

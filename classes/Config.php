@@ -40,7 +40,7 @@ class Config
     public static $templateExt = 'tpl';
 
     public static $errorLogFile = '/../../classes/php.error.log';
-    public static $visitsLogFile = '/../../classes/php.visits.log';
+    public static $visitsLogFile = '/../../classes/php.visits.mobile.log';
     public static $ImgPath = 'img/';
     public static $theme = 'black';
     public static $home_url;

@@ -72,15 +72,17 @@ $content-width: 400px; /* will be always redefined in page header */
 }
 
 .imgMetrics {
+    white-space: nowrap;
     padding: 0 6px;
+    margin-bottom: 10px;
     height: 36px;
     line-height: 34px;
-    font-size: 12px;
-    text-align: right;
-}
-
-.imgMetrics b {
-    font-size: 15px;
+    font-size: 16px;
+    font-family: Open Sans Condensed, serif;
+    text-align: left;
+    background-color: #060606;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
 }
 
 .nudePreview {
@@ -607,6 +609,28 @@ $nav-bg: #000 url(trans_nav.png);
 /********************************************/
 
 /********************************************/
+$authName-w: 70%;
+
+.authName {
+    width: $authName-w;
+    overflow: hidden;
+    float: right;
+    text-align: right;
+}
+
+.authName a {
+    color: $body-color;
+}
+
+.authName a:hover {
+    color: $body-color-hover;
+}
+
+.phRating {
+    width: 100% - $authName-w;
+    float:left;
+}
+
 .phRatingBlk {
     font-family: $font-title;
     float: left;
@@ -633,4 +657,5 @@ $nav-bg: #000 url(trans_nav.png);
     line-height: 11px;
     display: block;
 }
+
 /********************************************/

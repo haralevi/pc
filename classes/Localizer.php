@@ -28,6 +28,7 @@ class Localizer
     public static $col_serie_name;
     public static $col_album_name;
     public static $col_comm_text;
+    public static $col_ph_comm_cnt;
     public static $col_comp_name;
 
     private static $cat_names_ru = array(
@@ -271,8 +272,8 @@ class Localizer
         'enter_short_loc' => 'Anmelden',
         'profile_title_loc' => 'Mein Profil',
         'comm_loc' => 'Anmerkungen',
-        'comm_del_by_admin_loc' => 'Die Anmerkung wurde durch Seitenadministrator gelöscht',
-        'comm_del_by_author_loc' => 'Die Anmerkung wurde durch Autor gelöscht',
+        'comm_del_by_admin_loc' => 'Die Anmerkung wurde von Administrator gelöscht',
+        'comm_del_by_author_loc' => 'Die Anmerkung wurde gelöscht',
         'recomm_works_loc' => 'Empfohlene Bilder',
         'all_works_loc' => 'Alle Bilder',
         'special_works_loc' => 'Besondere Bilder',
@@ -473,6 +474,8 @@ class Localizer
             Localizer::$col_serie_name = 'serie_name';
             Localizer::$col_album_name = 'album_name';
             Localizer::$col_comm_text = 'comm_text';
+            Localizer::$col_ph_comm_cnt = 'ph_comm_cnt';
+            Localizer::$col_comp_name = 'comp_name';
         } else if (Config::$lang == 'de') {
             Localizer::$loc = Localizer::$loc_de;
             Localizer::$cat_names = Localizer::$cat_names_de;
@@ -492,6 +495,7 @@ class Localizer
             Localizer::$col_serie_name = 'serie_name_de';
             Localizer::$col_album_name = 'album_name_de';
             Localizer::$col_comm_text = 'comm_text_de';
+            Localizer::$col_ph_comm_cnt = 'ph_comm_cnt_de';
             Localizer::$col_comp_name = 'comp_name_de';
         } else if (Config::$lang == 'en') {
             Localizer::$loc = Localizer::$loc_en;
@@ -512,6 +516,7 @@ class Localizer
             Localizer::$col_serie_name = 'serie_name_en';
             Localizer::$col_album_name = 'album_name_en';
             Localizer::$col_comm_text = 'comm_text_en';
+            Localizer::$col_ph_comm_cnt = 'ph_comm_cnt_en';
             Localizer::$col_comp_name = 'comp_name_en';
         } else {
             Localizer::$loc = Localizer::$loc_ru;
@@ -532,6 +537,7 @@ class Localizer
             Localizer::$col_serie_name = 'serie_name';
             Localizer::$col_album_name = 'album_name';
             Localizer::$col_comm_text = 'comm_text';
+            Localizer::$col_ph_comm_cnt = 'ph_comm_cnt';
             Localizer::$col_comp_name = 'comp_name';
         }
     }

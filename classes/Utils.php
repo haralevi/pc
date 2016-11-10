@@ -331,12 +331,16 @@ From: ' . $from_email . '
 
     public static function logVisits()
     {
-        if (!stristr(Config::$http_user_agent, 'bot') && !stristr(Config::$http_user_agent, 'slurp') && !in_array(Auth::getIdAuth(), array(-1, 1, 24, 26))) {
-            $log = date("d.m.Y H:i:s") . ' | ';
-            if (Config::$remote_addr) $log .= Config::$remote_addr . ' | ';
-            if (Auth::getIdAuth() != -1) $log .= 'ID_AUTH: ' . Auth::getIdAuth() . ' | ';
-            $log .= 'http://' . Config::$http_host . Config::$request_uri . ' | ';
-            if (Config::$http_user_agent) $log .= Config::$http_user_agent;
+        if (!Geo::$is_robot && !in_array(Auth::getIdAuth(), array(1, 24, 26))) {
+            $log = date("d.m.Y H:i:s", Config::$cur_time + 3600) . "\t| ";
+            if (Config::$remote_addr) $log .= Config::$remote_addr;
+            if (strlen(Config::$remote_addr) < 14) $log .= "\t";
+            $log .= "\t| ";
+            $log .= 'ID_AUTH: ' . Auth::getIdAuth();
+            if (strlen(Auth::getIdAuth()) < 5) $log .= "\t";
+            $log .= "\t| ";
+            $log .= 'http://' . Config::$http_host . Config::$request_uri;
+            #if (Config::$http_user_agent) $log .=  "\t| " .Config::$http_user_agent;
             $fp = fopen(dirname(__FILE__) . Config::$visitsLogFile, 'a');
             fwrite($fp, $log . "\n");
             fclose($fp);
