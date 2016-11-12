@@ -48,7 +48,7 @@ class WorkModel
 
         $sql_works = "SELECT PH.id_photo, PH.id_auth id_auth_photo, 
                         PH.id_auth id_auth_photo, PH.auth_name, PH.auth_name_en,
-                        PH.id_cat_new, PH.ph_main_w, PH.ph_main_h, PH.ph_date, PH.ph_anon, PH.id_comp,
+                        PH.id_cat_new, PH.ph_main_w, PH.ph_main_h, PH.ph_date, PH.ph_anon, PH.id_comp, PH.ph_council_rec, 
                         PH.ph_rating, PH.ph_rec_cnt, PH.ph_comm_cnt, PH.ph_comm_cnt, PH.ph_comm_cnt_de, PH.ph_comm_cnt_en
                 FROM ds_photos PH
                 WHERE " . $where . " AND ph_status='1'
@@ -65,6 +65,9 @@ class WorkModel
 
             $works = '';
             foreach ($res_works as $v) {
+
+                if ($v['id_photo'] >= Consta::ID_PHOTO_LOCAL_FROM && $v['ph_council_rec'] == '')
+                    continue;
 
                 # skip photos of ignored authors
                 if (Auth::isAuthIgnored($v['id_auth_photo']))
@@ -99,7 +102,10 @@ class WorkModel
                     $works .= '<div class="imgMetrics">';
                     $works .= '<div class="phRating">' . Localizer::$loc['rating_loc'] . ': <b>' . $v['ph_rating'] . '</b></div>';
                     if (!isset($params['id_auth_photo'])) {
-                        $works .= '<div class="authName"><a href="' . Config::$home_url . 'author.php?id_auth=' . $v['id_auth_photo'] . '">' . $v[Localizer::$col_auth_name] . '</a></div>';
+                        if ($is_ph_anon)
+                            $works .= '<div class="authName">' . Localizer::$loc['anonymous_loc'] . '</div>';
+                        else
+                            $works .= '<div class="authName"><a href="' . Config::$home_url . 'author.php?id_auth=' . $v['id_auth_photo'] . '">' . $v[Localizer::$col_auth_name] . '</a></div>';
                     }
                     $works .= '</div>';
                 }

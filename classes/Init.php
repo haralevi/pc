@@ -44,9 +44,6 @@ class Init
      */
     private function __construct()
     {
-        ob_start();
-        Init::setEncoding();
-
         Init::startSession();
 
         Init::showAutoDownUp();
@@ -110,12 +107,6 @@ class Init
                 die();
             }
         }
-    }
-
-    private static function setEncoding()
-    {
-        mb_internal_encoding('UTF-8');
-        mb_regex_encoding('UTF-8');
     }
 }
 

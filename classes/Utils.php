@@ -534,7 +534,7 @@ From: ' . $from_email . '
 
     public static function errorWriter($error)
     {
-        $fp = fopen(dirname(__FILE__) . '/../../classes/php.error.log', 'a');
+        $fp = fopen(dirname(__FILE__) . Config::$errorLogFile, 'a');
         fwrite($fp, $error . "\n");
         fclose($fp);
     }

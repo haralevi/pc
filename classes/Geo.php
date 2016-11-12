@@ -200,17 +200,14 @@ class Geo
                 Geo::$is_robot = true; #$is_robot = false;
             } else if (false
                 || strstr(Config::$remote_addr, '5.9.83.211') || strstr(Config::$remote_addr, '5.9.151.67') #megaindex
-                || strstr(Config::$remote_addr, '5.9.89.170') #mj12bot
                 || strstr(Config::$remote_addr, '5.79.68.55') #linkpad.ru
                 || ($ip_long >= ip2long('5.143.224.1') && $ip_long <= ip2long('5.143.231.255')) #sputnik
-                || strstr(Config::$remote_addr, '46.18.173.2') #mj12bot
                 || ($ip_long >= ip2long('51.255.65.1') && $ip_long <= ip2long('51.255.66.255')) #ahrefs
                 || strstr(Config::$remote_addr, '64.79.85.205') #similartech
                 || ($ip_long >= ip2long('65.52.1.1') && $ip_long <= ip2long('65.55.254.255')) #bing
                 || ($ip_long >= ip2long('66.220.144.1') && $ip_long <= ip2long('66.220.159.254')) #facebook
                 || ($ip_long >= ip2long('67.195.1.1') && $ip_long <= ip2long('67.195.255.255')) #yahoo
                 || ($ip_long >= ip2long('68.180.127.1') && $ip_long <= ip2long('68.180.255.255')) #yahoo
-                || strstr(Config::$remote_addr, '69.30.213.202') #mj12bot
                 || ($ip_long >= ip2long('69.171.224.1') && $ip_long <= ip2long('69.171.255.254')) #facebook
                 || ($ip_long >= ip2long('72.30.1.1') && $ip_long <= ip2long('74.6.255.255')) #yahoo
                 || strstr(Config::$remote_addr, '78.46.98.236') #LinkFeatureBot
@@ -220,11 +217,9 @@ class Geo
                 || ($ip_long >= ip2long('131.253.32.0') && $ip_long <= ip2long('131.253.47.255')) #bing
                 || strstr(Config::$remote_addr, '134.17.31.249') #BLEXBot
                 || strstr(Config::$remote_addr, '144.76.15.235') || strstr(Config::$remote_addr, '144.76.27.118') #megaindex
-                || strstr(Config::$remote_addr, '144.76.30.236') #mj12bot
                 || strstr(Config::$remote_addr, '144.76.63.12') #ingots.ru
                 || ($ip_long >= ip2long('151.80.31.105') && $ip_long <= ip2long('151.80.31.184')) #ahrefs
                 || ($ip_long >= ip2long('157.55.16.23') && $ip_long <= ip2long('157.59.255.255')) #msn
-                || strstr(Config::$remote_addr, '162.210.196.98') || strstr(Config::$remote_addr, '163.172.32.175') #mj12bot
                 || ($ip_long >= ip2long('163.172.64.181') && $ip_long <= ip2long('164.132.161.97')) #ahrefs
                 || ($ip_long >= ip2long('188.72.80.204') && $ip_long <= ip2long('188.72.80.220')) #sape
                 || ($ip_long >= ip2long('188.165.15.1') && $ip_long <= ip2long('188.165.15.255')) #ahrefs
@@ -232,7 +227,6 @@ class Geo
                 || ($ip_long >= ip2long('193.232.121.204') && $ip_long <= ip2long('193.232.121.220')) #sape
                 || ($ip_long >= ip2long('199.16.156.1') && $ip_long <= ip2long('199.16.159.254')) #twitter
                 || ($ip_long >= ip2long('199.30.16.1') && $ip_long <= ip2long('199.30.31.255')) #msn
-                || strstr(Config::$remote_addr, '199.58.86.209') #mj12bot
                 || ($ip_long >= ip2long('199.96.56.1') && $ip_long <= ip2long('199.96.63.254')) #twitter
                 || ($ip_long >= ip2long('207.46.1.1') && $ip_long <= ip2long('207.46.254.255')) #msn
                 || ($ip_long >= ip2long('209.222.8.1') && $ip_long <= ip2long('209.222.8.255')) #ahrefs
@@ -252,6 +246,7 @@ class Geo
                 || strstr(Config::$http_user_agent, 'W3C_Validator')
                 || strstr(Config::$http_user_agent, 'picsearch')
                 || strstr(Config::$http_user_agent, 'bingbot')
+                || strstr(Config::$http_user_agent, 'MJ12bot')
             ) {
                 Geo::$is_robot = true;
             }

@@ -39,8 +39,9 @@ class Config
     public static $templatePath = 'tpl/';
     public static $templateExt = 'tpl';
 
-    public static $errorLogFile = '/../../classes/php.error.log';
-    public static $visitsLogFile = '/../../classes/php.visits.mobile.log';
+    public static $errorLogFile = '/../../andlog/php.error.log';
+    public static $visitsLogFile = '/../../andlog/php.visits.mobile.log';
+    public static $jsErrorLogFile = '/../../../andlog/jserror.html';
     public static $ImgPath = 'img/';
     public static $theme = 'black';
     public static $home_url;
@@ -85,6 +86,7 @@ class Config
      */
     private function __construct()
     {
+        Config::setEncoding();
         Config::initVars();
         if (Config::SITE_SUBDOMAIN)
             Config::checkAllowedSubdomain();
@@ -99,6 +101,13 @@ class Config
             return false;
         }
         return true;
+    }
+
+    private static function setEncoding()
+    {
+        mb_internal_encoding('UTF-8');
+        mb_regex_encoding('UTF-8');
+        ob_start();
     }
 
     private static function initVars()

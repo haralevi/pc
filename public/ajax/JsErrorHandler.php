@@ -2,6 +2,8 @@
 
 namespace photocommunity\mobile;
 
+require dirname(__FILE__) . '/../../classes/Config.php';
+
 class JsErrorHandler
 {
     public static function inst()
@@ -38,7 +40,7 @@ class JsErrorHandler
 
     private static function writeJsError($jserror)
     {
-        $fp = fopen(__DIR__ . '/../../../classes/jserror.html', 'a');
+        $fp = fopen(__DIR__ . Config::$jsErrorLogFile, 'a');
         fwrite($fp, strval($jserror) . "<br>------------------------<br>\n");
         fclose($fp);
     }
