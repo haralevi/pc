@@ -79,7 +79,7 @@ class WorkController extends Controller
         $res_work = WorkModel::getWork($id_photo, $params, $prev, $next);
         if (!sizeof($res_work)) {
             if (!WorkController::$isJson)
-                header('location: index.php');
+                header('Location: ' . Config::$home_url);
             return false;
         }
 
@@ -121,8 +121,15 @@ class WorkController extends Controller
                 $id_photo_next = $prev_next_nav_arr[$id_photo_pos + 1];
         }
 
-        $hrefPrev = 'work.php?id_photo=' . $id_photo_prev . $param_nav;
-        $hrefNext = 'work.php?id_photo=' . $id_photo_next . $param_nav;
+        if (Config::$domainEnd == 'by') {
+            $hrefPrev = 'work.php?id_photo=' . $id_photo_prev . $param_nav;
+            $hrefNext = 'work.php?id_photo=' . $id_photo_next . $param_nav;
+        } else {
+            if ($param_nav != '')
+                $param_nav = '?' . $param_nav;
+            $hrefPrev = 'work/' . $id_photo_prev . $param_nav;
+            $hrefNext = 'work/' . $id_photo_next . $param_nav;
+        }
 
         if ($id_photo_prev == $id_photo)
             $hrefPrev = $hrefPrev . '&amp;prev=1';

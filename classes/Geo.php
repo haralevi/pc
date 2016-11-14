@@ -202,7 +202,6 @@ class Geo
                 || strstr(Config::$remote_addr, '5.9.83.211') || strstr(Config::$remote_addr, '5.9.151.67') #megaindex
                 || strstr(Config::$remote_addr, '5.79.68.55') #linkpad.ru
                 || ($ip_long >= ip2long('5.143.224.1') && $ip_long <= ip2long('5.143.231.255')) #sputnik
-                || ($ip_long >= ip2long('51.255.65.1') && $ip_long <= ip2long('51.255.66.255')) #ahrefs
                 || strstr(Config::$remote_addr, '64.79.85.205') #similartech
                 || ($ip_long >= ip2long('65.52.1.1') && $ip_long <= ip2long('65.55.254.255')) #bing
                 || ($ip_long >= ip2long('66.220.144.1') && $ip_long <= ip2long('66.220.159.254')) #facebook
@@ -218,18 +217,14 @@ class Geo
                 || strstr(Config::$remote_addr, '134.17.31.249') #BLEXBot
                 || strstr(Config::$remote_addr, '144.76.15.235') || strstr(Config::$remote_addr, '144.76.27.118') #megaindex
                 || strstr(Config::$remote_addr, '144.76.63.12') #ingots.ru
-                || ($ip_long >= ip2long('151.80.31.105') && $ip_long <= ip2long('151.80.31.184')) #ahrefs
                 || ($ip_long >= ip2long('157.55.16.23') && $ip_long <= ip2long('157.59.255.255')) #msn
-                || ($ip_long >= ip2long('163.172.64.181') && $ip_long <= ip2long('164.132.161.97')) #ahrefs
                 || ($ip_long >= ip2long('188.72.80.204') && $ip_long <= ip2long('188.72.80.220')) #sape
-                || ($ip_long >= ip2long('188.165.15.1') && $ip_long <= ip2long('188.165.15.255')) #ahrefs
                 || ($ip_long >= ip2long('192.243.55.1') && $ip_long <= ip2long('192.243.55.255')) #semrush
                 || ($ip_long >= ip2long('193.232.121.204') && $ip_long <= ip2long('193.232.121.220')) #sape
                 || ($ip_long >= ip2long('199.16.156.1') && $ip_long <= ip2long('199.16.159.254')) #twitter
                 || ($ip_long >= ip2long('199.30.16.1') && $ip_long <= ip2long('199.30.31.255')) #msn
                 || ($ip_long >= ip2long('199.96.56.1') && $ip_long <= ip2long('199.96.63.254')) #twitter
                 || ($ip_long >= ip2long('207.46.1.1') && $ip_long <= ip2long('207.46.254.255')) #msn
-                || ($ip_long >= ip2long('209.222.8.1') && $ip_long <= ip2long('209.222.8.255')) #ahrefs
                 || ($ip_long >= ip2long('217.69.128.1') && $ip_long <= ip2long('217.69.143.255')) #mail.ru
             ) {
                 Geo::$is_robot = true;
@@ -247,6 +242,7 @@ class Geo
                 || strstr(Config::$http_user_agent, 'picsearch')
                 || strstr(Config::$http_user_agent, 'bingbot')
                 || strstr(Config::$http_user_agent, 'MJ12bot')
+                || strstr(Config::$http_user_agent, 'AhrefsBot')
             ) {
                 Geo::$is_robot = true;
             }
@@ -277,14 +273,14 @@ class Geo
         } else {
             if (Config::$domainEnd == 'de') {
                 if (Geo::$CountryCode != 'DE' && Geo::$CountryCode != 'AT' && Geo::$CountryCode != 'CH') {
-                    header('location: http://m.' . Config::SITE_DOMAIN . '.ru' . Config::$request_uri);
+                    header('Location: http://m.' . Config::SITE_DOMAIN . '.ru' . Config::$request_uri);
                     die();
                 }
             } else if (Config::$domainEnd == 'com') {
                 # ok do nothing
             } else if (Config::$domainEnd == 'ru' || Config::$domainEnd == 'by') { # .ru .by
                 if (Geo::$CountryCode == 'DE' || Geo::$CountryCode == 'AT' || Geo::$CountryCode == 'CH') {
-                    header('location: http://m.' . Config::SITE_DOMAIN . '.de' . Config::$request_uri);
+                    header('Location: http://m.' . Config::SITE_DOMAIN . '.de' . Config::$request_uri);
                     die();
                 }
             }

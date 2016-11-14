@@ -55,7 +55,7 @@ class AuthorController extends Controller
         require dirname(__FILE__) . '/../models/AuthorModel.php';
         $res_author = AuthorModel::getAuthor($id_auth_photo);
         if (!sizeof($res_author)) {
-            header('location: index.php');
+            header('Location: ' . Config::$home_url);
             return false;
         }
         $auth_premium_photo = $res_author['auth_premium_photo'];

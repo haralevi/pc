@@ -45,7 +45,7 @@ class CommController extends Controller
         $res_comm = CommModel::getComm($page);
         if (!sizeof($res_comm)) {
             if (!CommController::$isJson)
-                header('location: comm.php');
+                header('Location: ' . Config::$home_url . 'comm.php');
             return false;
         }
 

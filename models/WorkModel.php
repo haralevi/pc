@@ -107,17 +107,26 @@ class WorkModel
                 $prev_next_nav .= $id_photo . ',';
 
                 $work_img = Utils::parseWorkImg($id_photo, $v['id_auth_photo'], $v['id_cat_new'], $v['ph_main_w'], $v['ph_main_h']);
-                $work_href = 'work.php?id_photo=' . $id_photo;
+
+                $param_nav = '';
                 if (isset($params['all'])) {
-                    $work_href .= '&amp;all=' . $params['all'];
+                    $param_nav .= '&amp;all=' . $params['all'];
                 } else if (isset($params['special'])) {
-                    $work_href .= '&amp;special=' . $params['special'];
+                    $param_nav .= '&amp;special=' . $params['special'];
                 } else if (isset($params['popular'])) {
-                    $work_href .= '&amp;popular=' . $params['popular'];
+                    $param_nav .= '&amp;popular=' . $params['popular'];
                 } else if (isset($params['favorites'])) {
-                    $work_href .= '&amp;favorites=' . $params['favorites'];
+                    $param_nav .= '&amp;favorites=' . $params['favorites'];
                 } else if (isset($params['id_auth_photo'])) {
-                    $work_href .= '&id_auth_photo=' . $params['id_auth_photo'];
+                    $param_nav .= '&id_auth_photo=' . $params['id_auth_photo'];
+                }
+
+                if (Config::$domainEnd == 'by') {
+                    $work_href = 'work.php?id_photo=' . $id_photo;
+                } else {
+                    if ($param_nav != '')
+                        $param_nav = '?' . $param_nav;
+                    $work_href = 'work/' . $id_photo . $param_nav;
                 }
 
                 $tpl_work_row_var['work_href'] = $work_href;
@@ -261,7 +270,7 @@ class WorkModel
                 $skip_anon_url = 'work.php?id_photo=' . $id_photo . '&id_auth_photo=' . $params['id_auth_photo'];
                 if ($prev) $skip_anon_url .= '&prev=1';
                 else $skip_anon_url .= '&next=1';
-                header('location: ' . $skip_anon_url);
+                header('Location: ' . $skip_anon_url);
                 return false;
             }
 
@@ -291,21 +300,26 @@ class WorkModel
 
             $work_img = Utils::parseWorkImg($id_photo, $res_work[0]['id_auth_photo'], $res_work[0]['id_cat_new'], $res_work[0]['ph_main_w'], $res_work[0]['ph_main_h'], true);
 
-            $work_href = 'work.php?id_photo=' . $id_photo;
+            $param_nav = '';
             if (isset($params['all'])) {
-                $work_href .= '&amp;all=' . $params['all'];
-            }
-            if (isset($params['special'])) {
-                $work_href .= '&amp;special=' . $params['special'];
-            }
-            if (isset($params['popular'])) {
-                $work_href .= '&amp;popular=' . $params['popular'];
+                $param_nav .= '&amp;all=' . $params['all'];
+            } else if (isset($params['special'])) {
+                $param_nav .= '&amp;special=' . $params['special'];
+            } else if (isset($params['popular'])) {
+                $param_nav .= '&amp;popular=' . $params['popular'];
             } else if (isset($params['favorites'])) {
-                $work_href .= '&amp;favorites=' . $params['favorites'];
+                $param_nav .= '&amp;favorites=' . $params['favorites'];
             } else if (isset($params['id_auth_photo'])) {
-                $work_href .= '&id_auth_photo=' . $params['id_auth_photo'];
+                $param_nav .= '&id_auth_photo=' . $params['id_auth_photo'];
             }
-            $work_href = Config::$home_url . $work_href . '&amp;next=1';
+
+            if (Config::$domainEnd == 'by') {
+                $work_href = 'work.php?id_photo=' . $id_photo;
+            } else {
+                if ($param_nav != '')
+                    $param_nav = '?' . $param_nav;
+                $work_href = 'work/' . $id_photo . $param_nav;
+            }
 
             $tpl_work_main_img_var['work_href'] = $work_href;
             $tpl_work_main_img_var['work_img'] = $work_img;

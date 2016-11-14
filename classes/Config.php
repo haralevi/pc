@@ -97,7 +97,7 @@ class Config
     {
         if (Config::$subDomain != Config::SITE_SUBDOMAIN) {
             $redirect_url = Config::$http_scheme . Config::SITE_SUBDOMAIN . Config::$SiteDom . '.' . Config::$domainEnd . '/' . Config::SITE_ROOT;
-            header('location: ' . $redirect_url);
+            header('Location: ' . $redirect_url);
             return false;
         }
         return true;
@@ -180,12 +180,12 @@ class Config
                 if ($_GET['lang'] == 'by') {
                     if (Config::$SiteDom)
                         setcookie('lang', 'ru', Config::$cookie_expires, '/', '.' . Config::SITE_DOMAIN_BY);
-                    header('location: ' . Config::$http_scheme . Config::SITE_DOMAIN_BY . Utils::removeParam(Config::$request_uri, 'lang'));
+                    header('Location: ' . Config::$http_scheme . Config::SITE_DOMAIN_BY . Utils::removeParam(Config::$request_uri, 'lang'));
                     return false;
                 } else {
                     if (Config::$SiteDom)
                         setcookie('lang', 'ru', Config::$cookie_expires, '/', '.' . Config::SITE_DOMAIN . '.ru');
-                    header('location: ' . Config::$http_scheme . Config::SITE_DOMAIN . '.ru' . Utils::removeParam(Config::$request_uri, 'lang'));
+                    header('Location: ' . Config::$http_scheme . Config::SITE_DOMAIN . '.ru' . Utils::removeParam(Config::$request_uri, 'lang'));
                     return false;
                 }
             } else if (isset($_COOKIE['lang'])) {

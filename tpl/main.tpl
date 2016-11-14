@@ -34,7 +34,7 @@
 <div class="header">
     <div class="wrapContent clearfix">
         <div class="logo">
-            <a href="{home_url}index.php"><img src="{css_url}{logo_img}" alt=""/></a>
+            <a href="{home_url}"><img src="{css_url}{logo_img}" alt=""/></a>
         </div>
         <div class="menuItem" id="menuLnk" style="border-right: 1px solid #111;">
             <span class="icon_bar" style="margin-top: 13px;"></span>

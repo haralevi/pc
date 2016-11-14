@@ -117,7 +117,7 @@ class Auth
                 $request_uri_wrong_login = Auth::removeLoginParams(Config::$request_uri);
                 $request_uri_wrong_login = Utils::addParam($request_uri_wrong_login, 'wrn_login', 1);
                 $request_uri_wrong_login = str_replace('&amp;', '&', $request_uri_wrong_login);
-                header('location: ' . Config::$http_scheme . Config::$subDomain . Config::$SiteDom . '.' . Config::$domainEnd . $request_uri_wrong_login);
+                header('Location: ' . Config::$http_scheme . Config::$subDomain . Config::$SiteDom . '.' . Config::$domainEnd . $request_uri_wrong_login);
                 die();
             }
         } else if (!isset($_SESSION['auth']['id_auth']) || !isset($_SESSION['auth']['auth_name'])) {
@@ -180,7 +180,7 @@ class Auth
 
         # remove login information from url
         if ($auth_login || $auth_pass) {
-            header('location: ' . Config::$http_scheme . Config::$subDomain . Config::$SiteDom . '.' . Config::$domainEnd . Auth::removeLoginParams(Config::$request_uri));
+            header('Location: ' . Config::$http_scheme . Config::$subDomain . Config::$SiteDom . '.' . Config::$domainEnd . Auth::removeLoginParams(Config::$request_uri));
             die();
         }
     }
@@ -207,13 +207,10 @@ class Auth
         session_unset();
         session_destroy();
 
-        if(Config::getDebug())
-            die();
-
         if (isset($_SERVER['HTTP_REFERER']))
-            header('location: ' . $_SERVER['HTTP_REFERER']);
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
         else
-            header('location: index.php');
+            header('Location: ' . Config::$home_url);
         die();
     }
 
@@ -229,14 +226,14 @@ class Auth
         } else {
             if (Config::$domainEnd == 'de') {
                 if ($res[0]['auth_port_lang'] != 'de') {
-                    header('location: http://m.' . Config::SITE_DOMAIN . '.ru' . str_replace('&amp;', '&', Utils::addParam(Config::$request_uri, 'chla', 1)));
+                    header('Location: http://m.' . Config::SITE_DOMAIN . '.ru' . str_replace('&amp;', '&', Utils::addParam(Config::$request_uri, 'chla', 1)));
                     die();
                 }
             } else if (Config::$domainEnd == 'com') {
                 # ok do nothing
             } else if (Config::$domainEnd == 'ru' || Config::$domainEnd == 'by') { # .ru .by
                 if ($res[0]['auth_port_lang'] == 'de') {
-                    header('location: http://m.' . Config::SITE_DOMAIN . '.de' . str_replace('&amp;', '&', Utils::addParam(Config::$request_uri, 'chla', 1)));
+                    header('Location: http://m.' . Config::SITE_DOMAIN . '.de' . str_replace('&amp;', '&', Utils::addParam(Config::$request_uri, 'chla', 1)));
                     die();
                 }
             }
@@ -248,7 +245,7 @@ class Auth
                 setcookie('X', '', Config::$cur_time - 86400, '/', '.' . Config::$SiteDom . '.' . Config::$domainEnd);
             }
 
-            header('location: ' . Config::$home_url . 'contact.php?blk_login=1');
+            header('Location: ' . Config::$home_url . 'contact.php?blk_login=1');
             die();
         }
 
@@ -439,7 +436,7 @@ class Auth
                 $success_unsubscribe = Localizer::$loc['success_unsubscribe'];
             }
             else {
-                header('location: /');
+                header('Location: ' . Config::$home_url);
                 die();
             }
         }

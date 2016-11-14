@@ -84,7 +84,7 @@ class IndexController extends Controller
         $res_works = WorkModel::getWorks($params, $page);
         if (!sizeof($res_works)) {
             if (!IndexController::$isJson)
-                header('location: index.php');
+                header('Location: ' . Config::$home_url);
             return false;
         }
         $works = $res_works['works'];
