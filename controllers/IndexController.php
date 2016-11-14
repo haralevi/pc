@@ -1,5 +1,11 @@
 <?php
-namespace photocommunity\mobile;
+/**
+ * Created by Andre Haralevi
+ * Date: 10/24/2016
+ * Time: 5:21 AM
+ */
+
+namespace Photocommunity\Mobile;
 
 class IndexController extends Controller
 {

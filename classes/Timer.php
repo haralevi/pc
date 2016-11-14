@@ -5,7 +5,7 @@
  * Time: 23:52
  */
 
-namespace photocommunity\mobile;
+namespace Photocommunity\Mobile;
 
 class Timer
 {

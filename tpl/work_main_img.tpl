@@ -1,19 +1,19 @@
-<div id="mainImageA" data-href="{workHref}" style="text-align: center; cursor: pointer;">
-    {workImg}
+<div id="mainImageA" data-href="{work_href}" style="text-align: center; cursor: pointer;">
+    {work_img}
 </div>
 <div class="wrapContent">
     <div style="margin: 10px 6px;" class="clearfix">
         <div class="phRatingBlk">
-            {phRatingStr}
+            {ph_rating_str}
         </div>
         <div id="addRecAjax">
-            {addRecStr}
+            {add_rec_str}
         </div>
         <div id="homeAlbumAjax">
-            {homeAlbumStr}
+            {home_album_str}
         </div>
         <div id="fineartAjax">
-            {fineartStr}
+            {fineart_str}
         </div>
     </div>
 </div>

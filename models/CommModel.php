@@ -1,5 +1,11 @@
 <?php
-namespace photocommunity\mobile;
+/**
+ * Created by Andre Haralevi
+ * Date: 10/24/2016
+ * Time: 5:21 AM
+ */
+
+namespace Photocommunity\Mobile;
 
 class CommModel
 {
@@ -70,8 +76,8 @@ class CommModel
                 $id_photo = $v['id_photo'];
                 $id_auth_photo = $v['id_auth_photo'];
 
-                $workImg = Utils::parseWorkImg($id_photo, $v['id_auth_photo'], $v['id_cat_new'], $v['ph_main_w'], $v['ph_main_h'], false, true);
-                $workImg = str_replace('mobile', 'thumb', $workImg);
+                $work_img = Utils::parseWorkImg($id_photo, $v['id_auth_photo'], $v['id_cat_new'], $v['ph_main_w'], $v['ph_main_h'], false, true);
+                $work_img = str_replace('mobile', 'thumb', $work_img);
 
                 $is_ph_anon = Utils::isAnon($v['ph_anon'], $v['ph_date'], $v['id_comp']);
                 if ($is_ph_anon && $id_auth_comm == $id_auth_photo) {
@@ -82,7 +88,7 @@ class CommModel
                 }
 
                 $tpl_comm_row_var['id_photo'] = $id_photo;
-                $tpl_comm_row_var['work_img'] = $workImg;
+                $tpl_comm_row_var['work_img'] = $work_img;
                 $tpl_comm_row_var['auth_name_str'] = $auth_name_str;
                 $tpl_comm_row_var['comm_text'] = $comm_text;
 

@@ -1,12 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Aha
+ * Created by Andre Haralevi
  * Date: 05.09.14
  * Time: 18:04
  */
 
-namespace photocommunity\mobile;
+namespace Photocommunity\Mobile;
 
 class Request
 {

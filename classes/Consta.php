@@ -5,7 +5,7 @@
  * Time: 16:39
  */
 
-namespace photocommunity\mobile;
+namespace Photocommunity\Mobile;
 
 class Consta
 {

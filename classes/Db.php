@@ -5,7 +5,7 @@
  * Time: 16:36
  */
 
-namespace photocommunity\mobile;
+namespace Photocommunity\Mobile;
 
 class Db
 {

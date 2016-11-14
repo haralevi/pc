@@ -1,6 +1,11 @@
 <?php
+/**
+ * Created by Andre Haralevi
+ * Date: 06.10.16
+ * Time: 5:21 AM
+ */
 
-namespace photocommunity\mobile;
+namespace Photocommunity\Mobile;
 
 require dirname(__FILE__) . '/../../classes/Config.php';
 

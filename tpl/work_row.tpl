@@ -1,3 +1,3 @@
 <div class="imgWrap">
-    <a href="{home_url}{workHref}">{workImg}</a>
+    <a href="{home_url}{work_href}">{work_img}</a>
 </div>

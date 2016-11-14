@@ -5,7 +5,7 @@
  * Time: 22:14
  */
 
-namespace photocommunity\mobile;
+namespace Photocommunity\Mobile;
 
 class Tpl
 {

@@ -1,5 +1,11 @@
 <?php
-namespace photocommunity\mobile;
+/**
+ * Created by Andre Haralevi
+ * Date: 10/24/2016
+ * Time: 5:21 AM
+ */
+
+namespace Photocommunity\Mobile;
 
 class WorkModel
 {
@@ -100,22 +106,22 @@ class WorkModel
                 # remember ids for navigation
                 $prev_next_nav .= $id_photo . ',';
 
-                $workImg = Utils::parseWorkImg($id_photo, $v['id_auth_photo'], $v['id_cat_new'], $v['ph_main_w'], $v['ph_main_h']);
-                $workHref = 'work.php?id_photo=' . $id_photo;
+                $work_img = Utils::parseWorkImg($id_photo, $v['id_auth_photo'], $v['id_cat_new'], $v['ph_main_w'], $v['ph_main_h']);
+                $work_href = 'work.php?id_photo=' . $id_photo;
                 if (isset($params['all'])) {
-                    $workHref .= '&amp;all=' . $params['all'];
+                    $work_href .= '&amp;all=' . $params['all'];
                 } else if (isset($params['special'])) {
-                    $workHref .= '&amp;special=' . $params['special'];
+                    $work_href .= '&amp;special=' . $params['special'];
                 } else if (isset($params['popular'])) {
-                    $workHref .= '&amp;popular=' . $params['popular'];
+                    $work_href .= '&amp;popular=' . $params['popular'];
                 } else if (isset($params['favorites'])) {
-                    $workHref .= '&amp;favorites=' . $params['favorites'];
+                    $work_href .= '&amp;favorites=' . $params['favorites'];
                 } else if (isset($params['id_auth_photo'])) {
-                    $workHref .= '&id_auth_photo=' . $params['id_auth_photo'];
+                    $work_href .= '&id_auth_photo=' . $params['id_auth_photo'];
                 }
 
-                $tpl_work_row_var['workHref'] = $workHref;
-                $tpl_work_row_var['workImg'] = $workImg;
+                $tpl_work_row_var['work_href'] = $work_href;
+                $tpl_work_row_var['work_img'] = $work_img;
                 $works .= Utils::parseTpl($tpl_work_row_content, $tpl_work_row_var);
 
                 if ($v['id_auth_photo'] == Auth::getIdAuth()) {
@@ -285,52 +291,52 @@ class WorkModel
 
             $work_img = Utils::parseWorkImg($id_photo, $res_work[0]['id_auth_photo'], $res_work[0]['id_cat_new'], $res_work[0]['ph_main_w'], $res_work[0]['ph_main_h'], true);
 
-            $workHref = 'work.php?id_photo=' . $id_photo;
+            $work_href = 'work.php?id_photo=' . $id_photo;
             if (isset($params['all'])) {
-                $workHref .= '&amp;all=' . $params['all'];
+                $work_href .= '&amp;all=' . $params['all'];
             }
             if (isset($params['special'])) {
-                $workHref .= '&amp;special=' . $params['special'];
+                $work_href .= '&amp;special=' . $params['special'];
             }
             if (isset($params['popular'])) {
-                $workHref .= '&amp;popular=' . $params['popular'];
+                $work_href .= '&amp;popular=' . $params['popular'];
             } else if (isset($params['favorites'])) {
-                $workHref .= '&amp;favorites=' . $params['favorites'];
+                $work_href .= '&amp;favorites=' . $params['favorites'];
             } else if (isset($params['id_auth_photo'])) {
-                $workHref .= '&id_auth_photo=' . $params['id_auth_photo'];
+                $work_href .= '&id_auth_photo=' . $params['id_auth_photo'];
             }
-            $workHref = Config::$home_url . $workHref . '&amp;next=1';
+            $work_href = Config::$home_url . $work_href . '&amp;next=1';
 
-            $tpl_work_main_img_var['workHref'] = $workHref;
-            $tpl_work_main_img_var['workImg'] = $work_img;
+            $tpl_work_main_img_var['work_href'] = $work_href;
+            $tpl_work_main_img_var['work_img'] = $work_img;
 
-            $phRatingStr = '';
+            $ph_rating_str = '';
             if ($res_work[0]['id_cat_new'] < Consta::FIRST_SPEC_CAT) { # no rating category
-                $phRatingStr .= Localizer::$loc['rating_loc'] . ': <b id="phRating">' . $ph_rating . '</b>';
+                $ph_rating_str .= Localizer::$loc['rating_loc'] . ': <b id="phRating">' . $ph_rating . '</b>';
             }
             if (Auth::getIdAuth() == $id_auth_photo) {
-                $phRatingStr .= ' &nbsp;' . Localizer::$loc['recs_loc'] . ': <b id="phRating">' . $ph_rec_cnt . '</b>';
-                $phRatingStr .= ' &nbsp;' . Localizer::$loc['comm_loc'] . ': <b id="phRating">' . $ph_comm_cnt . '</b>';
+                $ph_rating_str .= ' &nbsp;' . Localizer::$loc['recs_loc'] . ': <b id="phRating">' . $ph_rec_cnt . '</b>';
+                $ph_rating_str .= ' &nbsp;' . Localizer::$loc['comm_loc'] . ': <b id="phRating">' . $ph_comm_cnt . '</b>';
             }
-            $tpl_work_main_img_var['phRatingStr'] = $phRatingStr;
+            $tpl_work_main_img_var['ph_rating_str'] = $ph_rating_str;
 
-            $addRecStr = '';
+            $add_rec_str = '';
             if ($res_work[0]['id_cat_new'] >= Consta::FIRST_SPEC_CAT) { # no rating category
-                $addRecStr .= '<span class="recNote">' . Localizer::$cat_names[$res_work[0]['id_cat_new']] . '</span>';
+                $add_rec_str .= '<span class="recNote">' . Localizer::$cat_names[$res_work[0]['id_cat_new']] . '</span>';
             } else if (Auth::getIdAuth() == $id_auth_photo) {
                 # your work
             } else if ($is_recommended) { # already recommended
-                $addRecStr .= '<span class="recNote">' . Localizer::$loc['already_rec_note_loc'] . '</span>';
+                $add_rec_str .= '<span class="recNote">' . Localizer::$loc['already_rec_note_loc'] . '</span>';
             } else if (!WorkModel::isRecAllowed()) { # rec limit is achieved
-                $addRecStr .= '<span class="recNote">' . Localizer::$loc['limit_recs_achieved_1_loc'] . '<br /><b>' . Utils::getRecPerDay(Auth::getAuthPremium()) . '</b> ' . Localizer::$loc['limit_recs_achieved_2_loc'] . '</span>';
+                $add_rec_str .= '<span class="recNote">' . Localizer::$loc['limit_recs_achieved_1_loc'] . '<br /><b>' . Utils::getRecPerDay(Auth::getAuthPremium()) . '</b> ' . Localizer::$loc['limit_recs_achieved_2_loc'] . '</span>';
             } else if (Auth::getIdAuth() != -1) { # ok, logged author can recommend
-                $addRecStr .= '<a id="addRecBtn" href="#" class="saveBtn">' . Localizer::$loc['add_rec_loc'] . '</a>';
+                $add_rec_str .= '<a id="addRecBtn" href="#" class="saveBtn">' . Localizer::$loc['add_rec_loc'] . '</a>';
             } else {
                 #author unlogged
             }
-            $tpl_work_main_img_var['addRecStr'] = $addRecStr;
+            $tpl_work_main_img_var['add_rec_str'] = $add_rec_str;
 
-            $homeAlbumStr = '';
+            $home_album_str = '';
 
             if (Auth::getIdAuth() != -1 && Auth::getIdAuth() != $id_auth_photo && !$is_recommended && $res_work[0]['id_cat_new'] < Consta::FIRST_SPEC_CAT && (Auth::getAuthRating() >= Consta::HOME_BTN_MIN_RATING || Auth::getAuthType() == Consta::AUTH_TYPE_ADMIN)) {
                 $sql_home_album = "SELECT id_photo FROM ds_home_album WHERE id_photo=" . $id_photo . " AND id_auth=" . Auth::getIdAuth() . " LIMIT 1";
@@ -343,19 +349,19 @@ class WorkModel
                         $homeAlbumBtnBg = 'button_no.png';
                         $homeAlbumBtnW = 47;
                     }
-                    $homeAlbumStr .= '<a id="homeAlbumBtn" href="#" class="saveBtn" style="width: ' . $homeAlbumBtnW . 'px; background: url(/css/def/' . $homeAlbumBtnBg . ') 0 0 no-repeat;"></a>';
+                    $home_album_str .= '<a id="homeAlbumBtn" href="#" class="saveBtn" style="width: ' . $homeAlbumBtnW . 'px; background: url(/css/def/' . $homeAlbumBtnBg . ') 0 0 no-repeat;"></a>';
                 }
             }
-            $tpl_work_main_img_var['homeAlbumStr'] = $homeAlbumStr;
+            $tpl_work_main_img_var['home_album_str'] = $home_album_str;
 
-            $fineartStr = '';
+            $fineart_str = '';
             if (in_array(Auth::getIdAuth(), Consta::$auth_fineart_arr)) {
                 if ($res_work[0]['ph_is_fineart'])
-                    $fineartStr .= '<a id="fineartBtn" data-fineart="0" href="#" class="saveBtn">Not Fine</a>';
+                    $fineart_str .= '<a id="fineartBtn" data-fineart="0" href="#" class="saveBtn">Not Fine</a>';
                 else
-                    $fineartStr .= '<a id="fineartBtn" data-fineart="1" href="#" class="saveBtn">Fineart</a>';
+                    $fineart_str .= '<a id="fineartBtn" data-fineart="1" href="#" class="saveBtn">Fineart</a>';
             }
-            $tpl_work_main_img_var['fineartStr'] = $fineartStr;
+            $tpl_work_main_img_var['fineart_str'] = $fineart_str;
 
             $authNameAnswerClass = '';
             if ($is_ph_anon) {

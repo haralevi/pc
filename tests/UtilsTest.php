@@ -1,5 +1,11 @@
 <?php
-namespace photocommunity\mobile;
+/**
+ * Created by Andre Haralevi
+ * Date: 06.10.11
+ * Time: 5:21 AM
+ */
+
+namespace Photocommunity\Mobile;
 
 require_once dirname(__FILE__) . '/../classes/Utils.php';
 

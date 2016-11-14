@@ -5,7 +5,7 @@
  * Time: 18:11
  */
 
-namespace photocommunity\mobile;
+namespace Photocommunity\Mobile;
 
 #require dirname(__FILE__) . '/../../down.php'; die();
 

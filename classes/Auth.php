@@ -5,7 +5,7 @@
  * Time: 17:12
  */
 
-namespace photocommunity\mobile;
+namespace Photocommunity\Mobile;
 
 class Auth
 {

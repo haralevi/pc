@@ -1,6 +1,13 @@
 <?php
-namespace photocommunity\mobile;
+/**
+ * Created by Andre Haralevi
+ * Date: 06.10.11
+ * Time: 5:21 AM
+ */
 
+namespace Photocommunity\Mobile;
+
+require_once dirname(__FILE__) . '/../classes/Db.php';
 require_once dirname(__FILE__) . '/../classes/Request.php';
 
 class requestTest extends \PHPUnit_Framework_TestCase
@@ -27,6 +34,6 @@ class requestTest extends \PHPUnit_Framework_TestCase
         $this->request->setParam($test_param_name, $test_param_val);
 
         // Assert
-        $this->assertEquals($test_param_val, $this->request->getParamSimple($test_param_name));
+        $this->assertEquals($test_param_val, $this->request->getParam($test_param_name));
     }
 }

@@ -1,12 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: toshiba
+ * Created by Andre Haralevi
  * Date: 07.11.13
  * Time: 03:28
  */
 
-namespace photocommunity\mobile;
+namespace Photocommunity\Mobile;
 
 class Localizer
 {

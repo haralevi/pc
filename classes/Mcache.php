@@ -5,7 +5,7 @@
  * Time: 02:59
  */
 
-namespace photocommunity\mobile;
+namespace Photocommunity\Mobile;
 
 class Mcache
 {

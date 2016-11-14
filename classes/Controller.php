@@ -1,12 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: admin
+ * Created by Andre Haralevi
  * Date: 10/24/2016
  * Time: 5:21 AM
  */
 
-namespace photocommunity\mobile;
+namespace Photocommunity\Mobile;
 
 class Controller
 {

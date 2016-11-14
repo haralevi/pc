@@ -5,7 +5,7 @@
  * Time: 16:47
  */
 
-namespace photocommunity\mobile;
+namespace Photocommunity\Mobile;
 
 class Utils
 {
@@ -394,10 +394,10 @@ From: ' . $from_email . '
         else $idAttr = '';
         $altAttr = '';
 
-        $workImg = '<img ' . $idAttr . ' src="' . $srcAttr . '" class="' . $classAttr . '" ' . $dataIsAllowedNude . ' data-id-auth-photo="' . $id_auth_photo . '" data-id-photo="' . $id_photo . '" data-ph-main-w="' . $ph_main_w . '" data-ph-main-h="' . $ph_main_h . '" data-ph-path="' . $ph_path . '" style="' . $styleAttr . '" alt="' . $altAttr . '">';
-        $workImg = str_replace(array(' class=""', ' style=""'), '', $workImg);
-        $workImg .= '<img id="mobileImage" src="' . Config::$ImgPath . '1.gif" style="display :none; width: 0; height 0;">';
-        return str_replace('  ', ' ', $workImg);
+        $work_img = '<img ' . $idAttr . ' src="' . $srcAttr . '" class="' . $classAttr . '" ' . $dataIsAllowedNude . ' data-id-auth-photo="' . $id_auth_photo . '" data-id-photo="' . $id_photo . '" data-ph-main-w="' . $ph_main_w . '" data-ph-main-h="' . $ph_main_h . '" data-ph-path="' . $ph_path . '" style="' . $styleAttr . '" alt="' . $altAttr . '">';
+        $work_img = str_replace(array(' class=""', ' style=""'), '', $work_img);
+        $work_img .= '<img id="mobileImage" src="' . Config::$ImgPath . '1.gif" style="display :none; width: 0; height 0;">';
+        return str_replace('  ', ' ', $work_img);
     }
 
     public static function isAllowedNude()

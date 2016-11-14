@@ -1,5 +1,11 @@
 <?php
-namespace photocommunity\mobile;
+/**
+ * Created by Andre Haralevi
+ * Date: 06.10.11
+ * Time: 5:21 AM
+ */
+
+namespace Photocommunity\Mobile;
 
 class DummyTest extends \PHPUnit_Framework_TestCase
 {

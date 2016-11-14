@@ -5,7 +5,7 @@
  * Time: 12:35
  */
 
-namespace photocommunity\mobile;
+namespace Photocommunity\Mobile;
 
 class ParseJson
 {

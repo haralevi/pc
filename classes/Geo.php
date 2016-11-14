@@ -5,7 +5,7 @@
  * Time: 01:30
  */
 
-namespace photocommunity\mobile;
+namespace Photocommunity\Mobile;
 
 class Geo
 {
