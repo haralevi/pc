@@ -84,7 +84,7 @@ class Utils
     {
         if ($replace_chars != '') {
             $search = str_split($replace_chars);
-            if (array_search(' ', $search)) unset($search[array_search(' ', $search)]);
+            if (($key = array_search(' ', $search)) !== false) unset($search[$key]);
             $str = str_replace($search, '', $str);
         }
         if ($is_tags) $str = str_replace(array("'", "\\"), array("&#39;", "&#92;"), strip_tags(trim($str), '<table><tr><td><strong><em><strike><b><i><u><br><a><img><span><ol><ul><li><p><h1><h2><h3><h4><h5><h6>'));
@@ -331,7 +331,8 @@ From: ' . $from_email . '
 
     public static function logVisits()
     {
-        if (!Geo::$is_robot && !in_array(Auth::getIdAuth(), array(1, 24, 26))) {
+        #if (!Geo::$is_robot && !in_array(Auth::getIdAuth(), array(1, 24, 26))) {
+    	if (!in_array(Auth::getIdAuth(), array(1, 24, 26))) {
             $log = date("d.m.Y H:i:s", Config::$cur_time + 3600) . "\t| ";
             if (Config::$remote_addr) $log .= Config::$remote_addr;
             if (strlen(Config::$remote_addr) < 14) $log .= "\t";

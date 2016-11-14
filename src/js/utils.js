@@ -50,7 +50,7 @@ const lang = cookie.getCookie("lang");
 
 /* jQuery ajax cache */
 const localCache = {
-    timeout: 6E4, data: {}, remove: function (a) {
+    timeout: 10000, data: {}, remove: function (a) {
         delete localCache.data[a]
     }, exist: function (a) {
         return !!localCache.data[a] && (new Date).getTime() - localCache.data[a]._ < localCache.timeout
@@ -156,6 +156,14 @@ const utils = {
         if ((history.pushState && history.replaceState)) {
             // click listener for ajax calls
             $(document).on("click", links, function (e) {
+                if($(this)[0].id !== "undefined") {
+                    if($(this)[0].id == "nextLnkKey") {
+                        cookie.setCookie("nav_dir", "next");
+                    }
+                    else if($(this)[0].id == "prevLnkKey") {
+                        cookie.setCookie("nav_dir", "prev");
+                    }
+                }
                 let href = this.href;
                 if (href != location.href) {
                     href = href.substr(href.lastIndexOf("/"));

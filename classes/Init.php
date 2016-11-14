@@ -87,6 +87,9 @@ class Init
             }
             Auth::$guest_sess = session_id();
         }
+        # init prev next navigation
+        if(!isset($_SESSION['prev_next_nav']))
+            $_SESSION['prev_next_nav'] = '';
     }
 
     # show down page if it exists locally or no db host

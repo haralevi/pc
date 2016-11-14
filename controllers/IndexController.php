@@ -38,6 +38,7 @@ class IndexController extends Controller
     {
         # handle request
         $page = Request::getParam('page', 'integer', 1);
+
         $all = Request::getParam('all', 'integer', 0);
         $special = Request::getParam('special', 'integer', 0);
         $popular = Request::getParam('popular', 'integer', 0);
@@ -74,7 +75,7 @@ class IndexController extends Controller
             $page_type = '';
         }
 
-        $res_works = WorkModel::getWorks($page, $params);
+        $res_works = WorkModel::getWorks($params, $page);
         if (!sizeof($res_works)) {
             if (!IndexController::$isJson)
                 header('location: index.php');

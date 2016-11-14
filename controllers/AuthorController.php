@@ -28,6 +28,8 @@ class AuthorController extends Controller
     public static function build()
     {
         # handle request
+        $page = Request::getParam('page', 'integer', 1);
+
         $id_auth_photo = Request::getParam('id_auth', 'integer', 0);
 
         if (isset($_REQUEST['auth_dom'])) {
@@ -41,8 +43,6 @@ class AuthorController extends Controller
                 $id_auth_photo = 1;
             }
         }
-
-        $page = Request::getParam('page', 'integer', 1);
         # /handle request
 
         # parse author
@@ -66,7 +66,7 @@ class AuthorController extends Controller
         # parse works
         require dirname(__FILE__) . '/../models/WorkModel.php';
 
-        $res_works = WorkModel::getWorks($page, array('id_auth_photo' => $id_auth_photo));
+        $res_works = WorkModel::getWorks(array('id_auth_photo' => $id_auth_photo), $page);
         if (!sizeof($res_works)) {
             if (!AuthorController::$isJson)
                 $works = '';
@@ -117,12 +117,11 @@ class AuthorController extends Controller
         AuthorController::$tpl_main_var['href_prev_page'] = $author['hrefPrev'];
         AuthorController::$tpl_main_var['href_next_page'] = $author['hrefNext'];
 
-
         # set menu style
         if ($author['id_auth_photo'] == Auth::getIdAuth())
             $page_type = 'my_profile';
         else
-            $page_type = '';
+            $page_type = 'all';
         AuthorController::$tpl_main_var = Utils::setMenuStyles(AuthorController::$tpl_main_var, $page_type);
 
         # set seo vars

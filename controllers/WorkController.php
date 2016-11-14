@@ -46,16 +46,28 @@ class WorkController extends Controller
         require dirname(__FILE__) . '/../models/WorkModel.php';
 
         $params = array();
+        $page_type = '';
+        $param_nav = '';
         if ($all) {
             $params['all'] = 1;
+            $page_type = 'all';
+            $param_nav = '&amp;all=1';
         } else if ($special) {
             $params['special'] = 1;
+            $page_type = 'special';
+            $param_nav = '&amp;special=1';
         } else if ($popular) {
             $params['popular'] = 1;
+            $page_type = 'popular';
+            $param_nav = '&amp;popular=1';
         } else if ($favorites) {
             $params['favorites'] = 1;
+            $page_type = 'favorites';
+            $param_nav = '&amp;favorites=1';
         } else if ($id_auth_photo) {
             $params['id_auth_photo'] = $id_auth_photo;
+            $page_type = 'id_auth_photo';
+            $param_nav = '&amp;id_auth_photo=' . $id_auth_photo;
         }
 
         $res_work = WorkModel::getWork($id_photo, $params, $prev, $next);
@@ -78,22 +90,38 @@ class WorkController extends Controller
         $comments = $res_comments['comments'];
         # /parse comments
 
-        # parse pager
-        $workHref = 'work.php?id_photo=' . $id_photo;
-        if ($all) {
-            $workHref .= '&amp;all=1';
-        } else if ($special) {
-            $workHref .= '&amp;special=1';
-        } else if ($popular) {
-            $workHref .= '&amp;popular=1';
-        } else if ($favorites) {
-            $workHref .= '&amp;favorites=1';
-        } else if ($id_auth_photo) {
-            $workHref .= '&id_auth_photo=' . $id_auth_photo;
+        # parse navigation
+        $id_photo_prev = $id_photo;
+        $id_photo_next = $id_photo;
+
+        $prev_next_nav_arr = explode(',', $_SESSION['prev_next_nav']);
+        $id_photo_pos = array_search($id_photo, $prev_next_nav_arr);
+        if (isset($_COOKIE['nav_dir']) && $_COOKIE['nav_dir'] == 'prev' && $id_photo_pos === 0) {
+            WorkModel::setNextPrevNav($id_photo, 'prev', $params);
+            $prev_next_nav_arr = explode(',', $_SESSION['prev_next_nav']);
+            $id_photo_pos = array_search($id_photo, $prev_next_nav_arr);
         }
-        $hrefPrev = $workHref . '&amp;prev=1';
-        $hrefNext = $workHref . '&amp;next=1';
-        # /parse pager
+        else if (isset($_COOKIE['nav_dir']) && $_COOKIE['nav_dir'] == 'next' && $id_photo_pos == (sizeof($prev_next_nav_arr) - 1)) {
+            WorkModel::setNextPrevNav($id_photo, 'next', $params);
+            $prev_next_nav_arr = explode(',', $_SESSION['prev_next_nav']);
+            $id_photo_pos = array_search($id_photo, $prev_next_nav_arr);
+        }
+
+        if ($id_photo_pos !== false) {
+            if (isset($prev_next_nav_arr[$id_photo_pos - 1]))
+                $id_photo_prev = $prev_next_nav_arr[$id_photo_pos - 1];
+            if (isset($prev_next_nav_arr[$id_photo_pos + 1]))
+                $id_photo_next = $prev_next_nav_arr[$id_photo_pos + 1];
+        }
+
+        $hrefPrev = 'work.php?id_photo=' . $id_photo_prev . $param_nav;
+        $hrefNext = 'work.php?id_photo=' . $id_photo_next . $param_nav;
+
+        if ($id_photo_prev == $id_photo)
+            $hrefPrev = $hrefPrev . '&amp;prev=1';
+        if ($id_photo_next == $id_photo)
+            $hrefNext = $hrefNext . '&amp;next=1';
+        # /parse navigation
 
         $work = array(
             'id_photo' => $id_photo,
@@ -103,6 +131,7 @@ class WorkController extends Controller
             'ph_name' => $ph_name,
             'auth_name_photo' => $auth_name_photo,
             'comments' => $comments,
+            'page_type' => $page_type
         );
 
         if (!WorkController::$isJson)
@@ -129,7 +158,7 @@ class WorkController extends Controller
         WorkController::$tpl_main_var['href_next_page'] = $work['hrefNext'];
 
         # set menu style
-        WorkController::$tpl_main_var = Utils::setMenuStyles(WorkController::$tpl_main_var);
+        WorkController::$tpl_main_var = Utils::setMenuStyles(WorkController::$tpl_main_var, $work['page_type']);
 
         # set seo vars
         WorkController::$tpl_main_var['canonical_url'] = WorkController::getCanonicalUrl($work['id_photo']);
