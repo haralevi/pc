@@ -86,6 +86,16 @@ class Auth
         }
     }
 
+    private static function removeLoginParams($uri)
+    {
+        $uri = Utils::removeParam($uri, 'auth_login');
+        $uri = Utils::removeParam($uri, 'auth_pass');
+        if (Utils::endsWith($uri, '?'))
+            $uri = substr($uri, 0, -1);
+        $uri = str_replace('&amp;', '&', $uri);
+        return $uri;
+    }
+
     public static function login()
     {
         $auth_login = Request::getParam('auth_login', 'string');
@@ -102,7 +112,7 @@ class Auth
                     WHERE (BINARY auth_login='" . $auth_login . "' OR BINARY auth_email='" . $auth_login . "') " . $where_pass . " LIMIT 1";
             $res_login = Db::execute($sql);
             if (sizeof($res_login))
-                Auth::login_author($res_login);
+                Auth::loginAuthor($res_login);
             else {
                 $request_uri_wrong_login = Auth::removeLoginParams(Config::$request_uri);
                 $request_uri_wrong_login = Utils::addParam($request_uri_wrong_login, 'wrn_login', 1);
@@ -121,7 +131,7 @@ class Auth
                     WHERE auth_key='" . $_COOKIE['X'] . "' LIMIT 1";
                 $res_login = Db::execute($sql);
                 if (sizeof($res_login))
-                    Auth::login_author($res_login);
+                    Auth::loginAuthor($res_login);
             } else {
                 if (!isset($_COOKIE['Y'])) {
                     $mark_key = rand(111111, 999999) . substr(Config::$cur_time, 3, 7);
@@ -175,17 +185,39 @@ class Auth
         }
     }
 
-    private static function removeLoginParams($uri)
-    {
-        $uri = Utils::removeParam($uri, 'auth_login');
-        $uri = Utils::removeParam($uri, 'auth_pass');
-        if (Utils::endsWith($uri, '?'))
-            $uri = substr($uri, 0, -1);
-        $uri = str_replace('&amp;', '&', $uri);
-        return $uri;
+    public static function logout() {
+
+        $now_online = Mcache::get(md5('now_online'));
+        unset($now_online[Auth::$guest_sess]);
+        Mcache::set(md5('now_online'), $now_online, 0);
+
+        unset($_SESSION['auth']);
+
+        if(Config::$SiteDom) {
+            setcookie('X', '', Config::$cur_time - 86400);
+            setcookie('X', '', Config::$cur_time - 86400, '/', '.' . Config::$SiteDom . '.' . Config::$domainEnd);
+
+            setcookie('auth_answers_cnt', '', Config::$cur_time - 86400);
+            setcookie('auth_answers_cnt', '', Config::$cur_time - 86400, '/', '.' . Config::$SiteDom . '.' . Config::$domainEnd);
+
+            setcookie('share_views_cnt', '', Config::$cur_time - 86400);
+            setcookie('share_views_cnt', '', Config::$cur_time - 86400, '/', '.' . Config::$SiteDom . '.' . Config::$domainEnd);
+        }
+
+        session_unset();
+        session_destroy();
+
+        if(Config::getDebug())
+            die();
+
+        if (isset($_SERVER['HTTP_REFERER']))
+            header('location: ' . $_SERVER['HTTP_REFERER']);
+        else
+            header('location: index.php');
+        die();
     }
 
-    private static function login_author($res)
+    private static function loginAuthor($res)
     {
         # check if user allowed to use this domain
         if (isset($_COOKIE['chla']) || isset($_GET['chla'])) {
