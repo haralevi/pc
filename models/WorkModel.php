@@ -21,33 +21,33 @@ class WorkModel
 
     private static function getWorksWhere($params)
     {
-        $worksWhere = '1';
+        $works_where = '1';
         if (isset($params['all'])) {
-            $worksWhere .= ' AND id_cat_new<' . Consta::FIRST_SPEC_CAT;
+            $works_where .= ' AND id_cat_new<' . Consta::FIRST_SPEC_CAT;
             WorkModel::$works_cache_tag = array('ds_photos=all');
         } else if (isset($params['special'])) {
-            $worksWhere .= ' AND ph_special_rec_cnt>=' . Consta::MIN_SPECIAL_REC_CNT;
+            $works_where .= ' AND ph_special_rec_cnt>=' . Consta::MIN_SPECIAL_REC_CNT;
             WorkModel::$works_cache_tag = array('ds_photos=special');
         } else if (isset($params['popular'])) {
-            $worksWhere .= ' AND ph_rating>=' . Consta::POPULAR_PH_RATING;
+            $works_where .= ' AND ph_rating>=' . Consta::POPULAR_PH_RATING;
             WorkModel::$works_cache_tag = array('ds_photos=popular');
         } else if (isset($params['favorites'])) {
-            $worksWhere .= ' AND id_cat_new<' . Consta::FIRST_SPEC_CAT;
-            $worksWhere .= WorkModel::getWhereFollowers();
+            $works_where .= ' AND id_cat_new<' . Consta::FIRST_SPEC_CAT;
+            $works_where .= WorkModel::getWhereFollowers();
             WorkModel::$works_cache_tag = array('ds_photos_id_auth_follower=' . Auth::getIdAuth());
         } else if (isset($params['id_auth_photo'])) {
-            $worksWhere .= ' AND PH.id_auth=' . $params['id_auth_photo'];
-            $worksWhere .= ' AND id_cat_new<' . Consta::PORTFOLIO_CAT;
+            $works_where .= ' AND PH.id_auth=' . $params['id_auth_photo'];
+            $works_where .= ' AND id_cat_new<' . Consta::PORTFOLIO_CAT;
             WorkModel::$works_cache_tag = array('ds_photos_id_auth=' . $params['id_auth_photo']);
         } else { #reccomeded case
-            $worksWhere .= ' AND id_cat_new<' . Consta::FIRST_SPEC_CAT;
+            $works_where .= ' AND id_cat_new<' . Consta::FIRST_SPEC_CAT;
             if (Auth::getIdAuth() == 1)
-                $worksWhere .= ' AND PH.ph_rating<=1';
+                $works_where .= ' AND PH.ph_rating<=1';
             else
-                $worksWhere .= ' AND PH.ph_rating>=' . Auth::getAuthFeaturedRating();
+                $works_where .= ' AND PH.ph_rating>=' . Auth::getAuthFeaturedRating();
             WorkModel::$works_cache_tag = array('ds_photos_recomm_min_rating=' . Auth::getAuthFeaturedRating());
         }
-        return $worksWhere;
+        return $works_where;
     }
 
     private static function isInvalidWork($v)
@@ -69,14 +69,14 @@ class WorkModel
 
     public static function getWorks($params, $page = 1)
     {
-        $worksWhere = WorkModel::getWorksWhere($params);
+        $works_where = WorkModel::getWorksWhere($params);
 
         $sql_works = "SELECT PH.id_photo, PH.id_auth id_auth_photo, 
                         PH.auth_name, PH.auth_name_en,
                         PH.id_cat_new, PH.ph_main_w, PH.ph_main_h, PH.ph_date, PH.ph_anon, PH.id_comp, PH.ph_council_rec, 
                         PH.ph_rating, PH.ph_rec_cnt, PH.ph_comm_cnt, PH.ph_comm_cnt, PH.ph_comm_cnt_de, PH.ph_comm_cnt_en
                 FROM ds_photos PH
-                WHERE " . $worksWhere . " AND ph_status='1'
+                WHERE " . $works_where . " AND ph_status='1'
                 ORDER BY id_photo DESC
                 LIMIT " . ($page - 1) * Consta::WORKS_PER_PAGE . ", " . Consta::WORKS_PER_PAGE;
 
@@ -144,22 +144,23 @@ class WorkModel
         }
     }
 
-    public static function setNextPrevNav($id_photo, $direction = 'next', $params)
+    public static function updateNextPrevNav($id_photo, $direction = 'next', $params)
     {
-        $worksWhere = WorkModel::getWorksWhere($params);
+        $works_where = WorkModel::getWorksWhere($params);
+
         if ($direction == 'next') {
-            $worksWhere .= ' AND  id_photo<=' . $id_photo;
-            $order_by = 'id_photo DESC';
+            $works_where .= ' AND  id_photo<=' . $id_photo;
+            $orderBy = 'id_photo DESC';
         } else {
-            $worksWhere .= " AND  id_photo>=" . $id_photo;
-            $order_by = 'id_photo';
+            $works_where .= " AND  id_photo>=" . $id_photo;
+            $orderBy = 'id_photo';
         }
 
         $sql_works = "SELECT PH.id_photo, PH.id_auth id_auth_photo, 
                         PH.ph_date, PH.ph_anon, PH.id_comp, PH.ph_council_rec 
                 FROM ds_photos PH
-                WHERE " . $worksWhere . " AND ph_status='1'
-                ORDER BY " . $order_by . "
+                WHERE " . $works_where . " AND ph_status='1'
+                ORDER BY " . $orderBy . "
                 LIMIT " . Consta::WORKS_PER_PAGE;
 
         $res_works = Mcache::cacheDbi($sql_works, 300, WorkModel::$works_cache_tag);
@@ -174,7 +175,7 @@ class WorkModel
             }
             $prev_next_nav = substr($prev_next_nav, 0, -1);
 
-            if ($direction != 'next') {
+            if ($direction == 'prev') {
                 $prev_next_nav_arr = explode(',', $prev_next_nav);
                 $prev_next_nav_arr = array_reverse($prev_next_nav_arr);
                 $prev_next_nav = '';
@@ -282,7 +283,7 @@ class WorkModel
             $ph_rating = number_format($ph_rating, 2);
             $ph_rec_cnt = sizeof($res_recs);
 
-            $workImg = Utils::parseWorkImg($id_photo, $res_work[0]['id_auth_photo'], $res_work[0]['id_cat_new'], $res_work[0]['ph_main_w'], $res_work[0]['ph_main_h'], true);
+            $work_img = Utils::parseWorkImg($id_photo, $res_work[0]['id_auth_photo'], $res_work[0]['id_cat_new'], $res_work[0]['ph_main_w'], $res_work[0]['ph_main_h'], true);
 
             $workHref = 'work.php?id_photo=' . $id_photo;
             if (isset($params['all'])) {
@@ -301,7 +302,7 @@ class WorkModel
             $workHref = Config::$home_url . $workHref . '&amp;next=1';
 
             $tpl_work_main_img_var['workHref'] = $workHref;
-            $tpl_work_main_img_var['workImg'] = $workImg;
+            $tpl_work_main_img_var['workImg'] = $work_img;
 
             $phRatingStr = '';
             if ($res_work[0]['id_cat_new'] < Consta::FIRST_SPEC_CAT) { # no rating category

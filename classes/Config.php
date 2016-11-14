@@ -30,7 +30,7 @@ class Config
     public static $script_name;
     public static $request_uri;
     public static $remote_addr;
-    public static $http_referrer;
+    public static $http_referer;
     public static $http_user_agent;
     public static $cookie_expires;
 
@@ -138,8 +138,8 @@ class Config
         else Config::$request_uri = '';
         if (isset($_SERVER['REMOTE_ADDR'])) Config::$remote_addr = $_SERVER['REMOTE_ADDR'];
         else Config::$remote_addr = '';
-        if (isset($_SERVER['HTTP_REFERER'])) Config::$http_referrer = $_SERVER['HTTP_REFERER'];
-        else Config::$http_referrer = '';
+        if (isset($_SERVER['HTTP_REFERER'])) Config::$http_referer = $_SERVER['HTTP_REFERER'];
+        else Config::$http_referer = '';
         if (isset($_SERVER['HTTP_USER_AGENT'])) Config::$http_user_agent = $_SERVER['HTTP_USER_AGENT'];
         else Config::$http_user_agent = '';
 

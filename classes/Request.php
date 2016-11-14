@@ -18,8 +18,7 @@ class Request
                 $val = $min_val;
             if ($max_val != null && $val > $max_val)
                 $val = $max_val;
-        }
-        else
+        } else
             $val = '';
         return $val;
     }
@@ -34,8 +33,7 @@ class Request
                     $val = $min_val;
                 if ($max_val != null && $val > $max_val)
                     $val = $max_val;
-            }
-            else
+            } else
                 $val = Utils::cleanRequest($_REQUEST[$param]);
 
             if ($pattern != null && !preg_match($pattern, $val))
@@ -44,12 +42,20 @@ class Request
         return $val;
     }
 
-    public function setParam($param, $val) {
+    public static function setParam($param, $val)
+    {
         $_REQUEST[$param] = $val;
     }
 
-    public function getParamSimple($param)
+    public static function getParamVal($url, $param)
     {
-        return $_REQUEST[$param];
+        $val = '';
+        $parts = parse_url($url);
+        if (isset($parts['query'])) {
+            parse_str($parts['query'], $query);
+            if (isset($query[$param]))
+                $val = $query[$param];
+        }
+        return $val;
     }
 } 

@@ -36,7 +36,9 @@ class ParseJson
         Timer::stopTiming('Total');
         $debug = '';
         if (Config::getDebug()) {
-            $debug .= $_SESSION['prev_next_nav'] . '</b><br>';
+            if (isset($_COOKIE['nav_dir']))
+                $debug .= 'nav_dir: <b>' . $_COOKIE['nav_dir'] . '</b><br>';
+            $debug .= '<b>' . $_SESSION['prev_next_nav'] . '</b><br>';
             $totalTime = Timer::getATimings()['Total']['elapsed'];
             if ($totalTime >= 0.1)
                 $debug .= 'Total Time: <b>' . $totalTime . '</b> sec';

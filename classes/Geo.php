@@ -128,7 +128,7 @@ class Geo
             $_SESSION['City'] = Geo::$City;
             $_SESSION['Gmtoffset'] = Geo::$Gmtoffset;
 
-            if (Config::$http_referrer != '' && !strstr(Config::$http_referrer, 'http://googleads.') && !strstr(Config::$http_referrer, 'http://' . Config::SITE_DOMAIN) && !strstr(Config::$http_referrer, 'http://' . Config::SITE_DOMAIN_BY)) $_SESSION['Referer'] = Config::$http_referrer;
+            if (Config::$http_referer != '' && !strstr(Config::$http_referer, 'http://googleads.') && !strstr(Config::$http_referer, 'http://' . Config::SITE_DOMAIN) && !strstr(Config::$http_referer, 'http://' . Config::SITE_DOMAIN_BY)) $_SESSION['Referer'] = Config::$http_referer;
             else $_SESSION['Referer'] = '';
 
             if (Config::$SiteDom)

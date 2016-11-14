@@ -2,7 +2,7 @@
   "name": "PhotoCommunity",
   "version": "1.0.0",
   "description": "Mobile version of PhotoCommunity",
-  "author": "Andre Haralevi <hello@damonbauer.me>",
+  "author": "Andre Haralevi",
   "repository": {
     "type": "git",
     "url": "https://github.com/haralevi/pc"
