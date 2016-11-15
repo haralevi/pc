@@ -36,7 +36,7 @@ window.onerror = function (message, file, line, column) {
 
 /* cookie class */
 let expireDate = new Date;
-expireDate.setTime(expireDate.getTime() + (30*24*60*60*1000));
+expireDate.setTime(expireDate.getTime() + (30 * 24 * 60 * 60 * 1000));
 expireDate = expireDate.toUTCString();
 const cookie = {
     setCookie: function (a, b) {
@@ -62,16 +62,23 @@ const localCache = {
         $.isFunction(c) && c(b)
     }
 };
-$.ajaxPrefilter(function (a, b, c) {
-    if (a.cache) {
-        let e = b.complete || $.noop, d = b.url;
-        a.cache = !1;
-        a.beforeSend = function () {
-            return localCache.exist(d) ? (e(localCache.get(d)), !1) : !0
+
+$.ajaxPrefilter(function (options, originalOptions) {
+    if (options.cache) {
+        var complete = originalOptions.complete || $.noop,
+            url = originalOptions.url;
+        //remove jQuery cache as we have our own localCache
+        options.cache = false;
+        options.beforeSend = function () {
+            if (localCache.exist(url)) {
+                complete(localCache.get(url));
+                return false;
+            }
+            return true;
         };
-        a.complete = function (a, b) {
-            localCache.set(d, a, e)
-        }
+        options.complete = function (data) {
+            localCache.set(url, data, complete);
+        };
     }
 });
 
@@ -156,18 +163,16 @@ const utils = {
         if ((history.pushState && history.replaceState)) {
             // click listener for ajax calls
             $(document).on("click", links, function (e) {
-                if($(this)[0].id !== "undefined") {
-                    if($(this)[0].id == "nextLnkKey") {
-                        cookie.setCookie("nav_dir", "next");
-                    }
-                    else if($(this)[0].id == "prevLnkKey") {
+                if ($(this)[0].id !== "undefined") {
+                    if ($(this)[0].id == "prevLnkKey")
                         cookie.setCookie("nav_dir", "prev");
-                    }
+                    else if ($(this)[0].id == "nextLnkKey")
+                        cookie.setCookie("nav_dir", "next");
                 }
                 let href = this.href;
                 if (href != location.href) {
                     href = href.substr(href.lastIndexOf("/"));
-                    window.history.pushState(null, null, appRoot + href);
+                    window.history.pushState(null, "", appRoot + href);
                     ajax.handelAjax(appRoot + ajaxFld + href);
                 }
                 e.preventDefault();

@@ -98,15 +98,18 @@ class WorkController extends Controller
 
         # parse navigation
         $prev_next_nav_arr = explode(',', $_COOKIE['prev_next_nav']);
+        #$prev_next_nav_arr = explode(',', $_SESSION['prev_next_nav']);
         $id_photo_pos = array_search($id_photo, $prev_next_nav_arr);
         if ($id_photo_pos === false || $id_photo_pos === 0 || $id_photo_pos == (sizeof($prev_next_nav_arr) - 1)) {
             if (isset($_COOKIE['nav_dir']) && $_COOKIE['nav_dir'] == 'prev') {
                 WorkModel::updateNextPrevNav($id_photo, 'prev', $params);
                 $prev_next_nav_arr = explode(',', $_COOKIE['prev_next_nav']);
+                #$prev_next_nav_arr = explode(',', $_SESSION['prev_next_nav']);
                 $id_photo_pos = array_search($id_photo, $prev_next_nav_arr);
             } else {
                 WorkModel::updateNextPrevNav($id_photo, 'next', $params);
                 $prev_next_nav_arr = explode(',', $_COOKIE['prev_next_nav']);
+                #$prev_next_nav_arr = explode(',', $_SESSION['prev_next_nav']);
                 $id_photo_pos = array_search($id_photo, $prev_next_nav_arr);
             }
         }

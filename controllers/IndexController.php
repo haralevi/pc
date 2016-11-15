@@ -144,7 +144,7 @@ class IndexController extends Controller
         IndexController::$tpl_var['works'] = $index['works'];
 
         if ($index['page_type'])
-            IndexController::$tpl_var['page_type_param'] = $index['page_type'] . '=1';
+            IndexController::$tpl_var['page_type_param'] = '?' . $index['page_type'] . '=1';
         else
             IndexController::$tpl_var['page_type_param'] = '';
 
