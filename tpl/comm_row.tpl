@@ -1,6 +1,6 @@
 <tr>
     <td class="commAuth comments">
-        <a href="{home_url}work.php?id_photo={id_photo}">{work_img}</a>
+        <a href="{work_href}">{work_img}</a>
     </td>
     <td class="commTextTd">
         <div class="commText">

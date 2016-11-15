@@ -122,11 +122,11 @@ class WorkModel
                 }
 
                 if (Config::$domainEnd == 'by') {
-                    $work_href = 'work.php?id_photo=' . $id_photo;
+                    $work_href = Config::$home_url . 'work.php?id_photo=' . $id_photo . $param_nav;
                 } else {
                     if ($param_nav != '')
                         $param_nav = '?' . $param_nav;
-                    $work_href = 'work/' . $id_photo . $param_nav;
+                    $work_href = Config::$home_url . 'work/' . $id_photo . $param_nav;
                 }
 
                 $tpl_work_row_var['work_href'] = $work_href;
@@ -267,7 +267,7 @@ class WorkModel
 
             // skip photo, if it's anon and if navigation from author's page
             if ($is_ph_anon && isset($params['id_auth_photo']) && ($prev || $next)) {
-                $skip_anon_url = 'work.php?id_photo=' . $id_photo . '&id_auth_photo=' . $params['id_auth_photo'];
+                $skip_anon_url = Config::$home_url . 'work.php?id_photo=' . $id_photo . '&id_auth_photo=' . $params['id_auth_photo'];
                 if ($prev) $skip_anon_url .= '&prev=1';
                 else $skip_anon_url .= '&next=1';
                 header('Location: ' . $skip_anon_url);
@@ -314,11 +314,11 @@ class WorkModel
             }
 
             if (Config::$domainEnd == 'by') {
-                $work_href = 'work.php?id_photo=' . $id_photo;
+                $work_href = Config::$home_url . 'work.php?id_photo=' . $id_photo . $param_nav;
             } else {
                 if ($param_nav != '')
                     $param_nav = '?' . $param_nav;
-                $work_href = 'work/' . $id_photo . $param_nav;
+                $work_href = Config::$home_url . 'work/' . $id_photo . $param_nav;
             }
 
             $tpl_work_main_img_var['work_href'] = $work_href;

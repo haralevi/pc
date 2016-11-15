@@ -43,6 +43,7 @@ class CommController extends Controller
         require dirname(__FILE__) . '/../models/CommModel.php';
 
         $res_comm = CommModel::getComm($page);
+
         if (!sizeof($res_comm)) {
             if (!CommController::$isJson)
                 header('Location: ' . Config::$home_url . 'comm.php');

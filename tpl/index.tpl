@@ -6,7 +6,7 @@
 
 <!--[TITLE_BLK]-->
 <div class="wrapContent clearfix title">
-    <a href="{home_url}index.php?{page_type_param}">{title}</a>
+    <a href="{home_url}?{page_type_param}">{title}</a>
 </div>
 <!--[TITLE_BLK]-->
 

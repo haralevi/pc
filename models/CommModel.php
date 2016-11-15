@@ -79,6 +79,11 @@ class CommModel
                 $work_img = Utils::parseWorkImg($id_photo, $v['id_auth_photo'], $v['id_cat_new'], $v['ph_main_w'], $v['ph_main_h'], false, true);
                 $work_img = str_replace('mobile', 'thumb', $work_img);
 
+                if (Config::$domainEnd == 'by')
+                    $work_href = Config::$home_url . 'work.php?id_photo=' . $id_photo;
+                else
+                    $work_href = Config::$home_url . 'work/' . $id_photo;
+
                 $is_ph_anon = Utils::isAnon($v['ph_anon'], $v['ph_date'], $v['id_comp']);
                 if ($is_ph_anon && $id_auth_comm == $id_auth_photo) {
                     $auth_name_str = Localizer::$loc['author_loc'];
@@ -89,6 +94,7 @@ class CommModel
 
                 $tpl_comm_row_var['id_photo'] = $id_photo;
                 $tpl_comm_row_var['work_img'] = $work_img;
+                $tpl_comm_row_var['work_href'] = $work_href;
                 $tpl_comm_row_var['auth_name_str'] = $auth_name_str;
                 $tpl_comm_row_var['comm_text'] = $comm_text;
 
@@ -155,14 +161,14 @@ class CommModel
                     $auth_avatar_str = '<img src="' . Config::$css_url . Config::$theme . '/male.png" width="31" height="31" alt="">';
                     if (Auth::getIdAuth() != -1)
                         $authNameAnswerClass = 'class="authNameAnswer" data-id-auth="0"';
-                    $auth_name_str = '<a id="authName0" class="authNameAnswer" '.$authNameAnswerClass.' href="#">' . $auth_name_comm . '</a>';
+                    $auth_name_str = '<a id="authName0" class="authNameAnswer" ' . $authNameAnswerClass . ' href="#">' . $auth_name_comm . '</a>';
                 } else {
                     $auth_name_comm = $v[Localizer::$col_auth_name];
                     $auth_avatar_src = Utils::parseAvatar($v['id_auth'], $v['auth_avatar'], $v['auth_gender'], 'square');
                     $auth_avatar_str = '<a href="' . Config::$home_url . 'author.php?id_auth=' . $id_auth_comm . '"><img src="' . $auth_avatar_src . '" alt=""></a>';
                     if (Auth::getIdAuth() != -1)
                         $authNameAnswerClass = 'class="authNameAnswer" data-id-auth="' . $id_auth_comm . '"';
-                    $auth_name_str = '<a id="authName' . $id_auth_comm . '" '.$authNameAnswerClass.' href="' . Config::$home_url . 'author.php?id_auth=' . $id_auth_comm . '">' . $auth_name_comm . '</a>';
+                    $auth_name_str = '<a id="authName' . $id_auth_comm . '" ' . $authNameAnswerClass . ' href="' . Config::$home_url . 'author.php?id_auth=' . $id_auth_comm . '">' . $auth_name_comm . '</a>';
                 }
 
                 $tpl_work_comm_row_var['auth_avatar_str'] = $auth_avatar_str;

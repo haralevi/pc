@@ -121,20 +121,27 @@ class WorkController extends Controller
                 $id_photo_next = $prev_next_nav_arr[$id_photo_pos + 1];
         }
 
-        if (Config::$domainEnd == 'by') {
-            $hrefPrev = 'work.php?id_photo=' . $id_photo_prev . $param_nav;
-            $hrefNext = 'work.php?id_photo=' . $id_photo_next . $param_nav;
-        } else {
-            if ($param_nav != '')
-                $param_nav = '?' . $param_nav;
-            $hrefPrev = 'work/' . $id_photo_prev . $param_nav;
-            $hrefNext = 'work/' . $id_photo_next . $param_nav;
+        $param_nav_prev = '';
+        $param_nav_next = '';
+        if ($id_photo_prev == $id_photo) {
+            $param_nav_prev = '&amp;prev=1';
+            $param_nav_next = '&amp;next=1';
         }
 
-        if ($id_photo_prev == $id_photo)
-            $hrefPrev = $hrefPrev . '&amp;prev=1';
-        if ($id_photo_next == $id_photo)
-            $hrefNext = $hrefNext . '&amp;next=1';
+        if (Config::$domainEnd == 'by') {
+            $hrefPrev = Config::$home_url . 'work.php?id_photo=' . $id_photo_prev . $param_nav . $param_nav_prev;
+            $hrefNext = Config::$home_url . 'work.php?id_photo=' . $id_photo_next . $param_nav . $param_nav_next;
+        } else {
+            $hrefPrev = Config::$home_url . 'work/' . $id_photo_prev;
+            if ($param_nav != '' || $param_nav_prev != '')
+                $hrefPrev .= '?';
+            $hrefPrev .= $param_nav . $param_nav_prev;
+
+            $hrefNext = Config::$home_url . 'work/' . $id_photo_next;
+            if ($param_nav != '' || $param_nav_next != '')
+                $hrefNext .= '?';
+            $hrefNext .= $param_nav . $param_nav_next;
+        }
         # /parse navigation
 
         $work = array(
@@ -204,6 +211,10 @@ class WorkController extends Controller
 
     private static function getCanonicalUrl($id_photo)
     {
-        return Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/work/' . $id_photo;
+        if (Config::$domainEnd == 'by')
+            $canonicalUrl = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/work.php?id_photo=' . $id_photo;
+        else
+            $canonicalUrl = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/work/' . $id_photo;
+        return $canonicalUrl;
     }
 }

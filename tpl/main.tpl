@@ -42,8 +42,8 @@
             <span class="icon_bar"></span>
         </div>
         <div class="prevNext">
-            <a rel="next" id="nextLnkKey" href="{home_url}{href_next_page}" class="nextLnk menuItem">&nbsp;</a>
-            <a rel="prev" id="prevLnkKey" href="{home_url}{href_prev_page}" class="prevLnk menuItem">&nbsp;</a>
+            <a rel="next" id="nextLnkKey" href="{href_next_page}" class="nextLnk menuItem">&nbsp;</a>
+            <a rel="prev" id="prevLnkKey" href="{href_prev_page}" class="prevLnk menuItem">&nbsp;</a>
         </div>
     </div>
 </div>
@@ -55,13 +55,13 @@
 <!--[WRONG_LOGIN_BLK]-->
 
 <div class="wrapContent clearfix hidden" id="submenu" data-id-auth="{id_auth}" data-auth-name="{auth_name}" data-auth-avatar="{auth_avatar}" data-auth-url="{auth_url}">
-    <a href="{home_url}index.php" class="submenuItem{recomm_works_act_class}">{recomm_works_loc}</a>
-    <a href="{home_url}index.php?popular=1" class="submenuItem{popular_act_class}">{popular_loc}</a>
-    <a href="{home_url}index.php?all=1" class="submenuItem{all_works_act_class}">{all_works_loc}</a>
-    <a href="{home_url}index.php?special=1" class="submenuItem{special_works_act_class}">{special_works_loc}</a>
+    <a href="{home_url}" class="submenuItem{recomm_works_act_class}">{recomm_works_loc}</a>
+    <a href="{home_url}?popular=1" class="submenuItem{popular_act_class}">{popular_loc}</a>
+    <a href="{home_url}?all=1" class="submenuItem{all_works_act_class}">{all_works_loc}</a>
+    <a href="{home_url}?special=1" class="submenuItem{special_works_act_class}">{special_works_loc}</a>
 
     <!--[UNLOGGED_BLK]-->
-    <a href="{home_url}index.php?favorites=1" class="submenuItem{fav_auth_works_act_class}">{fav_auth_works_loc}</a>
+    <a href="{home_url}?favorites=1" class="submenuItem{fav_auth_works_act_class}">{fav_auth_works_loc}</a>
     <!--[UNLOGGED_BLK]-->
     <a href="{home_url}comm.php" class="submenuItem{comm_act_class}">{comm_loc}</a>
     <!--[UNLOGGED_BLK]-->
@@ -85,8 +85,8 @@
             <a id="canonicalUrl" href="{canonical_url}" class="footerLnk">{site_full_ver_loc}</a>
         </div>
         <div class="prevNext">
-            <a rel="next" href="{home_url}{href_next_page}" class="nextLnk menuItem" style="border-right: 1px solid #111;">&nbsp;</a>
-            <a rel="prev" href="{home_url}{href_prev_page}" class="prevLnk menuItem">&nbsp;</a>
+            <a rel="next" href="{href_next_page}" class="nextLnk menuItem" style="border-right: 1px solid #111;">&nbsp;</a>
+            <a rel="prev" href="{href_prev_page}" class="prevLnk menuItem">&nbsp;</a>
         </div>
     </div>
     #debug#
