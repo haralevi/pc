@@ -97,22 +97,22 @@ class WorkController extends Controller
         # /parse comments
 
         # parse navigation
-        $id_photo_prev = $id_photo;
-        $id_photo_next = $id_photo;
-
-        $prev_next_nav_arr = explode(',', $_SESSION['prev_next_nav']);
+        $prev_next_nav_arr = explode(',', $_COOKIE['prev_next_nav']);
         $id_photo_pos = array_search($id_photo, $prev_next_nav_arr);
         if ($id_photo_pos === false || $id_photo_pos === 0 || $id_photo_pos == (sizeof($prev_next_nav_arr) - 1)) {
             if (isset($_COOKIE['nav_dir']) && $_COOKIE['nav_dir'] == 'prev') {
                 WorkModel::updateNextPrevNav($id_photo, 'prev', $params);
-                $prev_next_nav_arr = explode(',', $_SESSION['prev_next_nav']);
+                $prev_next_nav_arr = explode(',', $_COOKIE['prev_next_nav']);
                 $id_photo_pos = array_search($id_photo, $prev_next_nav_arr);
             } else {
                 WorkModel::updateNextPrevNav($id_photo, 'next', $params);
-                $prev_next_nav_arr = explode(',', $_SESSION['prev_next_nav']);
+                $prev_next_nav_arr = explode(',', $_COOKIE['prev_next_nav']);
                 $id_photo_pos = array_search($id_photo, $prev_next_nav_arr);
             }
         }
+
+        $id_photo_prev = $id_photo;
+        $id_photo_next = $id_photo;
 
         if ($id_photo_pos !== false) {
             if (isset($prev_next_nav_arr[$id_photo_pos - 1]))
@@ -123,10 +123,10 @@ class WorkController extends Controller
 
         $param_nav_prev = '';
         $param_nav_next = '';
-        if ($id_photo_prev == $id_photo) {
+        if ($id_photo_prev == $id_photo)
             $param_nav_prev = '&amp;prev=1';
+        if ($id_photo_next == $id_photo)
             $param_nav_next = '&amp;next=1';
-        }
 
         if (Config::$domainEnd == 'by') {
             $hrefPrev = Config::$home_url . 'work.php?id_photo=' . $id_photo_prev . $param_nav . $param_nav_prev;

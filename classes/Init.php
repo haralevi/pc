@@ -88,8 +88,10 @@ class Init
             Auth::$guest_sess = session_id();
         }
         # init prev next navigation
-        if(!isset($_SESSION['prev_next_nav']))
-            $_SESSION['prev_next_nav'] = '';
+        if(!isset($_COOKIE['prev_next_nav'])) {
+            setcookie('prev_next_nav', -1, Config::$cookie_expires, '/', '.' . Config::$SiteDom . '.' . Config::$domainEnd);
+            $_COOKIE['prev_next_nav'] = -1;
+        }
     }
 
     # show down page if it exists locally or no db host

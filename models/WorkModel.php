@@ -72,7 +72,6 @@ class WorkModel
         return $is_to_skip;
     }
 
-
     public static function getWorks($params, $page = 1)
     {
         $works_where = WorkModel::getWorksWhere($params);
@@ -149,7 +148,8 @@ class WorkModel
             }
 
             $prev_next_nav = substr($prev_next_nav, 0, -1);
-            $_SESSION['prev_next_nav'] = $prev_next_nav;
+            setcookie('prev_next_nav', $prev_next_nav, Config::$cookie_expires, '/', '.' . Config::$SiteDom . '.' . Config::$domainEnd);
+            $_COOKIE['prev_next_nav'] = $prev_next_nav;
 
             return array(
                 'works' => $works,
@@ -199,7 +199,8 @@ class WorkModel
                 $prev_next_nav = substr($prev_next_nav, 0, -1);
             }
 
-            $_SESSION['prev_next_nav'] = $prev_next_nav;
+            setcookie('prev_next_nav', $prev_next_nav, Config::$cookie_expires, '/', '.' . Config::$SiteDom . '.' . Config::$domainEnd);
+            $_COOKIE['prev_next_nav'] = $prev_next_nav;
         }
     }
 
