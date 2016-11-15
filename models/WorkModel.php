@@ -223,24 +223,18 @@ class WorkModel
             $work_cache_tag = array('ds_photos=' . $id_photo);
         }
 
-        $param_nav = '';
         if (isset($params['all'])) {
             $where .= ' AND id_cat_new<' . Consta::FIRST_SPEC_CAT;
-            $param_nav .= '&amp;all=' . $params['all'];
         } else if (isset($params['special'])) {
             $where .= ' AND ph_special_rec_cnt>=' . Consta::MIN_SPECIAL_REC_CNT;
-            $param_nav .= '&amp;special=' . $params['special'];
         } else if (isset($params['popular'])) {
             $where .= ' AND ph_rating>=' . Consta::POPULAR_PH_RATING;
-            $param_nav .= '&amp;popular=' . $params['popular'];
         } else if (isset($params['favorites'])) {
             $where .= ' AND id_cat_new<' . Consta::FIRST_SPEC_CAT;
             $where .= WorkModel::getWhereFollowers();
-            $param_nav .= '&amp;favorites=' . $params['favorites'];
         } else if (isset($params['id_auth_photo'])) {
             $where .= ' AND PH.id_auth=' . $params['id_auth_photo'];
             $where .= ' AND id_cat_new<' . Consta::PORTFOLIO_CAT;
-            $param_nav .= '&id_auth_photo=' . $params['id_auth_photo'];
         } else {
             if ($prev || $next)
                 $where .= ' AND PH.ph_rating>=' . Auth::getAuthFeaturedRating();
@@ -263,21 +257,6 @@ class WorkModel
             return array();
         } else {
             $id_photo = $res_work[0]['id_photo'];
-
-            # redirect to canonical url, if prev or next in url
-            if ($next || $prev) {
-                if (Config::$domainEnd == 'by') {
-                    $redirect_url = Config::$home_url . 'work.php?id_photo=' . $id_photo . $param_nav;
-                } else {
-                    if ($param_nav != '')
-                        $param_nav = '?' . $param_nav;
-                    $redirect_url = Config::$home_url . 'work/' . $id_photo . $param_nav;
-                }
-                header('HTTP/1.1 301 Moved Permanently');
-                header('Location: ' . $redirect_url);
-                die();
-            }
-
             $ph_name = $res_work[0][Localizer::$col_ph_name];
             $ph_name = Utils::setEmptyName($ph_name);
             $ph_comm = $res_work[0]['ph_comm'];
@@ -324,17 +303,20 @@ class WorkModel
 
             $work_img = Utils::parseWorkImg($id_photo, $res_work[0]['id_auth_photo'], $res_work[0]['id_cat_new'], $res_work[0]['ph_main_w'], $res_work[0]['ph_main_h'], true);
 
-            $param_nav = '';
+
             if (isset($params['all'])) {
-                $param_nav .= '&amp;all=' . $params['all'];
+                $param_nav = '&amp;all=' . $params['all'];
             } else if (isset($params['special'])) {
-                $param_nav .= '&amp;special=' . $params['special'];
+                $param_nav = '&amp;special=' . $params['special'];
             } else if (isset($params['popular'])) {
-                $param_nav .= '&amp;popular=' . $params['popular'];
+                $param_nav = '&amp;popular=' . $params['popular'];
             } else if (isset($params['favorites'])) {
-                $param_nav .= '&amp;favorites=' . $params['favorites'];
+                $param_nav = '&amp;favorites=' . $params['favorites'];
             } else if (isset($params['id_auth_photo'])) {
-                $param_nav .= '&id_auth_photo=' . $params['id_auth_photo'];
+                $param_nav = '&id_auth_photo=' . $params['id_auth_photo'];
+            }
+            else {
+                $param_nav = '';
             }
 
             if (Config::$domainEnd == 'by') {

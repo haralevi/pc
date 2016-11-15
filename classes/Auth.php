@@ -342,6 +342,7 @@ class Auth
     public static function updateOnliners()
     {
         if (!Geo::$is_robot && !strstr(Config::$request_uri, 'ajax/')) {
+        #if (!strstr(Config::$request_uri, 'ajax/')) {
             $online_sess = array('id_auth' => Auth::$id_auth,
                 'auth_name' => Auth::$auth_name, 'auth_name_en' => Auth::$auth_name_en, 'auth_type' => Auth::$auth_type,
                 'cur_time' => Config::$cur_time,

@@ -3,8 +3,8 @@
 const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-let PROD = JSON.parse(process.env.PROD_ENV || '0');
-//PROD = true;
+//let PROD = JSON.parse(process.env.PROD_ENV || '0');
+let PROD = true;
 
 let cssLoader = 'css?-url!sass';
 if(PROD) cssLoader = 'css?-url&minimize!sass';

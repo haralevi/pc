@@ -26,9 +26,10 @@ class IndexController extends Controller
         IndexController::handleUnsubscribe();
     }
 
-    private static function handleUnsubscribe() {
+    private static function handleUnsubscribe()
+    {
         $success_unsubscribe = Auth::handleUnsubscribe();
-        if($success_unsubscribe == '')
+        if ($success_unsubscribe == '')
             Controller::$tpl->clear('UNSUBSCRIBE_BLK');
         else
             Controller::$tpl_var['success_unsubscribe'] = $success_unsubscribe;
@@ -60,32 +61,41 @@ class IndexController extends Controller
             $title = Localizer::$loc['all_works_loc'];
             $port_seo_title = Localizer::$loc['all_works_loc'];
             $page_type = 'all';
+            $param_nav = '&amp;all=1';
         } else if ($special) {
             $params['special'] = 1;
             $title = Localizer::$loc['special_works_loc'];
             $port_seo_title = Localizer::$loc['special_works_loc'];
             $page_type = 'special';
+            $param_nav = '&amp;special=1';
         } else if ($popular) {
             $params['popular'] = 1;
             $title = Localizer::$loc['popular_loc'];
             $port_seo_title = Localizer::$loc['popular_loc'];
             $page_type = 'popular';
+            $param_nav = '&amp;popular=1';
         } else if ($favorites) {
             $params['favorites'] = 1;
             $title = Localizer::$loc['fav_auth_works_loc'];
             $port_seo_title = Localizer::$loc['fav_auth_works_loc'];
             $page_type = 'favorites';
+            $param_nav = '&amp;favorites=1';
         } else {
             $title = Localizer::$loc['recomm_works_loc'];
             $port_seo_title = Localizer::$loc['recomm_works_loc'];
             $page_type = '';
+            $param_nav = '';
         }
 
         $res_works = WorkModel::getWorks($params, $page);
         if (!sizeof($res_works)) {
+            if ($param_nav != '')
+                $param_nav = '?' . str_replace('&amp;', '&', $param_nav);
             if (!IndexController::$isJson)
-                header('Location: ' . Config::$home_url);
-            return false;
+                header('Location: ' . Config::$home_url . $param_nav);
+            else
+                echo 'Location: ' . Config::$home_url . $param_nav;
+            die();
         }
         $works = $res_works['works'];
         # /parse works
@@ -190,13 +200,12 @@ class IndexController extends Controller
     {
         if ($page <= 1 && $page_type == '') {
             $canonicalUrl = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd;
-        }
-        else {
-            if($page_type == '')
+        } else {
+            if ($page_type == '')
                 $page_type = 'featured';
-            else if($page_type == 'popular')
+            else if ($page_type == 'popular')
                 $page_type = 'rated';
-            $canonicalUrl = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/gallery.php#' . $page_type . '=1&range=7&page=' . Pager::getCanonicalPageIndex ($page);
+            $canonicalUrl = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/gallery.php#' . $page_type . '=1&range=7&page=' . Pager::getCanonicalPageIndex($page);
         }
         return $canonicalUrl;
     }

@@ -69,6 +69,10 @@ const ajax = {
                     "title": document.title
                 });
             }
+            else if(data.responseText.match(/Location: /)) {
+                window.location.href = data.responseText.replace(/Location: /, '');
+            }
+
             $("#ajax_overlay").remove();
             $ajaxBody.waitForImages(function () {
                 $ajaxBody.css({height: "auto"});

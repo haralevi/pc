@@ -52,8 +52,6 @@ class WorkController extends Controller
         require dirname(__FILE__) . '/../models/WorkModel.php';
 
         $params = array();
-        $page_type = '';
-        $param_nav = '';
         if ($all) {
             $params['all'] = 1;
             $page_type = 'all';
@@ -75,15 +73,38 @@ class WorkController extends Controller
             $page_type = 'id_auth_photo';
             $param_nav = '&amp;id_auth_photo=' . $id_auth_photo;
         }
+        else {
+            $page_type = '';
+            $param_nav = '';
+        }
 
         $res_work = WorkModel::getWork($id_photo, $params, $prev, $next);
         if (!sizeof($res_work)) {
+            if ($param_nav != '')
+                $param_nav = '?' . str_replace('&amp;', '&', $param_nav);
             if (!WorkController::$isJson)
-                header('Location: ' . Config::$home_url);
-            return false;
+                header('Location: ' . Config::$home_url . $param_nav);
+            else
+                echo 'Location: ' . Config::$home_url . $param_nav;
+            die();
         }
 
         $id_photo = $res_work['id_photo'];
+
+        # redirect to canonical url, if prev or next in url
+        if (!WorkController::$isJson && ($next || $prev)) {
+            if (Config::$domainEnd == 'by') {
+                $redirect_url = Config::$home_url . 'work.php?id_photo=' . $id_photo . $param_nav;
+            } else {
+                if ($param_nav != '')
+                    $param_nav = '?' . $param_nav;
+                $redirect_url = Config::$home_url . 'work/' . $id_photo . $param_nav;
+            }
+            header('HTTP/1.1 301 Moved Permanently');
+            header('Location: ' . $redirect_url);
+            die();
+        }
+
         $work = $res_work['work'];
         $ph_name = $res_work['ph_name'];
         $auth_name_photo = $res_work['auth_name_photo'];

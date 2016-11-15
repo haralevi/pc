@@ -331,8 +331,8 @@ From: ' . $from_email . '
 
     public static function logVisits()
     {
-        #if (!Geo::$is_robot && !in_array(Auth::getIdAuth(), array(1, 24, 26))) {
-    	if (!in_array(Auth::getIdAuth(), array(1, 24, 26))) {
+        #if (!Geo::$is_robot && !strstr(Config::$request_uri, 'get_views.php') && !in_array(Auth::getIdAuth(), array(1, 24, 26))) {
+    	if (!strstr(Config::$request_uri, 'get_views.php') && !in_array(Auth::getIdAuth(), array(1, 24, 26))) {
             $log = date("d.m.Y H:i:s", Config::$cur_time + 3600) . "\t| ";
             if (Config::$remote_addr) $log .= Config::$remote_addr;
             if (strlen(Config::$remote_addr) < 14) $log .= "\t";
