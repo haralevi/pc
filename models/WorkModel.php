@@ -109,13 +109,13 @@ class WorkModel
 
                 $param_nav = '';
                 if (isset($params['all'])) {
-                    $param_nav .= '&amp;all=' . $params['all'];
+                    $param_nav .= '&all=' . $params['all'];
                 } else if (isset($params['special'])) {
-                    $param_nav .= '&amp;special=' . $params['special'];
+                    $param_nav .= '&special=' . $params['special'];
                 } else if (isset($params['popular'])) {
-                    $param_nav .= '&amp;popular=' . $params['popular'];
+                    $param_nav .= '&popular=' . $params['popular'];
                 } else if (isset($params['favorites'])) {
-                    $param_nav .= '&amp;favorites=' . $params['favorites'];
+                    $param_nav .= '&favorites=' . $params['favorites'];
                 } else if (isset($params['id_auth_photo'])) {
                     $param_nav .= '&id_auth_photo=' . $params['id_auth_photo'];
                 }
@@ -305,13 +305,13 @@ class WorkModel
 
 
             if (isset($params['all'])) {
-                $param_nav = '&amp;all=' . $params['all'];
+                $param_nav = '&all=' . $params['all'];
             } else if (isset($params['special'])) {
-                $param_nav = '&amp;special=' . $params['special'];
+                $param_nav = '&special=' . $params['special'];
             } else if (isset($params['popular'])) {
-                $param_nav = '&amp;popular=' . $params['popular'];
+                $param_nav = '&popular=' . $params['popular'];
             } else if (isset($params['favorites'])) {
-                $param_nav = '&amp;favorites=' . $params['favorites'];
+                $param_nav = '&favorites=' . $params['favorites'];
             } else if (isset($params['id_auth_photo'])) {
                 $param_nav = '&id_auth_photo=' . $params['id_auth_photo'];
             }

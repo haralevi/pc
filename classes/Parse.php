@@ -48,7 +48,6 @@ class Parse
             $tpl->clear('GO_BLK');
         $tpl_var = Parse::setGoogleVars($tpl_var);
 
-        $tpl_var['mobile_max_width'] = Consta::MOBILE_MAX_WIDTH;
         $tpl_var['id_auth'] = Auth::getIdAuth();
         $tpl_var['auth_premium_name_ga'] = Utils::getAuthPremiumName(Auth::getAuthPremium(), true);
         $tpl_var['auth_name'] = str_replace('"', '&quot;', Auth::getAuthName());

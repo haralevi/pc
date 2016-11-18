@@ -26,21 +26,23 @@ const app = {
                 }
                 else {
                     let pos = $mainImage.offset();
-                    let size = {w: $mainImage.width(), h: $mainImage.height()};
-                    let imgRatio = (size.w / parseInt($mainImage.data("phMainW")));
+                    let size = { w: $mainImage.width(), h: $mainImage.height() };
+                    let imgRatioW = size.w / parseInt($mainImage.data("phMainW"));
+                    let imgRatioH = size.h / parseInt($mainImage.data("phMainH"));
+
                     $('<div class="crop_overlay_dark"></div>').css({
                         left: pos.left + "px",
                         top: pos.top + "px",
                         width: +size.w + "px",
                         height: size.h + "px"
                     }).appendTo("body");
-                    $('<div class="crop_overlay_light" style="background: transparent url(' + $mainImage.attr("src") + ') no-repeat -' + Math.round(app.cropX * imgRatio) + 'px -' + Math.round(app.cropY * imgRatio) + 'px;"></div>')
-                        .css({
-                            left: (pos.left + Math.round(app.cropX * imgRatio)) + "px",
-                            top: (pos.top + Math.round(app.cropY * imgRatio)) + "px",
-                            width: +Math.round(app.cropW * imgRatio) + "px",
-                            height: Math.round(app.cropH * imgRatio) + "px"
-                        }).appendTo("body");
+
+                    $('<div class="crop_overlay_light" style="background: transparent url(' + $mainImage.attr("src") + ') no-repeat -' + (app.cropX * imgRatioW) + 'px -' + (app.cropY * imgRatioH) + 'px; background-size: ' + size.w + 'px ' + size.h +'px;"></div>').css({
+                        left: pos.left + (app.cropX * imgRatioW) + "px",
+                        top: pos.top + (app.cropY * imgRatioH) + "px",
+                        width: (app.cropW * imgRatioW) + "px",
+                        height: (app.cropH * imgRatioH) + "px"
+                    }).appendTo("body");
                 }
             }
             app.isCrop = !app.isCrop;

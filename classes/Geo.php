@@ -27,7 +27,7 @@ class Geo
         }
         return $instance;
     }
-
+    
     public static function setGeo()
     {
         if (!isset($_SESSION['CountryCode']) || !isset($_SESSION['Gmtoffset'])) {
@@ -114,8 +114,6 @@ class Geo
                                 Geo::$Gmtoffset += 0;
                             else
                                 Geo::$Gmtoffset += 3600;
-                        } else if (Geo::$CountryCode == 'UZ') {
-                            Geo::$Gmtoffset -= 3600;
                         }
                     }
                 }
@@ -200,7 +198,7 @@ class Geo
                 Geo::$is_robot = true; #$is_robot = false;
             } else if (false
                 || strstr(Config::$remote_addr, '5.9.83.211') || strstr(Config::$remote_addr, '5.9.151.67') #megaindex
-                || strstr(Config::$remote_addr, '5.79.68.55') #linkpad.ru
+                || strstr(Config::$remote_addr, '5.79.68.55') || strstr(Config::$remote_addr, '5.79.68.56') #linkpad.ru
                 || ($ip_long >= ip2long('5.143.224.1') && $ip_long <= ip2long('5.143.231.255')) #sputnik
                 || strstr(Config::$remote_addr, '64.79.85.205') #similartech
                 || ($ip_long >= ip2long('65.52.1.1') && $ip_long <= ip2long('65.55.254.255')) #bing

@@ -21,15 +21,15 @@ class PagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty(Pager::getHrefPrev(0));
         $this->assertEmpty(Pager::getHrefPrev(1));
         $this->assertEmpty(Pager::getHrefPrev(2));
-        $this->assertEquals('&amp;page=2', Pager::getHrefPrev(3));
+        $this->assertEquals('&page=2', Pager::getHrefPrev(3));
     }
 
     public function testGetHrefNext()
     {
         $this->assertEmpty(Pager::getHrefNext(0));
-        $this->assertEquals('&amp;page=2', Pager::getHrefNext(1));
-        $this->assertEquals('&amp;page=3', Pager::getHrefNext(2));
-        $this->assertEquals('&amp;page=4', Pager::getHrefNext(3));
+        $this->assertEquals('&page=2', Pager::getHrefNext(1));
+        $this->assertEquals('&page=3', Pager::getHrefNext(2));
+        $this->assertEquals('&page=4', Pager::getHrefNext(3));
     }
 
     protected function tearDown()

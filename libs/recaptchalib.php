@@ -117,12 +117,12 @@ function recaptcha_get_html ($pubkey, $error = null, $use_ssl = false)
 
 	$errorpart = "";
 	if ($error) {
-		$errorpart = "&amp;error=" . $error;
+		$errorpart = "&error=" . $error;
 	}
-	return '<script type="text/javascript" src="'. $server . '/challenge?k=' . $pubkey . $errorpart . '&amp;lang=ru"></script>
+	return '<script type="text/javascript" src="'. $server . '/challenge?k=' . $pubkey . $errorpart . '&lang=ru"></script>
 
 	<noscript>
-  		<iframe src="'. $server . '/noscript?k=' . $pubkey . $errorpart . '&amp;lang=ru" height="300" width="500" frameborder="0"></iframe><br/>
+  		<iframe src="'. $server . '/noscript?k=' . $pubkey . $errorpart . '&lang=ru" height="300" width="500" frameborder="0"></iframe><br/>
   		<textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
   		<input type="hidden" name="recaptcha_response_field" value="manual_challenge"/>
 	</noscript>';

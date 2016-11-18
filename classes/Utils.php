@@ -234,7 +234,7 @@ From: ' . $from_email . '
                         if (strpos($inner_text, 'https://vimeo.com/') === 0 || strpos($inner_text, 'http://vimeo.com/') === 0) {
                             preg_match('/https?:\/\/vimeo.com\/(\d+)/', $inner_text, $m);
                             if (sizeof($m) == 2)
-                                $replacement = '<iframe style="max-width:100%;" width="500" height="281" src="http://player.vimeo.com/video/' . $m[1] . '?title=0&amp;byline=0&amp;portrait=0" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
+                                $replacement = '<iframe style="max-width:100%;" width="500" height="281" src="http://player.vimeo.com/video/' . $m[1] . '?title=0&byline=0&portrait=0" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
                             else $replacement = $inner_text;
                         } else $replacement = $inner_text;
                         break;
@@ -307,11 +307,10 @@ From: ' . $from_email . '
         $url = str_replace('&amp;', '&', $url);
         $url = preg_replace('/(.*)(\?|&)' . $key . '=[^&]+?(&)(.*)/i', '$1$2$4', $url . '&');
         $url = substr($url, 0, -1);
-        $url = str_replace('&', '&amp;', $url);
         if (!$hash) {
             if (strpos($url, '?') === false) return $url . '?' . $key . '=' . $value;
-            else return $url . '&amp;' . $key . '=' . $value;
-        } else return $url . '&amp;' . $key . '=' . $value;
+            else return $url . '&' . $key . '=' . $value;
+        } else return $url . '&' . $key . '=' . $value;
     }
 
     public static function removeParam($url, $key)
@@ -319,7 +318,6 @@ From: ' . $from_email . '
         $url = str_replace('&amp;', '&', $url);
         $url = preg_replace('/(.*)(\?|&)' . $key . '=[^&]+?(&)(.*)/i', '$1$2$4', $url . '&');
         $url = substr($url, 0, -1);
-        $url = str_replace('&', '&amp;', $url);
         return $url;
     }
 
@@ -394,7 +392,7 @@ From: ' . $from_email . '
         else $idAttr = '';
         $altAttr = '';
 
-        $work_img = '<img ' . $idAttr . ' src="' . $srcAttr . '" class="' . $classAttr . '" ' . $dataIsAllowedNude . ' data-id-auth-photo="' . $id_auth_photo . '" data-id-photo="' . $id_photo . '" data-ph-main-w="' . $ph_main_w . '" data-ph-main-h="' . $ph_main_h . '" data-ph-path="' . $ph_path . '" style="' . $styleAttr . '" alt="' . $altAttr . '">';
+        $work_img = '<img ' . $idAttr . ' src="' . $srcAttr . '" class="' . $classAttr . '" ' . $dataIsAllowedNude . ' data-id-auth-photo="' . $id_auth_photo . '" data-id-photo="' . $id_photo . '" data-ph-main-w="' . $ph_main_w . '" data-ph-main-h="' . $ph_main_h . '" data-ph-path="' . $ph_path . '" style="' . $styleAttr . '" alt="' . $altAttr . '" itemprop="contentUrl">';
         $work_img = str_replace(array(' class=""', ' style=""'), '', $work_img);
         $work_img .= '<img id="mobileImage" src="' . Config::$ImgPath . '1.gif" style="display :none; width: 0; height 0;">';
         return str_replace('  ', ' ', $work_img);

@@ -61,25 +61,25 @@ class IndexController extends Controller
             $title = Localizer::$loc['all_works_loc'];
             $port_seo_title = Localizer::$loc['all_works_loc'];
             $page_type = 'all';
-            $param_nav = '&amp;all=1';
+            $param_nav = '&all=1';
         } else if ($special) {
             $params['special'] = 1;
             $title = Localizer::$loc['special_works_loc'];
             $port_seo_title = Localizer::$loc['special_works_loc'];
             $page_type = 'special';
-            $param_nav = '&amp;special=1';
+            $param_nav = '&special=1';
         } else if ($popular) {
             $params['popular'] = 1;
             $title = Localizer::$loc['popular_loc'];
             $port_seo_title = Localizer::$loc['popular_loc'];
             $page_type = 'popular';
-            $param_nav = '&amp;popular=1';
+            $param_nav = '&popular=1';
         } else if ($favorites) {
             $params['favorites'] = 1;
             $title = Localizer::$loc['fav_auth_works_loc'];
             $port_seo_title = Localizer::$loc['fav_auth_works_loc'];
             $page_type = 'favorites';
-            $param_nav = '&amp;favorites=1';
+            $param_nav = '&favorites=1';
         } else {
             $title = Localizer::$loc['recomm_works_loc'];
             $port_seo_title = Localizer::$loc['recomm_works_loc'];
@@ -90,7 +90,7 @@ class IndexController extends Controller
         $res_works = WorkModel::getWorks($params, $page);
         if (!sizeof($res_works)) {
             if ($param_nav != '')
-                $param_nav = '?' . str_replace('&amp;', '&', $param_nav);
+                $param_nav = '?' . $param_nav;
             if (!IndexController::$isJson)
                 header('Location: ' . Config::$home_url . $param_nav);
             else
@@ -106,17 +106,17 @@ class IndexController extends Controller
         $hrefPrev = 'index.php?';
         $hrefNext = 'index.php?';
         if ($all) {
-            $hrefPrev .= '&amp;all=1';
-            $hrefNext .= '&amp;all=1';
+            $hrefPrev .= '&all=1';
+            $hrefNext .= '&all=1';
         } else if ($special) {
-            $hrefPrev .= '&amp;special=1';
-            $hrefNext .= '&amp;special=1';
+            $hrefPrev .= '&special=1';
+            $hrefNext .= '&special=1';
         } else if ($popular) {
-            $hrefPrev .= '&amp;popular=1';
-            $hrefNext .= '&amp;popular=1';
+            $hrefPrev .= '&popular=1';
+            $hrefNext .= '&popular=1';
         } else if ($favorites) {
-            $hrefPrev .= '&amp;favorites=1';
-            $hrefNext .= '&amp;favorites=1';
+            $hrefPrev .= '&favorites=1';
+            $hrefNext .= '&favorites=1';
         }
         $hrefPrev .= Pager::getHrefPrev($page);
         $hrefNext .= Pager::getHrefNext($page);

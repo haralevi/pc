@@ -30,7 +30,7 @@ class Pager
         if ($page <= 1)
             return '';
         else
-            return '&amp;page=' . $page;
+            return '&page=' . $page;
     }
 
     public static function getHrefNext($page = 1)
@@ -39,7 +39,7 @@ class Pager
         if ($page <= 1)
             return '';
         else
-            return '&amp;page=' . $page;
+            return '&page=' . $page;
     }
 
     public static function getCanonicalPageIndex ($page) {

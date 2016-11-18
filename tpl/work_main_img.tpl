@@ -25,9 +25,11 @@
             </td>
             <td class="commTextTd">
                 <div class="commText">
-                    {auth_name_str}<br>
-                    <b>{ph_name}</b><br>
-                    {ph_comm}
+                    <span itemprop="author">{auth_name_str}</span>
+                    <br>
+                    <span style="font-weight: 700;" itemprop="name">{ph_name}</span>
+                    <br>
+                    <span itemprop="description">{ph_comm}</span>
                 </div>
             </td>
         </tr>

@@ -489,8 +489,9 @@ $share-icons-bg: transparent url(def/share_icons.png);
 
 .crop_overlay_dark {
     position: absolute;
-    opacity: 0.9;
-    background: #000;
+    opacity: .85;
+    filter: alpha(opacity=85);
+    background-color: #000;
 }
 
 .crop_overlay_light {

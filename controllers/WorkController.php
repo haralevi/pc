@@ -55,23 +55,23 @@ class WorkController extends Controller
         if ($all) {
             $params['all'] = 1;
             $page_type = 'all';
-            $param_nav = '&amp;all=1';
+            $param_nav = '&all=1';
         } else if ($special) {
             $params['special'] = 1;
             $page_type = 'special';
-            $param_nav = '&amp;special=1';
+            $param_nav = '&special=1';
         } else if ($popular) {
             $params['popular'] = 1;
             $page_type = 'popular';
-            $param_nav = '&amp;popular=1';
+            $param_nav = '&popular=1';
         } else if ($favorites) {
             $params['favorites'] = 1;
             $page_type = 'favorites';
-            $param_nav = '&amp;favorites=1';
+            $param_nav = '&favorites=1';
         } else if ($id_auth_photo) {
             $params['id_auth_photo'] = $id_auth_photo;
             $page_type = 'id_auth_photo';
-            $param_nav = '&amp;id_auth_photo=' . $id_auth_photo;
+            $param_nav = '&id_auth_photo=' . $id_auth_photo;
         }
         else {
             $page_type = '';
@@ -80,8 +80,10 @@ class WorkController extends Controller
 
         $res_work = WorkModel::getWork($id_photo, $params, $prev, $next);
         if (!sizeof($res_work)) {
-            if ($param_nav != '')
-                $param_nav = '?' . str_replace('&amp;', '&', $param_nav);
+            if (strstr($param_nav, 'id_auth_photo'))
+                $param_nav = 'author.php?' . str_replace(array('id_auth_photo='), array('id_auth='), $param_nav);
+            else if ($param_nav != '')
+                $param_nav = '?' . $param_nav;
             if (!WorkController::$isJson)
                 header('Location: ' . Config::$home_url . $param_nav);
             else
@@ -148,9 +150,9 @@ class WorkController extends Controller
         $param_nav_prev = '';
         $param_nav_next = '';
         if ($id_photo_prev == $id_photo)
-            $param_nav_prev = '&amp;prev=1';
+            $param_nav_prev = '&prev=1';
         if ($id_photo_next == $id_photo)
-            $param_nav_next = '&amp;next=1';
+            $param_nav_next = '&next=1';
 
         if (Config::$domainEnd == 'by') {
             $hrefPrev = Config::$home_url . 'work.php?id_photo=' . $id_photo_prev . $param_nav . $param_nav_prev;

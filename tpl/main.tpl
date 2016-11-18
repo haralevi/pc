@@ -21,13 +21,8 @@
     <meta property="og:description" content="{port_seo_desc}"/>
     <link rel="canonical" href="{canonical_url}">
     <link href="{css_url}css.{css_type}css?v={css_ver}" rel="stylesheet" type="text/css">
-    <link href="//fonts.googleapis.com/css?family=Open+Sans&amp;subset=latin,cyrillic" rel="stylesheet" type="text/css">
-    <link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:700,300&amp;subset=latin,cyrillic' rel='stylesheet' type='text/css'>
-    <style type="text/css">
-        .wrapContent {
-            max-width: {mobile_max_width}px;
-        }
-    </style>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans&subset=latin,cyrillic" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:700,300&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 </head>
 <body>
 
