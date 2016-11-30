@@ -224,7 +224,7 @@ class WorkController extends Controller
             $json .= '"canonicalUrl": "' . WorkController::getCanonicalUrl($work['id_photo']) . '", ';
             $json .= '"hrefPrev": "' . Utils::prepareJson($work['hrefPrev']) . '", ';
             $json .= '"hrefNext": "' . Utils::prepareJson($work['hrefNext']) . '", ';
-            $json .= '"title": "' . Utils::prepareJson($work['ph_name'] . ' / ' . $work['auth_name_photo']) . '", ';
+            $json .= '"title": "' . Utils::prepareJson(str_replace('&quot;', '"', $work['ph_name']) . ' / ' . $work['auth_name_photo']) . '", ';
             $json .= '"ajaxBody": "' . Utils::prepareJson($work['work'] . '<div class="wrapContent">' . $work['comments']) . '</div>" ';
         }
         $json .= '}';

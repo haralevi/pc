@@ -189,7 +189,7 @@ class Config
                     return false;
                 }
             } else if (isset($_COOKIE['lang'])) {
-                if (Config::$domainEnd == $_COOKIE['lang'] || (Config::$domainEnd == 'com' && $_COOKIE['lang'] == 'en')) Config::$lang = $_COOKIE['lang'];
+                if (Config::$domainEnd == $_COOKIE['lang'] || (Config::$domainEnd == 'com' && $_COOKIE['lang'] == 'en')) Config::$lang = Utils::cleanRequestSimple($_COOKIE['lang']);
                 else {
                     if (Config::$domainEnd == 'ru') Config::$lang = 'ru';
                     else if (Config::$domainEnd == 'by') Config::$lang = 'ru';

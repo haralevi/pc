@@ -115,6 +115,9 @@ class Geo
                             else
                                 Geo::$Gmtoffset += 3600;
                         }
+                        else if(Geo::$CountryCode == 'LV') {
+                            Geo::$Gmtoffset -= 3600;
+                        }
                     }
                 }
             }
@@ -197,7 +200,6 @@ class Geo
             ) {
                 Geo::$is_robot = true; #$is_robot = false;
             } else if (false
-                || strstr(Config::$remote_addr, '5.9.83.211') || strstr(Config::$remote_addr, '5.9.151.67') #megaindex
                 || strstr(Config::$remote_addr, '5.79.68.55') || strstr(Config::$remote_addr, '5.79.68.56') #linkpad.ru
                 || ($ip_long >= ip2long('5.143.224.1') && $ip_long <= ip2long('5.143.231.255')) #sputnik
                 || strstr(Config::$remote_addr, '64.79.85.205') #similartech
@@ -213,11 +215,9 @@ class Geo
                 || ($ip_long >= ip2long('109.207.13.19') && $ip_long <= ip2long('109.207.13.51')) #e-government
                 || ($ip_long >= ip2long('131.253.32.0') && $ip_long <= ip2long('131.253.47.255')) #bing
                 || strstr(Config::$remote_addr, '134.17.31.249') #BLEXBot
-                || strstr(Config::$remote_addr, '144.76.15.235') || strstr(Config::$remote_addr, '144.76.27.118') #megaindex
                 || strstr(Config::$remote_addr, '144.76.63.12') #ingots.ru
                 || ($ip_long >= ip2long('157.55.16.23') && $ip_long <= ip2long('157.59.255.255')) #msn
                 || ($ip_long >= ip2long('188.72.80.204') && $ip_long <= ip2long('188.72.80.220')) #sape
-                || ($ip_long >= ip2long('192.243.55.1') && $ip_long <= ip2long('192.243.55.255')) #semrush
                 || ($ip_long >= ip2long('193.232.121.204') && $ip_long <= ip2long('193.232.121.220')) #sape
                 || ($ip_long >= ip2long('199.16.156.1') && $ip_long <= ip2long('199.16.159.254')) #twitter
                 || ($ip_long >= ip2long('199.30.16.1') && $ip_long <= ip2long('199.30.31.255')) #msn
@@ -241,6 +241,8 @@ class Geo
                 || strstr(Config::$http_user_agent, 'bingbot')
                 || strstr(Config::$http_user_agent, 'MJ12bot')
                 || strstr(Config::$http_user_agent, 'AhrefsBot')
+                || strstr(Config::$http_user_agent, 'semrush.com')
+                || strstr(Config::$http_user_agent, 'megaindex')
             ) {
                 Geo::$is_robot = true;
             }

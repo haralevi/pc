@@ -13,132 +13,134 @@ $body-color-hover: #fff;
 $body-color-contrast: #fff;
 
 body {
-    font-family: $font-main;
-    font-size: 14px;
-    line-height: 20px;
+  font-family: $font-main;
+  font-size: 14px;
+  line-height: 20px;
 
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 
-    color: $body-color;
-    background-color: $body-bgcolor;
+  color: $body-color;
+  background-color: $body-bgcolor;
 }
 
 .modal_window {
-    position: absolute;
-    z-index: 1000;
-    display: none;
+  position: absolute;
+  z-index: 1000;
+  display: none;
 }
 
 * html li li {
-    display: inline;
+  display: inline;
 }
 
 #ajax_overlay {
-    position: absolute;
-    min-height: 60px;
-    /*opacity: 0.2;*/
+  position: absolute;
+  min-height: 60px;
+  /*opacity: 0.2;*/
 }
 
 .loader {
-    background: transparent url(trans_loader.gif) no-repeat 50% 30px;
+  background: transparent url(trans_loader.gif) no-repeat 50% 30px;
 }
 
 /********************************************/
 $content-width: 400px; /* will be always redefined in page header */
 
 .wrapContent {
-    max-width: $content-width; 
-    margin: 0 auto;
+  max-width: $content-width;
+  margin: 0 auto;
 }
 
 .wrapContentImg {
-    max-width: 100%;
-    margin: 0 auto;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 #ajaxBody img {
-    max-width: 100%;
+  max-width: 100%;
 }
 
 #mainImage {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
 }
 
 .imgWrap {
-    position: relative;
-    padding: 0;
+  position: relative;
+  padding: 0;
 }
 
 .imgMetrics {
-    white-space: nowrap;
-    padding: 0 6px;
-    margin-bottom: 10px;
-    height: 36px;
-    line-height: 34px;
-    font-size: 16px;
-    font-family: Open Sans Condensed, serif;
-    text-align: left;
-    background-color: #060606;
-    border-bottom-right-radius: 6px;
-    border-bottom-left-radius: 6px;
+  white-space: nowrap;
+  padding: 0 6px;
+  margin-bottom: 10px;
+  height: 36px;
+  line-height: 34px;
+  font-size: 16px;
+  font-family: Open Sans Condensed, serif;
+  text-align: left;
+  background-color: #060606;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
 }
 
 .nudePreview {
-    background: #303030 url(black/nu.png) no-repeat 50% 50%;
+  background: #303030 url(black/nu.png) no-repeat 50% 50%;
 }
 
 .nudePreviewThumb {
-    background: #303030 url(black/nu_thumb.png) no-repeat 50% 50%;
+  background: #303030 url(black/nu_thumb.png) no-repeat 50% 50%;
 }
+
 /********************************************/
 
 /********************************************/
 
 @mixin gradient($from, $to) {
-    background: -webkit-gradient(linear, left top, left bottom, from($from), to($to));
-    background: -moz-linear-gradient(top, $from, $to);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$from', endColorstr='$to');
+  background: -webkit-gradient(linear, left top, left bottom, from($from), to($to));
+  background: -moz-linear-gradient(top, $from, $to);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$from', endColorstr='$to');
 }
 
 $blur-radius: 5px;
 
 @mixin blur($radius) {
-    -webkit-filter: blur($radius);
-    -moz-filter: blur($radius);
-    -ms-filter: blur($radius);
-    -o-filter: blur($radius);
-    filter: blur($radius);
+  -webkit-filter: blur($radius);
+  -moz-filter: blur($radius);
+  -ms-filter: blur($radius);
+  -o-filter: blur($radius);
+  filter: blur($radius);
 }
 
 @mixin grayscale($procent) {
-    -webkit-filter: grayscale($procent);
-    -moz-filter: grayscale($procent);
-    -ms-filter: grayscale($procent);
-    -o-filter: grayscale($procent);
-    filter: grayscale($procent);
+  -webkit-filter: grayscale($procent);
+  -moz-filter: grayscale($procent);
+  -ms-filter: grayscale($procent);
+  -o-filter: grayscale($procent);
+  filter: grayscale($procent);
 }
 
 @mixin grayscale-blur($radius, $procent) {
-    -webkit-filter: blur($radius) grayscale($procent);
-    -moz-filter: blur($radius) grayscale($procent);
-    -ms-filter: blur($radius) grayscale($procent);
-    -o-filter: blur($radius) grayscale($procent);
-    filter: blur($radius) grayscale($procent);
+  -webkit-filter: blur($radius) grayscale($procent);
+  -moz-filter: blur($radius) grayscale($procent);
+  -ms-filter: blur($radius) grayscale($procent);
+  -o-filter: blur($radius) grayscale($procent);
+  filter: blur($radius) grayscale($procent);
 }
 
 .blur {
-    @include blur($blur-radius);
+  @include blur($blur-radius);
 }
 
 .grayscale {
-    @include grayscale(100%);
+  @include grayscale(100%);
 }
 
 .grayscale_blur {
-    @include grayscale-blur(5px, 100%);
+  @include grayscale-blur(5px, 100%);
 }
+
 /********************************************/
 
 /********************************************/
@@ -147,28 +149,29 @@ input[type='text'],
 input[type='submit'],
 input[type='password'],
 textarea {
-    font-family: $font-main;
-    font-size: 13px;
-    padding: 0 6px;
-    height: 23px;
-    color: #222;
-    border: 1px solid rgba(34, 34, 34, .4);
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    background: #cdcdcd;
-    box-shadow: none;
+  font-family: $font-main;
+  font-size: 13px;
+  padding: 0 6px;
+  height: 23px;
+  color: #222;
+  border: 1px solid rgba(34, 34, 34, .4);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #cdcdcd;
+  box-shadow: none;
 }
 
 input[type='text']:focus,
 input[type='password']:focus,
 textarea:focus {
-    border-color: rgba(82, 168, 236, .75);
-    outline: none medium;
-    -webkit-box-shadow: 0 0 8px rgba(82, 168, 236, .4);
-    -moz-box-shadow: 0 0 8px rgba(82, 168, 236, .4);
-    box-shadow: 0 0 8px rgba(82, 168, 236, .4);
+  border-color: rgba(82, 168, 236, .75);
+  outline: none medium;
+  -webkit-box-shadow: 0 0 8px rgba(82, 168, 236, .4);
+  -moz-box-shadow: 0 0 8px rgba(82, 168, 236, .4);
+  box-shadow: 0 0 8px rgba(82, 168, 236, .4);
 }
+
 /********************************************/
 
 /********************************************/
@@ -179,485 +182,505 @@ $selection-color: #fff;
 $selection-bgcolor-focus: #FFAB91;
 
 a {
-    text-decoration: none;
-    color: $a-color;
+  text-decoration: none;
+  color: $a-color;
 }
 
 a:hover, a:focus {
-    color: $a-color-hover;
+  color: $a-color-hover;
 }
 
 ::selection {
-    color: $selection-color;
-    background: $selection-bgcolor-focus;
+  color: $selection-color;
+  background: $selection-bgcolor-focus;
 }
 
 ::-moz-selection {
-    color: $selection-color;
-    background: $selection-bgcolor-focus;
+  color: $selection-color;
+  background: $selection-bgcolor-focus;
 }
 
 @mixin rounded($radius) {
-    -webkit-border-radius: $radius;
-    -moz-border-radius: $radius;
-    border-radius: $radius;
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  border-radius: $radius;
 }
 
 .img-rounded {
-    @include rounded(6px)   
+  @include rounded(4px)
 }
+
 /********************************************/
 
 /********************************************/
 .unsubscribe {
-    background: #00aced;
+  background: #00aced;
 }
 
 .title {
-    padding-bottom: 3px;
+  padding-bottom: 3px;
 }
 
 .title a {
-    padding: 0 6px;
-    display: block;
-    color: $body-color;
-    font: normal 16px/36px $font-title
+  padding: 0 6px;
+  display: block;
+  color: $body-color;
+  font: normal 16px/36px $font-title
 }
 
 .title a:hover, .title a:active, .title a:focus {
-    color: $body-color-hover;
+  color: $body-color-hover;
 }
 
 .header {
-    width: 100%;
-    min-height: 47px;
-    background: #000;
+  width: 100%;
+  min-height: 47px;
+  background: #000;
 }
 
 .logo {
-    float: left;
-    width: 170px;
-    height: 47px;
+  float: left;
+  width: 170px;
+  height: 47px;
 }
 
 .logo img {
-    max-width: 100%;
+  max-width: 100%;
 }
 
 .footer {
-    width: 100%;
-    min-height: 47px;
-    background: #000;
+  width: 100%;
+  min-height: 47px;
+  background: #000;
 }
 
 .footerLnk {
-    font: normal 16px/47px $font-title;
-    height: 47px;
-    float: left;
-    display: block;
-    padding: 0 10px;
-    border-left: 1px solid #111;
-    border-right: 1px solid #111;
+  font: normal 16px/47px $font-title;
+  height: 47px;
+  float: left;
+  display: block;
+  padding: 0 10px;
+  border-left: 1px solid #111;
+  border-right: 1px solid #111;
 }
+
 /********************************************/
 
 /********************************************/
 .menuItem {
-    cursor: pointer;
-    display: block;
-    float: right;
-    text-align: center;
-    width: 47px;
-    height: 47px;
-    line-height: 47px;
-    border-left: 1px solid #111;
+  cursor: pointer;
+  display: block;
+  float: right;
+  text-align: center;
+  width: 47px;
+  height: 47px;
+  line-height: 47px;
+  border-left: 1px solid #111;
 }
 
 .icon_bar {
-    display: block;
-    width: 25px;
-    height: 3px;
-    margin: 4px 0 4px 12px;
-    -webkit-border-radius: 1px;
-    -moz-border-radius: 1px;
-    border-radius: 1px;
-    background-color: $body-color-contrast;
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 4px 0 4px 12px;
+  -webkit-border-radius: 1px;
+  -moz-border-radius: 1px;
+  border-radius: 1px;
+  background-color: $body-color-contrast;
 }
 
 #submenu {
-    background: #000;
+  background: #000;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
 }
 
 .submenuItem {
-    font: normal 16px/47px $font-title;
-    height: 47px;
-    display: block;
-    padding-right: 10px;
-    text-align: right;
-    color: $body-color;
-    border-bottom: 1px solid #111;
+  font: normal 16px/47px $font-title;
+  height: 47px;
+  display: block;
+  padding-right: 10px;
+  text-align: right;
+  color: $body-color;
+  border-bottom: 1px solid #111;
 }
 
 .submenuItem:hover, .submenuItem:active, .submenuItem:focus {
-    color: $body-color-hover;
+  color: $body-color-hover;
 }
 
 .actMenuItem {
-    color: $body-color-hover;
+  color: $body-color-hover;
 }
-/********************************************/
 
 /********************************************/
 
-@mixin btn-box-shadow () {
-    -webkit-box-shadow: inset 1px 1px 3px rgba(0, 0, 0, .5);
-    -moz-box-shadow: inset 1px 1px 3px rgba(0, 0, 0, .5);
-    box-shadow: inset 1px 1px 3px rgba(0, 0, 0, .5);
+/********************************************/
+
+@mixin btn-box-shadow() {
+  -webkit-box-shadow: inset 1px 1px 3px rgba(0, 0, 0, .5);
+  -moz-box-shadow: inset 1px 1px 3px rgba(0, 0, 0, .5);
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, .5);
 }
 
 @mixin btn-text-shadow($size) {
-    text-shadow: -1px -1px 0 rgba(0, 0, 0, $size);
+  text-shadow: -1px -1px 0 rgba(0, 0, 0, $size);
 }
 
 $btn-color: #fff;
 
 .btn {
-    font: 700 12px/22px $font-title;
-    display: inline-block;
+  font: 700 12px/22px $font-title;
+  display: inline-block;
 
-    height: 22px;
-    padding: 0 10px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
+  height: 22px;
+  padding: 0 10px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
 
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
-    border-radius: 2px;
-    outline: 0;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  outline: 0;
 }
 
 .saveBtn {
-    @extend .btn;
-    color: $btn-color;
-    border: solid 1px #445f7f;
-    background: #5e84ae;
-    @include btn-text-shadow(.3);
-    @include gradient(#80a6d0, #5e84ae);
+  @extend .btn;
+  color: $btn-color;
+  border: solid 1px #445f7f;
+  background: #5e84ae;
+  @include btn-text-shadow(.3);
+  @include gradient(#80a6d0, #5e84ae);
 }
 
 .saveBtn:hover {
-    color: $btn-color;
-    background: #6791bf;
-    @include gradient(#739dcb, #6791bf);
+  color: $btn-color;
+  background: #6791bf;
+  @include gradient(#739dcb, #6791bf);
 }
 
-.saveBtn:active,.saveBtn:focus {
-    color: $btn-color;
-    background: #618bb9;
-    @include btn-box-shadow();
-    @include gradient(#537dab, #618bb9);
+.saveBtn:active, .saveBtn:focus {
+  color: $btn-color;
+  background: #618bb9;
+  @include btn-box-shadow();
+  @include gradient(#537dab, #618bb9);
 }
 
 .unfollowBtn, .undoBtn {
-    @extend .btn;
-    color: $btn-color;
-    border: solid 1px #962727;
-    background: #cd3c3c;
-    @include btn-text-shadow(.3);
-    @include gradient(#d96a6a, #cd3c3c);
+  @extend .btn;
+  color: $btn-color;
+  border: solid 1px #962727;
+  background: #cd3c3c;
+  @include btn-text-shadow(.3);
+  @include gradient(#d96a6a, #cd3c3c);
 }
 
 .unfollowBtn:hover, .undoBtn:hover {
-    color: $btn-color;
-    border: solid 1px #962727;
-    background: #d96a6a;
-    @include btn-text-shadow(.3);
-    @include gradient(#d96a6a, #d96a6a);
+  color: $btn-color;
+  border: solid 1px #962727;
+  background: #d96a6a;
+  @include btn-text-shadow(.3);
+  @include gradient(#d96a6a, #d96a6a);
 }
 
 .unfollowBtn:active, .undoBtn:active, .unfollowBtn:focus, .undoBtn:focus {
-    color: $btn-color;
-    border: solid 1px #962727;
-    background: #d96a6a;
-    @include btn-text-shadow(.3);
-    @include gradient(#cd3c3c, #d96a6a);
+  color: $btn-color;
+  border: solid 1px #962727;
+  background: #d96a6a;
+  @include btn-text-shadow(.3);
+  @include gradient(#cd3c3c, #d96a6a);
 }
 
 #homeAlbumBtn {
-    width: 51px;
-    height: 24px;
-    border: none;
-    padding: 0;
+  width: 51px;
+  height: 24px;
+  border: none;
+  padding: 0;
 }
 
 #fineartBtn {
-    background: #e6e6e6;
-    color: #757575;
-    height: 24px;
-    line-height: 24px;
-    font-weight: 700;
-    border: none;
-    text-shadow: none;
+  background: #e6e6e6;
+  color: #757575;
+  height: 24px;
+  line-height: 24px;
+  font-weight: 700;
+  border: none;
+  text-shadow: none;
 }
 
 #portfolioLnk {
-    background: #e6e6e6;
-    color: #757575;
-    height: 24px;
-    line-height: 24px;
-    font-weight: 700;
-    border: 1px solid #757575;
-    text-shadow: none;
+  background: #e6e6e6;
+  color: #757575;
+  height: 24px;
+  line-height: 24px;
+  font-weight: 700;
+  border: 1px solid #757575;
+  text-shadow: none;
+}
+
+.auth_avatar {
+  max-width: 100px;
+  max-height: 100px;
 }
 
 .authBadge {
-    position: absolute;
-    left: 0;
-    bottom: 0;
+  position: absolute;
+  left: 0;
+  bottom: 0;
 }
 
 .footer a {
-    color: $body-color;
+  color: $body-color;
 }
 
 .footer a:hover, .footer a:active, .footer a:focus {
-    color: $body-color-hover;
+  color: $body-color-hover;
 }
+
 /********************************************/
 
 /********************************************/
 #social_links {
-    position: fixed;
-    z-index: 1000;
-    top: 10px;
-    right: 5px;
+  position: fixed;
+  z-index: 1000;
+  top: 10px;
+  right: 5px;
 }
 
 #social_links a {
-    display: block;
-    margin-right: 5px;
+  display: block;
+  margin-right: 5px;
 }
 
 $share-icons-bg: transparent url(def/share_icons.png);
 
 .vk, .vk:hover, .vk:active, .vk:focus {
-    background-color: #5f83aa;
+  background-color: #5f83aa;
 }
 
 .vk .icon {
-    background: $share-icons-bg -199px -4px no-repeat;
+  background: $share-icons-bg -199px -4px no-repeat;
 }
 
 .facebook, .facebook:hover, .facebook:active, .facebook:focus {
-    background-color: #435eac;
+  background-color: #435eac;
 }
 
 .facebook .icon {
-    background: $share-icons-bg -3px -5px no-repeat;
+  background: $share-icons-bg -3px -5px no-repeat;
 }
 
 .twitter, .twitter:hover, .twitter:active, .twitter:focus {
-    background-color: #00aced;
+  background-color: #00aced;
 }
 
 .twitter .icon {
-    background: $share-icons-bg -172px -4px no-repeat;
+  background: $share-icons-bg -172px -4px no-repeat;
 }
 
 .google, .google:hover, .google:active, .google:focus {
-    background-color: #d64a2d;
+  background-color: #d64a2d;
 }
 
 .google .icon {
-    background: $share-icons-bg -36px -4px no-repeat;
+  background: $share-icons-bg -36px -4px no-repeat;
 }
 
 .pinterest, .pinterest:hover, .pinterest:active, .pinterest:focus {
-    background-color: #cc2127;
+  background-color: #cc2127;
 }
 
 .pinterest .icon {
-    background: $share-icons-bg -105px -5px no-repeat;
+  background: $share-icons-bg -105px -5px no-repeat;
 }
+
 /********************************************/
 
 /********************************************/
 .cropIcon {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .crop_overlay_dark {
-    position: absolute;
-    opacity: .85;
-    filter: alpha(opacity=85);
-    background-color: #000;
+  position: absolute;
+  opacity: .90;
+  filter: alpha(opacity=90);
+  background-color: #000;
 }
 
 .crop_overlay_light {
-    position: absolute;
+  position: absolute;
 }
+
 /********************************************/
 
 /********************************************/
 #debug {
-    font-size: 10px;
-    line-height: 16px;
+  font-size: 10px;
+  line-height: 16px;
 
-    clear: both;
+  clear: both;
 
-    padding: 0 6px;
+  padding: 0 6px;
 
-    color: #666;
-    border-top: 1px solid #111;
+  color: #666;
+  border-top: 1px solid #111;
 }
 
 .msg {
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
 
-    display: none;
+  display: none;
 
-    width: 100%;
-    margin: 0;
-    padding: 4px;
-    text-align: center;
+  width: 100%;
+  margin: 0;
+  padding: 4px;
+  text-align: center;
 
-    color: $body-color-contrast;
+  color: $body-color-contrast;
 }
 
 .okMsg {
-    background: #57a957;
+  background: #57a957;
 }
 
 .errMsg {
-    background: #c43c35;
+  background: #c43c35;
 }
+
 /********************************************/
 
 /********************************************/
 #pagerTop a, #pagerBottom a {
-    display: block;
-    width: 50%;
-    max-width: 200px;
-    text-align: center;
-    font-size: 20px;
-    line-height: 50px;
-    font-weight: 700;
+  display: block;
+  width: 50%;
+  max-width: 200px;
+  text-align: center;
+  font-size: 20px;
+  line-height: 50px;
+  font-weight: 700;
 }
 
 .prevNext {
-    float: right;
-    width: 98px;
+  float: right;
+  width: 98px;
 }
 
 $nav-bg: #000 url(trans_nav.png);
 
 .nextLnk {
-    background: $nav-bg no-repeat -283px 50%;
+  background: $nav-bg no-repeat -283px 50%;
 }
 
 .prevLnk {
-    background: $nav-bg no-repeat 15px 50%
+  background: $nav-bg no-repeat 15px 50%
 }
+
 /********************************************/
 
 /********************************************/
 .commAuth {
-    vertical-align: top;
-    padding: 7px 0 0 6px;
+  vertical-align: top;
+  padding: 7px 0 0 6px;
 }
 
 .commAuth a {
-    display: block;
-    width: 31px;
+  display: block;
+  width: 31px;
 }
 
 .commAuth img {
-    width: 31px;
-    height: 31px;
+  width: 31px;
+  height: 31px;
 }
 
 .comments a {
-    width: 50px;
+  width: 50px;
 }
 
 .comments img {
-    width: 50px;
-    height: auto;
+  width: 50px;
+  height: auto;
 }
 
+$commText-w: 320px;
+
 .commTextTd {
-    padding: 0 6px 16px 10px;
-    vertical-align: top;
+  vertical-align: top;
+  padding: 0 6px 16px 10px;
+  max-width: $commText-w - 16px;
+  word-wrap: break-word;
 }
 
 .commText {
-    max-width: 320px;
-    overflow: hidden;
-    word-wrap: break-word;
+  max-width: $commText-w;
+  overflow: hidden;
+  word-wrap: break-word;
 }
 
 .commQuote {
-    padding: 5px 5px;
-    margin: 8px 0 8px 20px;
-    background-color: #111;
-    border: 1px solid #333;
-    font-size: 12px;
-    line-height: 15px;
+  padding: 5px 5px;
+  margin: 8px 0 8px 20px;
+  background-color: #111;
+  border: 1px solid #333;
+  font-size: 12px;
+  line-height: 15px;
 }
+
 /********************************************/
 
 /********************************************/
 $authName-w: 70%;
 
 .authName {
-    width: $authName-w;
-    overflow: hidden;
-    float: right;
-    text-align: right;
+  width: $authName-w;
+  overflow: hidden;
+  float: right;
+  text-align: right;
 }
 
 .authName a {
-    display:block;
-    color: $body-color;
+  display: block;
+  color: $body-color;
 }
 
 .authName a:hover {
-    color: $body-color-hover;
+  color: $body-color-hover;
 }
 
 .phRating {
-    width: 100% - $authName-w;
-    float:left;
+  width: 100% - $authName-w;
+  float: left;
 }
 
 .phRatingBlk {
-    font-family: $font-title;
-    float: left;
-    font-size: 16px;
-    line-height: 24px;
-    white-space: nowrap;
+  font-family: $font-title;
+  float: left;
+  font-size: 16px;
+  line-height: 24px;
+  white-space: nowrap;
 }
 
 #fineartAjax, #homeAlbumAjax {
-    float: right;
-    text-align: right;
-    margin-left: 6px;
+  float: right;
+  text-align: right;
+  margin-left: 6px;
 }
 
 #addRecAjax {
-    float: right;
-    text-align: right;
-    margin-left: 6px;
+  float: right;
+  text-align: right;
+  margin-left: 6px;
 }
 
 .recNote {
-    font-family: $font-title;
-    font-size: 10px;
-    line-height: 11px;
-    display: block;
+  font-family: $font-title;
+  font-size: 10px;
+  line-height: 11px;
+  display: block;
 }
 
 /********************************************/

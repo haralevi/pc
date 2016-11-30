@@ -128,7 +128,7 @@ class Auth
 						auth_gender, auth_avatar, auth_avatar_w, auth_avatar_h, auth_blog_favor_cnt, auth_mood, auth_mood_en, auth_mood_de,
 						auth_fineart_gall, auth_square_gall, auth_nu_gall, auth_window_gall, auth_index_layout, auth_featured_rating, auth_featured_link, auth_show_all_comms, auth_port_dom
                     FROM ds_authors
-                    WHERE auth_key='" . $_COOKIE['X'] . "' LIMIT 1";
+                    WHERE auth_key='" . Utils::cleanRequest($_COOKIE['X']) . "' LIMIT 1";
                 $res_login = Db::execute($sql);
                 if (sizeof($res_login))
                     Auth::loginAuthor($res_login);

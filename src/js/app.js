@@ -26,18 +26,18 @@ const app = {
                 }
                 else {
                     let pos = $mainImage.offset();
-                    let size = { w: $mainImage.width(), h: $mainImage.height() };
+                    let size = {w: $mainImage.width(), h: $mainImage.height()};
                     let imgRatioW = size.w / parseInt($mainImage.data("phMainW"));
                     let imgRatioH = size.h / parseInt($mainImage.data("phMainH"));
 
                     $('<div class="crop_overlay_dark"></div>').css({
                         left: pos.left + "px",
                         top: pos.top + "px",
-                        width: +size.w + "px",
-                        height: size.h + "px"
+                        width: (size.w + 0.1) + "px", // +0.1 because sometimes tiny light line appears
+                        height: (size.h + 0.1) + "px" // +0.1 because sometimes tiny light line appears
                     }).appendTo("body");
 
-                    $('<div class="crop_overlay_light" style="background: transparent url(' + $mainImage.attr("src") + ') no-repeat -' + (app.cropX * imgRatioW) + 'px -' + (app.cropY * imgRatioH) + 'px; background-size: ' + size.w + 'px ' + size.h +'px;"></div>').css({
+                    $('<div class="crop_overlay_light" style="background: transparent url(' + $mainImage.attr("src") + ') no-repeat -' + (app.cropX * imgRatioW) + 'px -' + (app.cropY * imgRatioH) + 'px; background-size: ' + size.w + 'px ' + size.h + 'px;"></div>').css({
                         left: pos.left + (app.cropX * imgRatioW) + "px",
                         top: pos.top + (app.cropY * imgRatioH) + "px",
                         width: (app.cropW * imgRatioW) + "px",
@@ -59,9 +59,12 @@ const app = {
         const $mainImage = $("#mainImage");
         if (!$mainImage.length) return false;
         $mainImage.removeClass("nudePreview").addClass("animated fadeIn");
-        if(typeof $mainImage.data("isAllowedNude") !== "undefined")
+        if (typeof $mainImage.data("isAllowedNude") !== "undefined")
             $mainImage.addClass("blur");
-        $mainImage.attr("src", $mainImage.data("phPath") + $mainImage.data("idPhoto") + "_mobile.jpg").css({width: "auto", height: "auto"});
+        $mainImage.attr("src", $mainImage.data("phPath") + $mainImage.data("idPhoto") + "_mobile.jpg").css({
+            width: "auto",
+            height: "auto"
+        });
         app.updateMainImg();
         app.viewedNudes.push($mainImage.data("idPhoto"));
         return true;
@@ -74,7 +77,7 @@ const app = {
             for (let i = 0; i < app.viewedNudes.length; i++) {
                 if ($mainImage.data("idPhoto") == app.viewedNudes[i]) {
                     $mainImage.removeClass("nudePreview");
-                    if(typeof $mainImage.data("isAllowedNude") !== "undefined")
+                    if (typeof $mainImage.data("isAllowedNude") !== "undefined")
                         $mainImage.addClass("blur");
                     $mainImage.attr("src", $mainImage.data("phPath") + $mainImage.data("idPhoto") + "_mobile.jpg").css({
                         width: "auto",
@@ -87,7 +90,7 @@ const app = {
         let imgSrc = $mainImage.attr("src");
 
         let srcReplace = 'main';
-        if(typeof $mainImage.data("isAllowedNude") !== "undefined")
+        if (typeof $mainImage.data("isAllowedNude") !== "undefined")
             srcReplace = 'council';
 
         if (app.winW >= 420) {

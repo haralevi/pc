@@ -2,7 +2,7 @@
     <tr>
         <td style="vertical-align: top;">
             <div style="position: relative;">
-                <a rel="author" href="{home_url}author.php?id_auth={id_auth_photo}"><img src="{auth_avatar_src}" style="max-width: 100px;" alt=""></a>
+                <a rel="author" href="{home_url}author.php?id_auth={id_auth_photo}"><img src="{auth_avatar_src}" class="auth_avatar img-rounded" alt=""></a>
                 {auth_premium_badge}
             </div>
         </td>

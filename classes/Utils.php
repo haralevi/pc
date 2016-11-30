@@ -77,11 +77,15 @@ class Utils
 
     public static function cleanRequestSimple($str)
     {
+        if(is_array($str))
+            $str = implode($str);
         return Utils::myHtmlspecialchars(strip_tags(trim($str)));
     }
 
     public static function cleanRequest($str, $replace_chars = '', $is_tags = false)
     {
+        if(is_array($str))
+            $str = implode($str);
         if ($replace_chars != '') {
             $search = str_split($replace_chars);
             if (($key = array_search(' ', $search)) !== false) unset($search[$key]);

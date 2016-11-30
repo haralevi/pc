@@ -64,9 +64,13 @@ class AuthorController extends Controller
 
         // don't show more than WORK_GALL_LIMIT_0 photos for not premium author on '.de'
         $work_gall_limit = Utils::getWorkGallLimit($auth_premium_photo);
-        if (Consta::WORKS_PER_PAGE * $page > $work_gall_limit)
-            return false;
-
+        if (Consta::WORKS_PER_PAGE * $page > $work_gall_limit) {
+            if (!AuthorController::$isJson)
+                header('Location: ' . Config::$home_url . 'author.php?id_auth=' . $id_auth_photo);
+            else
+                echo 'Location: ' . Config::$home_url . 'author.php?id_auth=' . $id_auth_photo;
+            die();
+        }
         # /parse author
 
         # parse works
@@ -74,11 +78,21 @@ class AuthorController extends Controller
 
         $res_works = WorkModel::getWorks(array('id_auth_photo' => $id_auth_photo), $page);
         if (!sizeof($res_works)) {
-            if (!AuthorController::$isJson)
-                $works = '';
-            else
-                return false;
-        } else
+            if($page == 1) {
+                if (!AuthorController::$isJson)
+                    $works = '';
+                else
+                    return false;
+            }
+            else {
+                if (!AuthorController::$isJson)
+                    header('Location: ' . Config::$home_url . 'author.php?id_auth=' . $id_auth_photo);
+                else
+                    echo 'Location: ' . Config::$home_url . 'author.php?id_auth=' . $id_auth_photo;
+                die();
+            }
+        }
+        else
             $works = $res_works['works'];
         # /parse works
 
