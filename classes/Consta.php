@@ -51,7 +51,7 @@ class Consta
     const WORK_GALL_LIMIT_4 = 100000;
 
     const ID_PHOTO_CDN_FROM = 0;
-    const ID_PHOTO_LOCAL_FROM = 310000;
+    const ID_PHOTO_LOCAL_FROM = 410000;
 
     const NUDE_CAT = 111;
     const FIRST_SPEC_CAT = 2200;
