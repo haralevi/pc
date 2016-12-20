@@ -34,7 +34,7 @@ class CommModel
         $sql_comm = "SELECT
                 PH.id_photo, PH.id_auth id_auth_photo, PH.id_cat_new, PH.ph_main_w, PH.ph_main_h, PH.ph_anon, PH.ph_date, PH.id_comp,
                 COMM.id_comm, COMM.comm_text, COMM.comm_text_en, COMM.comm_text_de, COMM.comm_date, COMM.comm_status,
-                AU_COM." . Localizer::$col_auth_name . " comm_auth_name, AU_COM.id_auth comm_id_auth
+                AU_COM." . Localizer::$col_auth_name . " comm_auth_name, AU_COM.id_auth comm_id_auth, AU_COM.auth_premium
             FROM (" . Localizer::$tbl_ds_comments . " COMM, ds_photos PH, ds_authors AU)
             JOIN ds_authors AU_COM ON (COMM.id_auth=AU_COM.id_auth)
             WHERE
@@ -87,15 +87,18 @@ class CommModel
                 $is_ph_anon = Utils::isAnon($v['ph_anon'], $v['ph_date'], $v['id_comp']);
                 if ($is_ph_anon && $id_auth_comm == $id_auth_photo) {
                     $auth_name_str = Localizer::$loc['author_loc'];
+                    $auth_premium_badge = '';
                 } else {
                     $auth_name_comm = $v['comm_auth_name'];
                     $auth_name_str = '<a href="' . Config::$home_url . 'author.php?id_auth=' . $id_auth_comm . '">' . $auth_name_comm . '</a>';
+                    $auth_premium_badge = Utils::getPremiumBadge($v['auth_premium'], 'static');
                 }
 
                 $tpl_comm_row_var['id_photo'] = $id_photo;
                 $tpl_comm_row_var['work_img'] = $work_img;
                 $tpl_comm_row_var['work_href'] = $work_href;
                 $tpl_comm_row_var['auth_name_str'] = $auth_name_str;
+                $tpl_comm_row_var['auth_premium_badge'] = $auth_premium_badge;
                 $tpl_comm_row_var['comm_text'] = $comm_text;
 
                 $comm .= Utils::parseTpl($tpl_comm_row_content, $tpl_comm_row_var);
@@ -113,7 +116,7 @@ class CommModel
     {
         $sql_comments = "SELECT
                 COMM.id_comm, COMM.id_auth, COMM.comm_text, COMM.comm_text_en, COMM.comm_text_de, COMM.comm_status,
-                AU." . Localizer::$col_auth_name . ", AU.auth_gender, AU.auth_avatar
+                AU." . Localizer::$col_auth_name . ", AU.auth_gender, AU.auth_avatar, AU.auth_premium
               FROM " . Localizer::$tbl_ds_comments . " COMM, ds_authors AU
               WHERE COMM.id_auth=AU.id_auth AND id_photo=" . $id_photo . " 
               ORDER BY id_comm";
@@ -162,6 +165,7 @@ class CommModel
                     if (Auth::getIdAuth() != -1)
                         $authNameAnswerClass = 'class="authNameAnswer" data-id-auth="0"';
                     $auth_name_str = '<a id="authName0" class="authNameAnswer" ' . $authNameAnswerClass . ' href="#">' . $auth_name_comm . '</a>';
+                    $auth_premium_badge = '';
                 } else {
                     $auth_name_comm = $v[Localizer::$col_auth_name];
                     $auth_avatar_src = Utils::parseAvatar($v['id_auth'], $v['auth_avatar'], $v['auth_gender'], 'square');
@@ -169,10 +173,12 @@ class CommModel
                     if (Auth::getIdAuth() != -1)
                         $authNameAnswerClass = 'class="authNameAnswer" data-id-auth="' . $id_auth_comm . '"';
                     $auth_name_str = '<a id="authName' . $id_auth_comm . '" ' . $authNameAnswerClass . ' href="' . Config::$home_url . 'author.php?id_auth=' . $id_auth_comm . '">' . $auth_name_comm . '</a>';
+                    $auth_premium_badge = Utils::getPremiumBadge($v['auth_premium'], 'static');
                 }
 
                 $tpl_work_comm_row_var['auth_avatar_str'] = $auth_avatar_str;
                 $tpl_work_comm_row_var['auth_name_str'] = $auth_name_str;
+                $tpl_work_comm_row_var['auth_premium_badge'] = $auth_premium_badge;
                 $tpl_work_comm_row_var['comm_text'] = $comm_text;
                 $comments .= Utils::parseTpl($tpl_work_comm_row_content, $tpl_work_comm_row_var);
             }

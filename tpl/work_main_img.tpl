@@ -25,7 +25,7 @@
             </td>
             <td class="commTextTd">
                 <div class="commText">
-                    <span itemprop="author">{auth_name_str}</span>
+                    <span itemprop="author">{auth_name_str}</span> {auth_premium_badge}
                     <br>
                     <span style="font-weight: 700;" itemprop="name">{ph_name}</span>
                     <br>

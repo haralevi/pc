@@ -4,7 +4,8 @@
     </td>
     <td class="commTextTd">
         <div class="commText">
-            {auth_name_str}<br>
+            {auth_name_str} {auth_premium_badge}
+            <br>
             {comm_text}
         </div>
     </td>

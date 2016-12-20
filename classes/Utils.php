@@ -77,14 +77,14 @@ class Utils
 
     public static function cleanRequestSimple($str)
     {
-        if(is_array($str))
+        if (is_array($str))
             $str = implode($str);
         return Utils::myHtmlspecialchars(strip_tags(trim($str)));
     }
 
     public static function cleanRequest($str, $replace_chars = '', $is_tags = false)
     {
-        if(is_array($str))
+        if (is_array($str))
             $str = implode($str);
         if ($replace_chars != '') {
             $search = str_split($replace_chars);
@@ -292,7 +292,7 @@ From: ' . $from_email . '
         $comm_text = Utils::bbParse($comm_text);
         $comm_text = Utils::bbUrlParse($comm_text);
         $comm_text = Utils::correctLangUrls($comm_text);
-        
+
         if ($is_crop)
             $replacement = '<img class="cropIcon cropClick" data-crop-coordinates="$1;$2;$3;$4" alt="" src="' . Config::$home_url . 'img/tool_crop2.gif" border="0" width="16" height="16" />';
         else
@@ -334,7 +334,7 @@ From: ' . $from_email . '
     public static function logVisits()
     {
         #if (!Geo::$is_robot && !strstr(Config::$request_uri, 'get_views.php') && !in_array(Auth::getIdAuth(), array(1, 24, 26))) {
-    	if (!strstr(Config::$request_uri, 'get_views.php') && !in_array(Auth::getIdAuth(), array(1, 24, 26))) {
+        if (!strstr(Config::$request_uri, 'get_views.php') && !in_array(Auth::getIdAuth(), array(1, 24, 26))) {
             $log = date("d.m.Y H:i:s", Config::$cur_time + 3600) . "\t| ";
             if (Config::$remote_addr) $log .= Config::$remote_addr;
             if (strlen(Config::$remote_addr) < 14) $log .= "\t";
@@ -430,17 +430,22 @@ From: ' . $from_email . '
             return false;
     }
 
-    public static function getPremiumBadge($auth_premium)
+    public static function getPremiumBadge($auth_premium, $position = '')
     {
+        $style_arr = array();
+        if ($position == 'static')
+            $style_arr['position'] = $position;
+        $style = Utils::buildStyle($style_arr);
+
         $pricingHref = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/pricing.php';
         if ($auth_premium == Consta::AUTH_PREMIUM_1)
-            $auth_badge = '<a href="' . $pricingHref . '" title="' . Consta::AUTH_PREMIUM_NAME_1 . ' Account"><img class="authBadge" src="' . Config::$css_url . Config::$theme . '/plus.gif" alt="' . Consta::AUTH_PREMIUM_NAME_1 . ' Account" /></a>';
+            $auth_badge = '<a href="' . $pricingHref . '" title="' . Consta::AUTH_PREMIUM_NAME_1 . ' Account"><img class="authBadge" ' . $style . ' src="' . Config::$css_url . Config::$theme . '/plus.gif" alt="' . Consta::AUTH_PREMIUM_NAME_1 . ' Account" /></a>';
         else if ($auth_premium == Consta::AUTH_PREMIUM_2)
-            $auth_badge = '<a href="' . $pricingHref . '" title="' . Consta::AUTH_PREMIUM_NAME_2 . ' Account"><img class="authBadge" src="' . Config::$css_url . Config::$theme . '/premium.gif" alt="' . Consta::AUTH_PREMIUM_NAME_2 . ' Account" /></a>';
+            $auth_badge = '<a href="' . $pricingHref . '" title="' . Consta::AUTH_PREMIUM_NAME_2 . ' Account"><img class="authBadge" ' . $style . ' src="' . Config::$css_url . Config::$theme . '/premium.gif" alt="' . Consta::AUTH_PREMIUM_NAME_2 . ' Account" /></a>';
         else if ($auth_premium == Consta::AUTH_PREMIUM_3)
-            $auth_badge = '<a href="' . $pricingHref . '" title="' . Consta::AUTH_PREMIUM_NAME_3 . ' Account"><img class="authBadge" src="' . Config::$css_url . Config::$theme . '/pro.gif" alt="' . Consta::AUTH_PREMIUM_NAME_3 . ' Account" /></a>';
+            $auth_badge = '<a href="' . $pricingHref . '" title="' . Consta::AUTH_PREMIUM_NAME_3 . ' Account"><img class="authBadge" ' . $style . ' src="' . Config::$css_url . Config::$theme . '/pro.gif" alt="' . Consta::AUTH_PREMIUM_NAME_3 . ' Account" /></a>';
         else if ($auth_premium == Consta::AUTH_PREMIUM_4)
-            $auth_badge = '<a href="' . $pricingHref . '" title="' . Consta::AUTH_PREMIUM_NAME_4 . ' Account"><img class="authBadge" src="' . Config::$css_url . Config::$theme . '/pro.gif" alt="' . Consta::AUTH_PREMIUM_NAME_4 . ' Account" /></a>';
+            $auth_badge = '<a href="' . $pricingHref . '" title="' . Consta::AUTH_PREMIUM_NAME_4 . ' Account"><img class="authBadge" ' . $style . ' src="' . Config::$css_url . Config::$theme . '/pro.gif" alt="' . Consta::AUTH_PREMIUM_NAME_4 . ' Account" /></a>';
         else
             $auth_badge = '';
         return $auth_badge;
@@ -589,5 +594,17 @@ From: ' . $from_email . '
         if (Utils::isEmptyName($ph_name))
             $ph_name = Localizer::$loc['without_name'];
         return $ph_name;
+    }
+
+    public static function buildStyle($style_arr)
+    {
+        $style = '';
+        if (sizeof($style_arr)) {
+            $style .= ' style="';
+            foreach ($style_arr as $k => $v)
+                $style .= $k . ': ' . $v . '; ';
+            $style .= '"';
+        }
+        return $style;
     }
 }

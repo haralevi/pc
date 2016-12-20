@@ -143,20 +143,29 @@ class Geo
             Geo::$Gmtoffset = $_SESSION['Gmtoffset'];
         }
 
-        /*
-        if (Auth::getIdAuth() == 1 || Auth::getIdAuth() == 24) {
-            Config::$remote_addr = '37.44.113.158';
-            Geo::$CountryName = 'Belarus';
-            Geo::$CountryCode = 'BY';
-            Geo::$City = 'Minsk';
-            Geo::$Gmtoffset = 10800;
+        # Timezone offset manual
+        if(isset($_SESSION['auth']['id_auth'])) {
+            if ($_SESSION['auth']['id_auth'] == 21419) # Bluejay - wants to be in europe
+                $_SESSION['Gmtoffset'] = 7200;
+            else if ($_SESSION['auth']['id_auth'] == 29057) # Sever - wants to upload at 21:00
+                $_SESSION['Gmtoffset'] = 18000;
+            else if ($_SESSION['auth']['id_auth'] == 26702) # 8ele8 - wants to be in moscow
+                $_SESSION['Gmtoffset'] = 14400;
+            /*
+            if ($_SESSION['Gmtoffset'] == 1 || $_SESSION['Gmtoffset'] == 24) {
+                Config::$remote_addr = '37.44.113.158';
+                Geo::$CountryName = 'Belarus';
+                Geo::$CountryCode = 'BY';
+                Geo::$City = 'Minsk';
+                Geo::$Gmtoffset = 10800;
+            }
+            */
+            Geo::$Gmtoffset = $_SESSION['Gmtoffset'];
         }
-        */
     }
 
     public static function isRobot()
     {
-
         if (!isset($_SESSION['is_robot'])) {
             $ip_long = ip2long(Config::$remote_addr);
             if (isset($_SESSION['auth']['id_auth'])) {

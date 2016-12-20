@@ -279,7 +279,7 @@ class WorkModel
 
             $id_auth_photo = $res_work[0]['id_auth_photo'];
 
-            $sql_author = "SELECT auth_avatar, auth_gender
+            $sql_author = "SELECT auth_avatar, auth_gender, auth_premium
                 FROM ds_authors
                 WHERE id_auth=" . $id_auth_photo . "
                 LIMIT 1";
@@ -302,7 +302,6 @@ class WorkModel
             $ph_rec_cnt = sizeof($res_recs);
 
             $work_img = Utils::parseWorkImg($id_photo, $res_work[0]['id_auth_photo'], $res_work[0]['id_cat_new'], $res_work[0]['ph_main_w'], $res_work[0]['ph_main_h'], true);
-
 
             if (isset($params['all'])) {
                 $param_nav = '&all=' . $params['all'];
@@ -390,6 +389,7 @@ class WorkModel
                 if (Auth::getIdAuth() != -1)
                     $authNameAnswerClass = 'class="authNameAnswer" data-id-auth="0"';
                 $auth_name_str = '<a id="authName0" class="authNameAnswer" ' . $authNameAnswerClass . ' href="#">' . $auth_name_photo . '</a>';
+                $auth_premium_badge = '';
             } else {
                 $auth_name_photo = $res_work[0][Localizer::$col_auth_name];
                 $auth_avatar_src = Utils::parseAvatar($id_auth_photo, $res_author[0]['auth_avatar'], $res_author[0]['auth_gender'], 'square');
@@ -397,9 +397,11 @@ class WorkModel
                 if (Auth::getIdAuth() != -1)
                     $authNameAnswerClass = 'class="authNameAnswer" data-id-auth="' . $id_auth_photo . '"';
                 $auth_name_str = '<a id="authName' . $id_auth_photo . '" ' . $authNameAnswerClass . ' href="' . Config::$home_url . 'author.php?id_auth=' . $id_auth_photo . '">' . $auth_name_photo . '</a>';
+                $auth_premium_badge = Utils::getPremiumBadge($res_author[0]['auth_premium'], 'static');
             }
             $tpl_work_main_img_var['auth_avatar_str'] = $auth_avatar_str;
             $tpl_work_main_img_var['auth_name_str'] = $auth_name_str;
+            $tpl_work_main_img_var['auth_premium_badge'] = $auth_premium_badge;
             $tpl_work_main_img_var['ph_name'] = $ph_name;
             $tpl_work_main_img_var['ph_comm'] = $ph_comm;
             $work = Utils::getTpl('work_main_img', $tpl_work_main_img_var);
