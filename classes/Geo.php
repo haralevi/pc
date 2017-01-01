@@ -52,15 +52,20 @@ class Geo
             if ($record && $record->location->timeZone != '') {
                 if ($record->location->timeZone == 'Asia/Barnaul' || $record->location->timeZone == 'Asia/Tomsk')
                     $timezone = 'Asia/Krasnoyarsk';
-                else if ($record->location->timeZone == 'Europe/Kirov' || $record->location->timeZone == 'Europe/Ulyanovsk')
+                else if ($record->location->timeZone == 'Europe/Kirov' || $record->location->timeZone == 'Europe/Ulyanovsk' || $record->location->timeZone == 'Europe/Astrakhan')
                     $timezone = 'Europe/Moscow';
                 else
                     $timezone = $record->location->timeZone;
-                $dateTimeZone = new \DateTimeZone($timezone);
+                
+                try {
+                    $dateTimeZone = new \DateTimeZone($timezone);
+                } catch (\Exception $e) {
+                    # error timezone is not found
+                }
                 $dateTime = new \DateTime("now", $dateTimeZone);
                 Geo::$Gmtoffset = $dateTime->format('Z'); # 'Z' is UTC Offset in seconds
 
-                if (strstr(Geo::$RegionName, 'Novosibirskaya Oblast') || strstr(Geo::$RegionName, 'Ulyanovsk Oblast') || strstr(Geo::$RegionName, 'Samarskaya Oblast') || strstr(Geo::$RegionName, 'Kemerovskaya Oblast') || Geo::$RegionName == 'Udmurtskaya Respublika') {
+                if (strstr(Geo::$RegionName, 'Astrakhanskaya Oblast') || strstr(Geo::$RegionName, 'Novosibirskaya Oblast') || strstr(Geo::$RegionName, 'Ulyanovsk Oblast') || strstr(Geo::$RegionName, 'Samarskaya Oblast') || strstr(Geo::$RegionName, 'Kemerovskaya Oblast') || Geo::$RegionName == 'Udmurtskaya Respublika') {
                     Geo::$Gmtoffset += 3600;
                 } else if (Geo::$RegionName == 'Republic of Crimea' || Geo::$RegionName == 'Gorod Sevastopol') {
                     Geo::$Gmtoffset -= 3600;

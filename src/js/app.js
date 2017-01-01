@@ -154,10 +154,9 @@ const app = {
         let loginVal = utils.trim($("#auth_login").val());
         let passVal = utils.trim($("#auth_pass").val());
         if (loginVal != "" && passVal != "") {
-            let href = location.href.replace(/&wrn_login=1/, "");
-            if (window.location.search == "" && !utils.endsWith(href, "?")) href += "?";
-            href += "&auth_login=" + encodeURI(loginVal) + "&auth_pass=" + encodeURI(passVal);
-            location.href = href;
+            let postUrl = location.href.replace(/&wrn_login=1/, "");
+            if (window.location.search == "" && !utils.endsWith(postUrl, "?")) postUrl += "?";
+            utils.postForm(postUrl, {auth_login: encodeURI(loginVal), auth_pass: encodeURI(passVal)});
         }
     },
 

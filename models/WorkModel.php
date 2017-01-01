@@ -133,15 +133,15 @@ class WorkModel
                 $works .= Utils::parseTpl($tpl_work_row_content, $tpl_work_row_var);
 
                 if ($v['id_auth_photo'] == Auth::getIdAuth()) {
-                    $works .= '<div class="imgMetrics">' . Localizer::$loc['rating_loc'] . ': <b>' . $v['ph_rating'] . '</b> &nbsp;' . Localizer::$loc['recs_loc'] . ': <b>' . $v['ph_rec_cnt'] . '</b> &nbsp;' . Localizer::$loc['comm_loc'] . ': <b>' . $v['ph_comm_cnt'] . '</b></div>';
+                    $works .= '<div class="imgMetrics">&nbsp;' . Localizer::$loc['rating_loc'] . ': <b>' . $v['ph_rating'] . '</b> &nbsp;' . Localizer::$loc['recs_loc'] . ': <b>' . $v['ph_rec_cnt'] . '</b> &nbsp;' . Localizer::$loc['comm_loc'] . ': <b>' . $v['ph_comm_cnt'] . '</b></div>';
                 } else {
                     $works .= '<div class="imgMetrics">';
-                    $works .= '<div class="phRating">' . Localizer::$loc['rating_loc'] . ': <b>' . $v['ph_rating'] . '</b></div>';
+                    $works .= '<div class="phRating">&nbsp;' . Localizer::$loc['rating_loc'] . ': <b>' . $v['ph_rating'] . '</b></div>';
                     if (!isset($params['id_auth_photo'])) {
                         if ($is_ph_anon)
-                            $works .= '<div class="authName">' . Localizer::$loc['anonymous_loc'] . '</div>';
+                            $works .= '<div class="authName">' . Localizer::$loc['anonymous_loc'] . '&nbsp;</div>';
                         else
-                            $works .= '<div class="authName"><a href="' . Config::$home_url . 'author.php?id_auth=' . $v['id_auth_photo'] . '">' . $v[Localizer::$col_auth_name] . '</a></div>';
+                            $works .= '<div class="authName"><a href="' . Config::$home_url . 'author.php?id_auth=' . $v['id_auth_photo'] . '">' . $v[Localizer::$col_auth_name] . '&nbsp;</a></div>';
                     }
                     $works .= '</div>';
                 }

@@ -289,7 +289,7 @@ class Localizer
         'already_rec_note_loc' => 'Empfehlung<br />wurde gezählt',
         'add_comm_loc' => 'Anmerkung hinzufügen',
         'wrong_login_pass_short_loc' => 'Falscher Login bzw. Passwort',
-        'site_full_ver_loc' => 'Zur Vollversion',
+        'site_full_ver_loc' => 'Desktop-Version',
         'anonymous_loc' => 'Anonym',
         'author_loc' => 'Autor',
         'limit_recs_achieved_1_loc' => 'Sie können',

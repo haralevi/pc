@@ -14,7 +14,19 @@ $(function () {
     });
 
     $(document)
-    // submit login form
+        // submit login form
+        .on("keyup", "#auth_login", function (e) {
+            if (e.keyCode == 13) {
+                app.submitLogin();
+                e.preventDefault();
+            }
+        })
+        .on("keyup", "#auth_pass", function (e) {
+            if (e.keyCode == 13) {
+                app.submitLogin();
+                e.preventDefault();
+            }
+        })
         .on("click", "#loginBtn", function (e) {
             app.submitLogin();
             e.preventDefault();
