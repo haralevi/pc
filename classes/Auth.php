@@ -214,16 +214,6 @@ class Auth
         die();
     }
 
-    private static function getChangeLangUrl($domainEnd)
-    {
-        $url = Config::$request_uri;
-        $url = Utils::addParam($url, 'wrn_login', 1);
-        $url = Utils::addParam($url, 'chla', 1);
-        $url = str_replace('&amp;', '&', $url);
-        $url = Config::$http_scheme . Config::SITE_SUBDOMAIN . Config::SITE_DOMAIN . '.' . $domainEnd . $url;
-        return $url;
-    }
-
     private static function loginAuthor($res)
     {
         # check if user allowed to use this domain
@@ -236,14 +226,14 @@ class Auth
         } else {
             if (Config::$domainEnd == 'de') {
                 if ($res[0]['auth_port_lang'] != 'de') {
-                    header('Location: ' . Auth::getChangeLangUrl('ru'));
+                    header('Location: ' . Utils::getChangeLangUrl('ru', true));
                     die();
                 }
             } else if (Config::$domainEnd == 'com') {
                 # ok do nothing
             } else if (Config::$domainEnd == 'ru' || Config::$domainEnd == 'by') { # .ru .by
                 if ($res[0]['auth_port_lang'] == 'de') {
-                    header('Location: ' . Auth::getChangeLangUrl('de'));
+                    header('Location: ' . Utils::getChangeLangUrl('de', true));
                     die();
                 }
             }
