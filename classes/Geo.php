@@ -287,14 +287,14 @@ class Geo
         } else {
             if (Config::$domainEnd == 'de') {
                 if (Geo::$CountryCode != 'DE' && Geo::$CountryCode != 'AT' && Geo::$CountryCode != 'CH') {
-                    header('Location: http://m.' . Config::SITE_DOMAIN . '.ru' . Config::$request_uri);
+                    header('Location: ' . Config::$http_scheme . Config::SITE_SUBDOMAIN . Config::SITE_DOMAIN . '.ru' . Config::$request_uri);
                     die();
                 }
             } else if (Config::$domainEnd == 'com') {
                 # ok do nothing
             } else if (Config::$domainEnd == 'ru' || Config::$domainEnd == 'by') { # .ru .by
                 if (Geo::$CountryCode == 'DE' || Geo::$CountryCode == 'AT' || Geo::$CountryCode == 'CH') {
-                    header('Location: http://m.' . Config::SITE_DOMAIN . '.de' . Config::$request_uri);
+                    header('Location: ' . Config::$http_scheme . Config::SITE_SUBDOMAIN . Config::SITE_DOMAIN . '.de' . Config::$request_uri);
                     die();
                 }
             }

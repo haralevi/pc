@@ -185,15 +185,15 @@ class Auth
         }
     }
 
-    public static function logout() {
-
+    public static function logout()
+    {
         $now_online = Mcache::get(md5('now_online'));
         unset($now_online[Auth::$guest_sess]);
         Mcache::set(md5('now_online'), $now_online, 0);
 
         unset($_SESSION['auth']);
 
-        if(Config::$SiteDom) {
+        if (Config::$SiteDom) {
             setcookie('X', '', Config::$cur_time - 86400);
             setcookie('X', '', Config::$cur_time - 86400, '/', '.' . Config::$SiteDom . '.' . Config::$domainEnd);
 
@@ -214,6 +214,16 @@ class Auth
         die();
     }
 
+    private static function getChangeLangUrl($domainEnd)
+    {
+        $url = Config::$request_uri;
+        $url = Utils::addParam($url, 'wrn_login', 1);
+        $url = Utils::addParam($url, 'chla', 1);
+        $url = str_replace('&amp;', '&', $url);
+        $url = Config::$http_scheme . Config::SITE_SUBDOMAIN . Config::SITE_DOMAIN . '.' . $domainEnd . $url;
+        return $url;
+    }
+
     private static function loginAuthor($res)
     {
         # check if user allowed to use this domain
@@ -226,14 +236,14 @@ class Auth
         } else {
             if (Config::$domainEnd == 'de') {
                 if ($res[0]['auth_port_lang'] != 'de') {
-                    header('Location: http://m.' . Config::SITE_DOMAIN . '.ru' . str_replace('&amp;', '&', Utils::addParam(Config::$request_uri, 'chla', 1)));
+                    header('Location: ' . Auth::getChangeLangUrl('ru'));
                     die();
                 }
             } else if (Config::$domainEnd == 'com') {
                 # ok do nothing
             } else if (Config::$domainEnd == 'ru' || Config::$domainEnd == 'by') { # .ru .by
                 if ($res[0]['auth_port_lang'] == 'de') {
-                    header('Location: http://m.' . Config::SITE_DOMAIN . '.de' . str_replace('&amp;', '&', Utils::addParam(Config::$request_uri, 'chla', 1)));
+                    header('Location: ' . Auth::getChangeLangUrl('de'));
                     die();
                 }
             }
@@ -342,7 +352,7 @@ class Auth
     public static function updateOnliners()
     {
         if (!Geo::$is_robot && !strstr(Config::$request_uri, 'ajax/')) {
-        #if (!strstr(Config::$request_uri, 'ajax/')) {
+            #if (!strstr(Config::$request_uri, 'ajax/')) {
             $online_sess = array('id_auth' => Auth::$id_auth,
                 'auth_name' => Auth::$auth_name, 'auth_name_en' => Auth::$auth_name_en, 'auth_type' => Auth::$auth_type,
                 'cur_time' => Config::$cur_time,
@@ -369,74 +379,66 @@ class Auth
      * Handle unsubscribe message
      * @return string
      */
-    public static function handleUnsubscribe () {
+    public static function handleUnsubscribe()
+    {
         $success_unsubscribe = '';
 
-        if(isset($_REQUEST['unsubscribe_id']) && isset($_REQUEST['unsubscribe_type'])) {
+        if (isset($_REQUEST['unsubscribe_id']) && isset($_REQUEST['unsubscribe_type'])) {
             $auth_key = Utils::cleanRequest($_REQUEST['unsubscribe_id']);
 
-            if($_REQUEST['unsubscribe_type'] == 'auth_comm_alert') {
+            if ($_REQUEST['unsubscribe_type'] == 'auth_comm_alert') {
                 $sql = "UPDATE ds_authors SET auth_comm_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
                 Db::execute($sql);
                 $success_unsubscribe = Localizer::$loc['success_unsubscribe'];
-            }
-            else if($_REQUEST['unsubscribe_type'] == 'auth_rec_alert') {
+            } else if ($_REQUEST['unsubscribe_type'] == 'auth_rec_alert') {
                 $sql = "UPDATE ds_authors SET auth_rec_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
                 Db::execute($sql);
                 $success_unsubscribe = Localizer::$loc['success_unsubscribe'];
-            }
-            else if($_REQUEST['unsubscribe_type'] == 'auth_favor_alert') {
+            } else if ($_REQUEST['unsubscribe_type'] == 'auth_favor_alert') {
                 $sql = "UPDATE ds_authors SET auth_favor_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
                 Db::execute($sql);
                 $success_unsubscribe = Localizer::$loc['success_unsubscribe'];
-            }
-            else if($_REQUEST['unsubscribe_type'] == 'auth_top_alert') {
+            } else if ($_REQUEST['unsubscribe_type'] == 'auth_top_alert') {
                 $sql = "UPDATE ds_authors SET auth_top_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
                 Db::execute($sql);
                 $success_unsubscribe = Localizer::$loc['success_unsubscribe_top'];
-            }
-            else if($_REQUEST['unsubscribe_type'] == 'auth_choice_alert') {
+            } else if ($_REQUEST['unsubscribe_type'] == 'auth_choice_alert') {
                 $sql = "UPDATE ds_authors SET auth_choice_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
                 Db::execute($sql);
                 $success_unsubscribe = Localizer::$loc['success_unsubscribe'];
-            }
-            else if($_REQUEST['unsubscribe_type'] == 'auth_comp_alert') {
+            } else if ($_REQUEST['unsubscribe_type'] == 'auth_comp_alert') {
                 $sql = "UPDATE ds_authors SET auth_comp_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
                 Db::execute($sql);
-                if(isset($_REQUEST['invite']) && $_REQUEST['invite'] == 'ru') {
+                if (isset($_REQUEST['invite']) && $_REQUEST['invite'] == 'ru') {
                     $sql = "UPDATE ds_invitations SET auth_comp_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
                     Db::execute($sql);
                 }
-                if(isset($_REQUEST['invite']) && $_REQUEST['invite'] == 'de') {
+                if (isset($_REQUEST['invite']) && $_REQUEST['invite'] == 'de') {
                     $sql = "UPDATE ds_invitations_de SET auth_comp_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
                     Db::execute($sql);
                 }
                 $success_unsubscribe = Localizer::$loc['success_unsubscribe'];
-            }
-            else if($_REQUEST['unsubscribe_type'] == 'auth_flashmob_alert') {
+            } else if ($_REQUEST['unsubscribe_type'] == 'auth_flashmob_alert') {
                 $sql = "UPDATE ds_authors SET auth_flashmob_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
                 Db::execute($sql);
                 $success_unsubscribe = Localizer::$loc['success_unsubscribe'];
-            }
-            else if($_REQUEST['unsubscribe_type'] == 'auth_popular_alert') {
+            } else if ($_REQUEST['unsubscribe_type'] == 'auth_popular_alert') {
                 $sql = "UPDATE ds_authors SET auth_popular_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
                 Db::execute($sql);
                 $success_unsubscribe = Localizer::$loc['success_unsubscribe'];
-            }
-            else if($_REQUEST['unsubscribe_type'] == 'auth_news_alert') {
+            } else if ($_REQUEST['unsubscribe_type'] == 'auth_news_alert') {
                 $sql = "UPDATE ds_authors SET auth_news_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
                 Db::execute($sql);
-                if(isset($_REQUEST['invite']) && $_REQUEST['invite'] == 'ru') {
+                if (isset($_REQUEST['invite']) && $_REQUEST['invite'] == 'ru') {
                     $sql = "UPDATE ds_invitations SET auth_news_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
                     Db::execute($sql);
                 }
-                if(isset($_REQUEST['invite']) && $_REQUEST['invite'] == 'de') {
+                if (isset($_REQUEST['invite']) && $_REQUEST['invite'] == 'de') {
                     $sql = "UPDATE ds_invitations_de SET auth_news_alert='0' WHERE auth_key='" . $auth_key . "' LIMIT 1";
                     Db::execute($sql);
                 }
                 $success_unsubscribe = Localizer::$loc['success_unsubscribe'];
-            }
-            else {
+            } else {
                 header('Location: ' . Config::$home_url);
                 die();
             }

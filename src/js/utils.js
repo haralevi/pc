@@ -163,7 +163,6 @@ const utils = {
         var form = document.createElement("form");
         form.setAttribute("method", method);
         form.setAttribute("action", path);
-
         for(var key in params) {
             if(params.hasOwnProperty(key)) {
                 var hiddenField = document.createElement("input");
