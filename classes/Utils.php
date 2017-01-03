@@ -610,13 +610,12 @@ From: ' . $from_email . '
 
     public static function getChangeLangUrl($domainEnd, $isLogin = false)
     {
-        $url = Config::$request_uri;
+        $uri = Config::$request_uri;
         if($isLogin) {
-            $url = Utils::addParam($url, 'wrn_login', 1);
-            $url = Utils::addParam($url, 'chla', 1);
+            $uri = Utils::addParam($uri, 'wrn_login', 1);
+            $uri = Utils::addParam($uri, 'chla', 1);
         }
-        $url = str_replace('&amp;', '&', $url);
-        $url = Config::$http_scheme . Config::SITE_SUBDOMAIN . Config::SITE_DOMAIN . '.' . $domainEnd . $url;
-        return $url;
+        $uri = str_replace('&amp;', '&', $uri);
+        return Config::$http_scheme . Config::SITE_SUBDOMAIN . Config::SITE_DOMAIN . '.' . $domainEnd . $uri;
     }
 }

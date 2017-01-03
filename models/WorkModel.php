@@ -243,7 +243,7 @@ class WorkModel
 
         $sql_work = "SELECT
             PH.id_photo, PH.id_cat_new, PH.ph_is_fineart, PH.ph_special_rec_cnt, PH.ph_name, PH.ph_name_en, PH.ph_name_de, PH.ph_main_w, PH.ph_main_h, PH.ph_comm, PH.ph_date, PH.ph_anon, PH.id_comp,
-            PH.ph_rating,
+            PH.ph_rating, PH.ph_norating,
             PH.id_auth id_auth_photo, PH.auth_name, PH.auth_name_en, 
             PH.ph_comm_cnt, PH.ph_comm_cnt_de, PH.ph_comm_cnt_en
             FROM ds_photos PH
@@ -263,7 +263,7 @@ class WorkModel
             $ph_comm = Utils::parseComm($ph_comm, false, false);
             $ph_comm = Utils::hideRussian($ph_comm);
             if ($ph_comm == '***' || $ph_name == $ph_comm) $ph_comm = '';
-
+            $ph_norating = $res_work[0]['ph_norating'];
             $ph_anon = $res_work[0]['ph_anon'];
             $is_ph_anon = Utils::isAnon($ph_anon, $res_work[0]['ph_date'], $res_work[0]['id_comp']);
             $ph_comm_cnt = $res_work[0][Localizer::$col_ph_comm_cnt];
@@ -342,7 +342,7 @@ class WorkModel
             $add_rec_str = '';
             if ($res_work[0]['id_cat_new'] >= Consta::FIRST_SPEC_CAT) { # no rating category
                 $add_rec_str .= '<span class="recNote">' . Localizer::$cat_names[$res_work[0]['id_cat_new']] . '</span>';
-            } else if (Auth::getIdAuth() == $id_auth_photo) {
+            } else if ($ph_norating || Auth::getIdAuth() == $id_auth_photo) {
                 # your work
             } else if ($is_recommended) { # already recommended
                 $add_rec_str .= '<span class="recNote">' . Localizer::$loc['already_rec_note_loc'] . '</span>';
