@@ -301,6 +301,7 @@ class Localizer
         'without_name' => 'Ohne Titel',
         'success_unsubscribe' => 'Sie haben den Newsletter abbestellt',
         'success_unsubscribe_top' => 'Sie haben den Newsletter<br> mit besten Bildern und interessanten Anmerkungen abbestellt',
+        'author_blocked_loc' => 'Dieser Benutzer oder dieses Bild ist vorübergehend gesperrt',
 
         'smile_loc' => 'Grinsen',
         'wink_loc' => 'Zwinkern',
@@ -579,6 +580,7 @@ class Localizer
         'without_name' => 'Без названия',
         'success_unsubscribe' => 'Вы успешно отписались от рассылки',
         'success_unsubscribe_top' => 'Вы успешно отписались<br>от рассылки о самых интересных событиях на сайте',
+        'author_blocked_loc' => 'Автор или данная работа временно заблокированы',
 
         'smile_loc' => 'Улыбка',
         'wink_loc' => 'Подмигивание',

@@ -64,7 +64,9 @@ class CommModel
                     continue;
 
                 $comm_text = $v[Localizer::$col_comm_text];
-                if ($comm_text == '' || strstr($comm_text, '.ru'))
+                if (Config::$lang == 'ru' || Config::$lang == 'by') {
+                    #ok
+                } else if (!Utils::hideRussian($comm_text) || strstr($comm_text, '.ru'))
                     continue;
 
                 if ($v['comm_status'] == 1)
@@ -105,14 +107,13 @@ class CommModel
             }
             $comm .= '</table>';
         }
-        #if($comments == '') $comments = '<div style="padding: 6px 6px;">No comments yet</div>';
 
         return array(
             'comm' => $comm,
         );
     }
 
-    public static function getComments($id_photo, $id_auth_photo, $is_ph_anon = 0, $ph_critique = 0)
+    public static function getComments($id_photo, $id_auth_photo, $is_ph_anon = 0, $ph_critique = 0, $auth_status_photo = 1)
     {
         $sql_comments = "SELECT
                 COMM.id_comm, COMM.id_auth, COMM.comm_text, COMM.comm_text_en, COMM.comm_text_de, COMM.comm_status,
@@ -187,7 +188,7 @@ class CommModel
 
         if ($ph_critique == Consta::PH_NO_COMM || $is_comm_deleted || CommModel::isBannedAuthor($id_auth_photo)) {
             $comments .= '<div style="margin: 10px 0 16px 0; font-size: 12px;">' . Localizer::$loc['forbidden_write_comm_loc'] . '</div>';
-        } else if (Auth::getIdAuth() != -1 && Auth::getAuthType() != Consta::AUTH_TYPE_VIEWER) {
+        } else if ($auth_status_photo && Auth::getIdAuth() != -1 && Auth::getAuthType() != Consta::AUTH_TYPE_VIEWER) {
             $tpl_work_comm_form_var['add_comm_loc'] = Localizer::$loc['add_comm_loc'];
             $tpl_work_comm_form_var['css_url'] = Config::$css_url;
             $tpl_work_comm_form_var['theme'] = Config::$theme;

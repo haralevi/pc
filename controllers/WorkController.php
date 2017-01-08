@@ -72,8 +72,7 @@ class WorkController extends Controller
             $params['id_auth_photo'] = $id_auth_photo;
             $page_type = 'id_auth_photo';
             $param_nav = '&id_auth_photo=' . $id_auth_photo;
-        }
-        else {
+        } else {
             $page_type = '';
             $param_nav = '';
         }
@@ -115,7 +114,7 @@ class WorkController extends Controller
         # parse comments
         require dirname(__FILE__) . '/../models/CommModel.php';
 
-        $res_comments = CommModel::getComments($id_photo, $res_work['id_auth_photo'], $res_work['is_ph_anon']);
+        $res_comments = CommModel::getComments($id_photo, $res_work['id_auth_photo'], $res_work['is_ph_anon'], 0, $res_work['auth_status_photo']);
         $comments = $res_comments['comments'];
         # /parse comments
 

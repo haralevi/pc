@@ -105,6 +105,7 @@ class WorkModel
                 # remember ids for navigation
                 $prev_next_nav .= $id_photo . ',';
 
+
                 $work_img = Utils::parseWorkImg($id_photo, $v['id_auth_photo'], $v['id_cat_new'], $v['ph_main_w'], $v['ph_main_h']);
 
                 $param_nav = '';
@@ -279,7 +280,7 @@ class WorkModel
 
             $id_auth_photo = $res_work[0]['id_auth_photo'];
 
-            $sql_author = "SELECT auth_avatar, auth_gender, auth_premium
+            $sql_author = "SELECT auth_avatar, auth_gender, auth_premium, auth_status
                 FROM ds_authors
                 WHERE id_auth=" . $id_auth_photo . "
                 LIMIT 1";
@@ -301,7 +302,10 @@ class WorkModel
             $ph_rating = number_format($ph_rating, 2);
             $ph_rec_cnt = sizeof($res_recs);
 
-            $work_img = Utils::parseWorkImg($id_photo, $res_work[0]['id_auth_photo'], $res_work[0]['id_cat_new'], $res_work[0]['ph_main_w'], $res_work[0]['ph_main_h'], true);
+            if ($res_author[0]['auth_status'])
+                $work_img = Utils::parseWorkImg($id_photo, $res_work[0]['id_auth_photo'], $res_work[0]['id_cat_new'], $res_work[0]['ph_main_w'], $res_work[0]['ph_main_h'], true);
+            else
+                $work_img = '<div style="padding: 40px 0 40px 0;">' . Localizer::$loc['author_blocked_loc'] . '</div>';
 
             if (isset($params['all'])) {
                 $param_nav = '&all=' . $params['all'];
@@ -313,8 +317,7 @@ class WorkModel
                 $param_nav = '&favorites=' . $params['favorites'];
             } else if (isset($params['id_auth_photo'])) {
                 $param_nav = '&id_auth_photo=' . $params['id_auth_photo'];
-            }
-            else {
+            } else {
                 $param_nav = '';
             }
 
@@ -411,6 +414,7 @@ class WorkModel
                 'ph_name' => $ph_name,
                 'is_ph_anon' => $is_ph_anon,
                 'id_auth_photo' => $id_auth_photo,
+                'auth_status_photo' => $res_author[0]['auth_status'],
                 'auth_name_photo' => $auth_name_photo,
                 'work' => $work,
             );
