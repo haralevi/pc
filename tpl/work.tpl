@@ -3,4 +3,7 @@
     <div class="wrapContent" itemscope itemtype="http://schema.org/UserComments">
         {comments}
     </div>
+    <div class="goad">
+        {goad}
+    </div>
 </div>

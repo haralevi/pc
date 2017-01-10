@@ -44,7 +44,7 @@ class Parse
         $tpl_var = Parse::setSeoVars($tpl_var);
 
         # set goole vars
-        if(Auth::getAuthType() == Consta::AUTH_TYPE_ADMIN)
+        if (Auth::getAuthType() == Consta::AUTH_TYPE_ADMIN)
             $tpl->clear('GO_BLK');
         $tpl_var = Parse::setGoogleVars($tpl_var);
 
@@ -93,7 +93,7 @@ class Parse
     private static function setUrls($tpl_var)
     {
         $tpl_var['port_icon'] = 'favicon.ico';
-        if (Config::$domainEnd == 'by') $tpl_var['logo_img'] = 'logo_'.Config::SITE_DOMAIN_BY.'.png';
+        if (Config::$domainEnd == 'by') $tpl_var['logo_img'] = 'logo_' . Config::SITE_DOMAIN_BY . '.png';
         else $tpl_var['logo_img'] = 'logo_' . Config::SITE_DOMAIN . '.png';
         $tpl_var['home_url'] = Config::$home_url;
         $tpl_var['css_url'] = Config::$css_url;
@@ -108,7 +108,7 @@ class Parse
     private static function setSeoVars($tpl_var)
     {
         $site_name = Utils::getSiteName();
-        if(!isset($tpl_var['canonical_url'])) $tpl_var['canonical_url'] = Config::$canonical_url;
+        if (!isset($tpl_var['canonical_url'])) $tpl_var['canonical_url'] = Config::$canonical_url;
         if (!isset($tpl_var['port_seo_title'])) $tpl_var['port_seo_title'] = $site_name . ' / ' . Localizer::$loc['main_title_loc'];
         if (!isset($tpl_var['port_seo_desc'])) $tpl_var['port_seo_desc'] = $site_name . ' / ' . Localizer::$loc['main_title_loc'];
         if (!isset($tpl_var['port_seo_keys'])) $tpl_var['port_seo_keys'] = $site_name . ' / ' . Localizer::$loc['main_title_loc'];

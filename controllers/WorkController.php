@@ -177,7 +177,8 @@ class WorkController extends Controller
             'ph_name' => $ph_name,
             'auth_name_photo' => $auth_name_photo,
             'comments' => $comments,
-            'page_type' => $page_type
+            'page_type' => $page_type,
+            'goad' => Utils::getGoad(),
         );
 
         if (!WorkController::$isJson)
@@ -195,6 +196,7 @@ class WorkController extends Controller
 
         WorkController::$tpl_var['work'] = $work['work'];
         WorkController::$tpl_var['comments'] = $work['comments'];
+        WorkController::$tpl_var['goad'] = $work['goad'];
 
         WorkController::$tpl->parse(WorkController::$tpl_var);
 
@@ -224,7 +226,7 @@ class WorkController extends Controller
             $json .= '"hrefPrev": "' . Utils::prepareJson($work['hrefPrev']) . '", ';
             $json .= '"hrefNext": "' . Utils::prepareJson($work['hrefNext']) . '", ';
             $json .= '"title": "' . Utils::prepareJson(str_replace('&quot;', '"', $work['ph_name']) . ' / ' . $work['auth_name_photo']) . '", ';
-            $json .= '"ajaxBody": "' . Utils::prepareJson($work['work'] . '<div class="wrapContent">' . $work['comments']) . '</div>" ';
+            $json .= '"ajaxBody": "' . Utils::prepareJson($work['work'] . '<div class="wrapContent">' . $work['comments'] . '</div><div class="goad">' . $work['goad'] . '</div>') . '" ';
         }
         $json .= '}';
         # /build json

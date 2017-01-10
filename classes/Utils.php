@@ -611,11 +611,19 @@ From: ' . $from_email . '
     public static function getChangeLangUrl($domainEnd, $isLogin = false)
     {
         $uri = Config::$request_uri;
-        if($isLogin) {
+        if ($isLogin) {
             $uri = Utils::addParam($uri, 'wrn_login', 1);
             $uri = Utils::addParam($uri, 'chla', 1);
         }
         $uri = str_replace('&amp;', '&', $uri);
         return Config::$http_scheme . Config::SITE_SUBDOMAIN . Config::SITE_DOMAIN . '.' . $domainEnd . $uri;
+    }
+
+    public static function getGoad()
+    {
+        $goad = '';
+        if (Auth::getAuthPremium() == Consta::AUTH_PREMIUM_0)
+            $goad = '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6341745028943688" data-ad-slot="6506134659" data-ad-format="auto"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script>';
+        return $goad;
     }
 }

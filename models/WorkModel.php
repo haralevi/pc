@@ -343,24 +343,26 @@ class WorkModel
             $tpl_work_main_img_var['ph_rating_str'] = $ph_rating_str;
 
             $add_rec_str = '';
-            if ($res_work[0]['id_cat_new'] >= Consta::FIRST_SPEC_CAT) { # no rating category
-                $add_rec_str .= '<span class="recNote">' . Localizer::$cat_names[$res_work[0]['id_cat_new']] . '</span>';
-            } else if ($ph_norating || Auth::getIdAuth() == $id_auth_photo) {
-                # your work
-            } else if ($is_recommended) { # already recommended
-                $add_rec_str .= '<span class="recNote">' . Localizer::$loc['already_rec_note_loc'] . '</span>';
-            } else if (!WorkModel::isRecAllowed()) { # rec limit is achieved
-                $add_rec_str .= '<span class="recNote">' . Localizer::$loc['limit_recs_achieved_1_loc'] . '<br /><b>' . Utils::getRecPerDay(Auth::getAuthPremium()) . '</b> ' . Localizer::$loc['limit_recs_achieved_2_loc'] . '</span>';
-            } else if (Auth::getIdAuth() != -1) { # ok, logged author can recommend
-                $add_rec_str .= '<a id="addRecBtn" href="#" class="saveBtn">' . Localizer::$loc['add_rec_loc'] . '</a>';
-            } else {
-                #author unlogged
+            if($res_author[0]['auth_status']) {
+                if ($res_work[0]['id_cat_new'] >= Consta::FIRST_SPEC_CAT) { # no rating category
+                    $add_rec_str .= '<span class="recNote">' . Localizer::$cat_names[$res_work[0]['id_cat_new']] . '</span>';
+                } else if ($ph_norating || Auth::getIdAuth() == $id_auth_photo) {
+                    # your work
+                } else if ($is_recommended) { # already recommended
+                    $add_rec_str .= '<span class="recNote">' . Localizer::$loc['already_rec_note_loc'] . '</span>';
+                } else if (!WorkModel::isRecAllowed()) { # rec limit is achieved
+                    $add_rec_str .= '<span class="recNote">' . Localizer::$loc['limit_recs_achieved_1_loc'] . '<br /><b>' . Utils::getRecPerDay(Auth::getAuthPremium()) . '</b> ' . Localizer::$loc['limit_recs_achieved_2_loc'] . '</span>';
+                } else if (Auth::getIdAuth() != -1) { # ok, logged author can recommend
+                    $add_rec_str .= '<a id="addRecBtn" href="#" class="saveBtn">' . Localizer::$loc['add_rec_loc'] . '</a>';
+                } else {
+                    #author unlogged
+                }
             }
             $tpl_work_main_img_var['add_rec_str'] = $add_rec_str;
 
             $home_album_str = '';
 
-            if (Auth::getIdAuth() != -1 && Auth::getIdAuth() != $id_auth_photo && !$is_recommended && $res_work[0]['id_cat_new'] < Consta::FIRST_SPEC_CAT && (Auth::getAuthRating() >= Consta::HOME_BTN_MIN_RATING || Auth::getAuthType() == Consta::AUTH_TYPE_ADMIN)) {
+            if ($res_author[0]['auth_status'] && Auth::getIdAuth() != -1 && Auth::getIdAuth() != $id_auth_photo && !$is_recommended && $res_work[0]['id_cat_new'] < Consta::FIRST_SPEC_CAT && (Auth::getAuthRating() >= Consta::HOME_BTN_MIN_RATING || Auth::getAuthType() == Consta::AUTH_TYPE_ADMIN)) {
                 $sql_home_album = "SELECT id_photo FROM ds_home_album WHERE id_photo=" . $id_photo . " AND id_auth=" . Auth::getIdAuth() . " LIMIT 1";
                 $res_home_album = Mcache::cacheDbi($sql_home_album, 300, array('ds_home_album=' . $id_photo));
                 if (!sizeof($res_home_album)) {
@@ -377,7 +379,7 @@ class WorkModel
             $tpl_work_main_img_var['home_album_str'] = $home_album_str;
 
             $fineart_str = '';
-            if (in_array(Auth::getIdAuth(), Consta::$auth_fineart_arr)) {
+            if ($res_author[0]['auth_status'] && in_array(Auth::getIdAuth(), Consta::$auth_fineart_arr)) {
                 if ($res_work[0]['ph_is_fineart'])
                     $fineart_str .= '<a id="fineartBtn" data-fineart="0" href="#" class="saveBtn">Not Fine</a>';
                 else
