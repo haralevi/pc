@@ -189,18 +189,22 @@ class WorkController extends Controller
         return true;
     }
 
-    private static function parse($work)
+    private static function parseWorkTpl($work)
     {
-        if (!$work)
-            die();
-
         WorkController::$tpl_var['work'] = $work['work'];
         WorkController::$tpl_var['comments'] = $work['comments'];
         WorkController::$tpl_var['goad'] = $work['goad'];
 
         WorkController::$tpl->parse(WorkController::$tpl_var);
+        return WorkController::$tpl->get();
+    }
 
-        WorkController::$tpl_main_var['content'] = WorkController::$tpl->get();
+    private static function parse($work)
+    {
+        if (!$work)
+            die();
+
+        WorkController::$tpl_main_var['content'] = WorkController::parseWorkTpl($work);
 
         WorkController::$tpl_main_var['href_prev_page'] = $work['hrefPrev'];
         WorkController::$tpl_main_var['href_next_page'] = $work['hrefNext'];
@@ -226,7 +230,7 @@ class WorkController extends Controller
             $json .= '"hrefPrev": "' . Utils::prepareJson($work['hrefPrev']) . '", ';
             $json .= '"hrefNext": "' . Utils::prepareJson($work['hrefNext']) . '", ';
             $json .= '"title": "' . Utils::prepareJson(str_replace('&quot;', '"', $work['ph_name']) . ' / ' . $work['auth_name_photo']) . '", ';
-            $json .= '"ajaxBody": "' . Utils::prepareJson($work['work'] . '<div class="wrapContent">' . $work['comments'] . '</div><div class="goad">' . $work['goad'] . '</div>') . '" ';
+            $json .= '"ajaxBody": "' . Utils::prepareJson(WorkController::parseWorkTpl($work)) . '" ';
         }
         $json .= '}';
         # /build json

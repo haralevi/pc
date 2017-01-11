@@ -10,6 +10,6 @@
 </div>
 <!--[TITLE_BLK]-->
 
-<div class="wrapContent clearfix" id="ajaxBody">
+<div class="wrapContent clearfix">
     {works}
 </div>

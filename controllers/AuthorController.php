@@ -78,21 +78,19 @@ class AuthorController extends Controller
 
         $res_works = WorkModel::getWorks(array('id_auth_photo' => $id_auth_photo), $page);
         if (!sizeof($res_works)) {
-            if($page == 1) {
+            if ($page == 1) {
                 if (!AuthorController::$isJson)
                     $works = '';
                 else
                     return false;
-            }
-            else {
+            } else {
                 if (!AuthorController::$isJson)
                     header('Location: ' . Config::$home_url . 'author.php?id_auth=' . $id_auth_photo);
                 else
                     echo 'Location: ' . Config::$home_url . 'author.php?id_auth=' . $id_auth_photo;
                 die();
             }
-        }
-        else
+        } else
             $works = $res_works['works'];
         # /parse works
 
@@ -119,7 +117,17 @@ class AuthorController extends Controller
             AuthorController::parseJson($author);
 
         return true;
+    }
 
+    private static function parseAuthorTpl($author)
+    {
+        AuthorController::$tpl_var['id_auth_photo'] = $author['id_auth_photo'];
+        AuthorController::$tpl_var['author'] = $author['author'];
+        AuthorController::$tpl_var['works'] = $author['works'];
+
+        AuthorController::$tpl->parse(AuthorController::$tpl_var);
+
+        return AuthorController::$tpl->get();
     }
 
     private static function parse($author)
@@ -127,13 +135,7 @@ class AuthorController extends Controller
         if (!$author)
             die();
 
-        AuthorController::$tpl_var['id_auth_photo'] = $author['id_auth_photo'];
-        AuthorController::$tpl_var['author'] = $author['author'];
-        AuthorController::$tpl_var['works'] = $author['works'];
-
-        AuthorController::$tpl->parse(AuthorController::$tpl_var);
-
-        AuthorController::$tpl_main_var['content'] = AuthorController::$tpl->get();
+        AuthorController::$tpl_main_var['content'] = AuthorController::parseAuthorTpl($author);
         AuthorController::$tpl_main_var['href_prev_page'] = $author['hrefPrev'];
         AuthorController::$tpl_main_var['href_next_page'] = $author['hrefNext'];
 
@@ -161,7 +163,7 @@ class AuthorController extends Controller
             $json .= '"canonicalUrl": "' . AuthorController::getCanonicalUrl($author['id_auth_photo'], $author['page']) . '", ';
             $json .= '"hrefPrev": "' . Utils::prepareJson($author['hrefPrev']) . '", ';
             $json .= '"hrefNext": "' . Utils::prepareJson($author['hrefNext']) . '", ';
-            $json .= '"ajaxBody": "' . Utils::prepareJson($author['works']) . '" ';
+            $json .= '"ajaxBody": "' . Utils::prepareJson(AuthorController::parseAuthorTpl($author)) . '" ';
         }
         $json .= '}';
         # /build json

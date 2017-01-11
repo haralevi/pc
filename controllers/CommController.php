@@ -78,16 +78,21 @@ class CommController extends Controller
         return true;
     }
 
+    private static function parseCommTpl($comm)
+    {
+        CommController::$tpl_var['comm'] = $comm['comm'];
+
+        CommController::$tpl->parse(CommController::$tpl_var);
+
+        return CommController::$tpl->get();
+    }
+
     private static function parse($comm)
     {
         if (!$comm)
             die();
 
-        CommController::$tpl_var['comm'] = $comm['comm'];
-
-        CommController::$tpl->parse(CommController::$tpl_var);
-
-        CommController::$tpl_main_var['content'] = CommController::$tpl->get();
+        CommController::$tpl_main_var['content'] = CommController::parseCommTpl($comm);
 
         CommController::$tpl_main_var['href_prev_page'] = $comm['hrefPrev'];
         CommController::$tpl_main_var['href_next_page'] = $comm['hrefNext'];
@@ -112,7 +117,7 @@ class CommController extends Controller
             $json .= '"canonicalUrl": "' . CommController::getCanonicalUrl($comm['page']) . '", ';
             $json .= '"hrefPrev": "' . Utils::prepareJson($comm['hrefPrev']) . '", ';
             $json .= '"hrefNext": "' . Utils::prepareJson($comm['hrefNext']) . '", ';
-            $json .= '"ajaxBody": "' . Utils::prepareJson($comm['comm']) . '" ';
+            $json .= '"ajaxBody": "' . Utils::prepareJson(CommController::parseCommTpl($comm)) . '" ';
         }
         $json .= '}';
         # /build json

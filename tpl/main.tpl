@@ -71,7 +71,9 @@
     <!--[LOGGED_BLK]-->
 </div>
 
-{content}
+<div id="ajaxBody">
+    {content}
+</div>
 
 <div class="footer">
     <div class="wrapContent clearfix">

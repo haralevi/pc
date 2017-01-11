@@ -141,11 +141,8 @@ class IndexController extends Controller
         return true;
     }
 
-    private static function parse($index)
+    private static function parseCommTpl($index)
     {
-        if (!$index)
-            die();
-
         if ($index['title'])
             IndexController::$tpl_var['title'] = $index['title'];
         else
@@ -160,7 +157,15 @@ class IndexController extends Controller
 
         IndexController::$tpl->parse(IndexController::$tpl_var);
 
-        IndexController::$tpl_main_var['content'] = IndexController::$tpl->get();
+        return IndexController::$tpl->get();
+    }
+
+    private static function parse($index)
+    {
+        if (!$index)
+            die();
+
+        IndexController::$tpl_main_var['content'] = IndexController::parseCommTpl($index);
 
         IndexController::$tpl_main_var['href_prev_page'] = $index['hrefPrev'];
         IndexController::$tpl_main_var['href_next_page'] = $index['hrefNext'];
@@ -186,7 +191,7 @@ class IndexController extends Controller
             $json .= '"canonicalUrl": "' . IndexController::getCanonicalUrl($index['page'], $index['page_type']) . '", ';
             $json .= '"hrefPrev": "' . Utils::prepareJson($index['hrefPrev']) . '", ';
             $json .= '"hrefNext": "' . Utils::prepareJson($index['hrefNext']) . '", ';
-            $json .= '"ajaxBody": "' . Utils::prepareJson($index['works']) . '" ';
+            $json .= '"ajaxBody": "' . Utils::prepareJson(IndexController::parseCommTpl($index)) . '" ';
         }
         $json .= '}';
         # /build json

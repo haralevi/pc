@@ -2,7 +2,7 @@
     {author}
 </div>
 
-<div class="wrapContent clearfix" id="ajaxBody">
+<div class="wrapContent clearfix">
     {works}
 </div>
 
