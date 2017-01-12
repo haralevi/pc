@@ -22,8 +22,16 @@ class Config
     const DB_PASSWORD = 'photocommunity';
     const DB_NAME = 'photocommunity';
 
-    public static $css_ver = 1.37;
-    public static $js_ver = 1.69;
+    const VK_API_ID_RU = '1';
+    const VK_API_ID_BY = '1';
+
+    const FACEBOOK_APP_ID_RU = '1';
+    const FACEBOOK_SECRET_RU = '1';
+    const FACEBOOK_APP_ID_BY = '1';
+    const FACEBOOK_SECRET_BY = '1';
+
+    public static $css_ver = 1;
+    public static $js_ver = 1;
 
     public static $http_scheme = '//';
     public static $http_host;
@@ -162,7 +170,7 @@ class Config
         else
             Config::$domainEndImg = Config::$domainEnd;
 
-        Config::$ImgPath = Config::$http_scheme . Config::SITE_DOMAIN  . '.' . Config::$domainEndImg . '/' . Config::$ImgPath;
+        Config::$ImgPath = Config::$http_scheme . Config::SITE_DOMAIN . '.' . Config::$domainEndImg . '/' . Config::$ImgPath;
 
         Config::$noreply_email = 'noreply@' . Config::$SiteDom . '.' . Config::$domainEnd;
     }

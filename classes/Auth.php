@@ -322,13 +322,23 @@ class Auth
     public static function getFacebookLogin()
     {
         require_once dirname(__FILE__) . '/../../../facebook-php-sdk-v4-5.0-dev/src/Facebook/autoload.php';
+
+        if (Config::$domainEnd == 'by') {
+            $app_id = Config::FACEBOOK_APP_ID_BY;
+            $app_secret = Config::FACEBOOK_SECRET_BY;
+        } else {
+            $app_id = Config::FACEBOOK_APP_ID_RU;
+            $app_secret = Config::FACEBOOK_SECRET_RU;
+        }
+
         $fb = new Facebook\Facebook([
-            'app_id' => Consta::$FACEBOOK_APP_ID,
-            'app_secret' => Consta::$FACEBOOK_SECRET,
+            'app_id' => $app_id,
+            'app_secret' => $app_secret,
             'default_graph_version' => 'v2.8',
         ]);
         $helper = $fb->getRedirectLoginHelper();
         $permissions = ['email']; // Optional permissions
+
         return $helper->getLoginUrl('http:' . str_replace(Config::$subDomain, '', Config::$home_url) . 'fb.php', $permissions);
     }
 
