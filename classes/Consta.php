@@ -69,6 +69,7 @@ class Consta
     const WORKS_PER_PAGE_CANONICAL = 30;
     const COMM_PER_PAGE = 20;
     const MOBILE_MAX_WIDTH = 400;
+    const THUMB_WIDTH = 50;
     const RECS_SEC_LIMIT = 84600;
     const MIN_AUTH_POWER = 0.2;
     const PH_NO_COMM = 1;

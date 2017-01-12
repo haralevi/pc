@@ -684,6 +684,23 @@ $authName-w: 70%;
   display: block;
 }
 
+.nudeWarn {
+  position: absolute;
+  z-index: 100;
+  display: block;
+  font-size: 24px;
+  line-height: 30px;
+  width: 100%;
+  height: 30px;
+  color: #ccc;
+  text-align: center;
+  text-decoration: underline;
+}
+
+.nudeWarn:hover {
+  color: #ccc;
+}
+
 .goad {
   text-align: center;
   width: 728px;
