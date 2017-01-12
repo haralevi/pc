@@ -86,11 +86,11 @@ $content-width: 400px; /* will be always redefined in page header */
 }
 
 .nudePreview {
-  background: #303030 url(black/nu.png) no-repeat 50% 50%;
+  @extend .blur;
 }
 
 .nudePreviewThumb {
-  background: #303030 url(black/nu_thumb.png) no-repeat 50% 50%;
+  @extend .blur;
 }
 
 /********************************************/
@@ -102,8 +102,6 @@ $content-width: 400px; /* will be always redefined in page header */
   background: -moz-linear-gradient(top, $from, $to);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$from', endColorstr='$to');
 }
-
-$blur-radius: 5px;
 
 @mixin blur($radius) {
   -webkit-filter: blur($radius);
@@ -128,6 +126,8 @@ $blur-radius: 5px;
   -o-filter: blur($radius) grayscale($procent);
   filter: blur($radius) grayscale($procent);
 }
+
+$blur-radius: 5px;
 
 .blur {
   @include blur($blur-radius);

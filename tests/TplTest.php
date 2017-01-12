@@ -23,10 +23,11 @@ class TplTest extends \PHPUnit_Framework_TestCase
     {
         # init necessary objects
         $this->tpl = new Tpl();
-        $this->content = '<div class="wrapContentImg clearfix" id="ajaxBody">{work}<div class="wrapContent">{comments}</div></div>';
+        $this->content = '<div class="wrapContentImg clearfix" itemscope itemtype="http://schema.org/ImageObject">{work}<div class="wrapContent" itemscope itemtype="http://schema.org/UserComments">{comments}</div><div class="goad">{goad}</div></div>';
         $this->tpl_var['work'] = 'work';
         $this->tpl_var['comments'] = 'comments';
-        $this->content_parsed = '<div class="wrapContentImg clearfix" id="ajaxBody">work<div class="wrapContent">comments</div></div>';
+        $this->tpl_var['goad'] = 'goad';
+        $this->content_parsed = '<div class="wrapContentImg clearfix" itemscope itemtype="http://schema.org/ImageObject">work<div class="wrapContent" itemscope itemtype="http://schema.org/UserComments">comments</div><div class="goad">goad</div></div>';
     }
 
     public function prepareResult($result) {

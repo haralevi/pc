@@ -21,8 +21,8 @@ const app = {
                 $("html, body").animate({scrollTop: 0}, 300);
                 const $mainImage = $("#mainImage");
                 if ($mainImage.attr("class") == "nudePreview") {
-                    app.showNude();
-                    app.isCrop = !app.isCrop;
+                    if(typeof $mainImage.data("isAllowedNude") === "undefined")
+                        app.showNude();
                 }
                 else {
                     let pos = $mainImage.offset();
@@ -59,8 +59,6 @@ const app = {
         const $mainImage = $("#mainImage");
         if (!$mainImage.length) return false;
         $mainImage.removeClass("nudePreview").addClass("animated fadeIn");
-        if (typeof $mainImage.data("isAllowedNude") !== "undefined")
-            $mainImage.addClass("blur");
         $mainImage.attr("src", $mainImage.data("phPath") + $mainImage.data("idPhoto") + "_mobile.jpg").css({
             width: "auto",
             height: "auto"
@@ -77,8 +75,6 @@ const app = {
             for (let i = 0; i < app.viewedNudes.length; i++) {
                 if ($mainImage.data("idPhoto") == app.viewedNudes[i]) {
                     $mainImage.removeClass("nudePreview");
-                    if (typeof $mainImage.data("isAllowedNude") !== "undefined")
-                        $mainImage.addClass("blur");
                     $mainImage.attr("src", $mainImage.data("phPath") + $mainImage.data("idPhoto") + "_mobile.jpg").css({
                         width: "auto",
                         height: "auto"

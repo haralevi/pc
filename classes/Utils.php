@@ -368,35 +368,32 @@ From: ' . $from_email . '
 
     public static function parseWorkImg($id_photo, $id_auth_photo, $id_cat_new, $ph_main_w, $ph_main_h, $is_id = false, $is_thumb = false)
     {
+        $srcAttr = Utils::getImgPath($id_photo);
+        if ($is_thumb)
+            $srcAttr .= Utils::getImgName($id_photo, 'thumb');
+        else
+            $srcAttr .= Utils::getImgName($id_photo, 'mobile');
+
+        $classAttr = '';
         $dataIsAllowedNude = '';
-        if (($id_cat_new != Consta::NUDE_CAT) || ($id_cat_new == Consta::NUDE_CAT && Auth::getAuthNuGall() && Utils::isAllowedNude())) {
-            $srcAttr = Utils::getImgPath($id_photo);
-            if ($is_thumb)
-                $srcAttr .= Utils::getImgName($id_photo, 'thumb');
-            else
-                $srcAttr .= Utils::getImgName($id_photo, 'mobile');
-            $classAttr = '';
-            $styleAttr = '';
-        } else {
-            $srcAttr = Config::$ImgPath . '1.gif';
-            if ($is_thumb) {
-                $styleH = 50;
-                $classAttr = 'nudePreviewThumb';
-            } else {
-                $styleH = Consta::MOBILE_MAX_WIDTH;
-                $classAttr = 'nudePreview';
-            }
-            $styleAttr = 'width: ' . Consta::MOBILE_MAX_WIDTH . 'px; height: ' . $styleH . 'px; ';
+
+        if ($id_cat_new == Consta::NUDE_CAT && (!Utils::isAllowedNude() || !Auth::getAuthNuGall())) {
+            $srcAttr = str_replace('mobile', 'council', $srcAttr);
+            $classAttr = 'nudePreview';
+            # set not allowed nude  attribute
             if (!Utils::isAllowedNude())
                 $dataIsAllowedNude = ' data-is-allowed-nude="false"';
         }
+
         $ph_path = str_replace($id_photo . '_mobile.jpg', '', Utils::getImgPath($id_photo) . Utils::getImgName($id_photo, 'mobile'));
 
         if ($is_id) $idAttr = 'id="mainImage"';
         else $idAttr = '';
-        $altAttr = '';
 
-        $work_img = '<img ' . $idAttr . ' src="' . $srcAttr . '" class="' . $classAttr . '" ' . $dataIsAllowedNude . ' data-id-auth-photo="' . $id_auth_photo . '" data-id-photo="' . $id_photo . '" data-ph-main-w="' . $ph_main_w . '" data-ph-main-h="' . $ph_main_h . '" data-ph-path="' . $ph_path . '" style="' . $styleAttr . '" alt="' . $altAttr . '" itemprop="contentUrl">';
+        $ph_width = Consta::MOBILE_MAX_WIDTH;
+        $ph_height = ($ph_main_h / $ph_main_w) * Consta::MOBILE_MAX_WIDTH;
+
+        $work_img = '<img ' . $idAttr . ' src="' . $srcAttr . '" class="' . $classAttr . '" ' . $dataIsAllowedNude . ' data-id-auth-photo="' . $id_auth_photo . '" data-id-photo="' . $id_photo . '" data-ph-main-w="' . $ph_main_w . '" data-ph-main-h="' . $ph_main_h . '" data-ph-path="' . $ph_path . '" style="width: ' . $ph_width . 'px; height: ' . $ph_height . 'px" alt="" itemprop="contentUrl">';
         $work_img = str_replace(array(' class=""', ' style=""'), '', $work_img);
         $work_img .= '<img id="mobileImage" src="' . Config::$ImgPath . '1.gif" style="display :none; width: 0; height 0;">';
         return str_replace('  ', ' ', $work_img);

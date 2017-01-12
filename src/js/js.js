@@ -63,9 +63,11 @@ $(function () {
         })
         // show nude
         .on("click", ".nudePreview", function (e) {
-            if (app.showNude()) {
-                e.stopPropagation();
-                e.preventDefault();
+            if(typeof $(this).data("isAllowedNude") === "undefined") {
+                if (app.showNude()) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                }
             }
         })
         // author answer
@@ -76,7 +78,7 @@ $(function () {
         })
         //cropClick
         .on("click", ".cropClick", function (e) {
-            var cropCoordinates = $(this).data("cropCoordinates").split(";");
+            let cropCoordinates = $(this).data("cropCoordinates").split(";");
             if (cropCoordinates.length == 4) {
                 app.cropX = cropCoordinates[0];
                 app.cropY = cropCoordinates[1];
