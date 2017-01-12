@@ -27,7 +27,7 @@ class Geo
         }
         return $instance;
     }
-    
+
     public static function setGeo()
     {
         if (!isset($_SESSION['CountryCode']) || !isset($_SESSION['Gmtoffset'])) {
@@ -56,7 +56,7 @@ class Geo
                     $timezone = 'Europe/Moscow';
                 else
                     $timezone = $record->location->timeZone;
-                
+
                 try {
                     $dateTimeZone = new \DateTimeZone($timezone);
                 } catch (\Exception $e) {
@@ -119,8 +119,7 @@ class Geo
                                 Geo::$Gmtoffset += 0;
                             else
                                 Geo::$Gmtoffset += 3600;
-                        }
-                        else if(Geo::$CountryCode == 'LV') {
+                        } else if (Geo::$CountryCode == 'LV') {
                             Geo::$Gmtoffset -= 3600;
                         }
                     }
@@ -149,7 +148,7 @@ class Geo
         }
 
         # Timezone offset manual
-        if(isset($_SESSION['auth']['id_auth'])) {
+        if (isset($_SESSION['auth']['id_auth'])) {
             if ($_SESSION['auth']['id_auth'] == 21419) # Bluejay - wants to be in europe
                 $_SESSION['Gmtoffset'] = 7200;
             else if ($_SESSION['auth']['id_auth'] == 29057) # Sever - wants to upload at 21:00
@@ -261,8 +260,7 @@ class Geo
                 Geo::$is_robot = true;
             }
             $_SESSION['is_robot'] = Geo::$is_robot;
-        }
-        else
+        } else
             Geo::$is_robot = $_SESSION['is_robot'];
     }
 

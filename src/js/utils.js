@@ -65,7 +65,7 @@ const localCache = {
 
 $.ajaxPrefilter(function (options, originalOptions) {
     if (options.cache) {
-        var complete = originalOptions.complete || $.noop,
+        let complete = originalOptions.complete || $.noop,
             url = originalOptions.url;
         //remove jQuery cache as we have our own localCache
         options.cache = false;
@@ -110,7 +110,7 @@ const utils = {
         return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     },
     isTouch: function () {
-        return 'ontouchstart' in document.documentElement;
+        return (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch)
     },
     getURLParam: function (param, url) {
         return decodeURIComponent((url.match(new RegExp("[?|&]" + param + "=(.+?)(&|$)")) || [, null])[1]);
@@ -135,9 +135,10 @@ const utils = {
         return browserLang;
     },
     isIE7: function () {
-        return (utils.isIE() && utils.getIEVer() <= 7) ? true : false;
-    }, isIE8: function () {
-        return (utils.isIE() && utils.getIEVer() == 8) ? true : false;
+        return !!(utils.isIE() && utils.getIEVer() <= 7);
+    },
+    isIE8: function () {
+        return !!(utils.isIE() && utils.getIEVer() == 8);
     },
     rotateVal: function (el, type) {
         if (!el.length || !(type == "int" || type == "float")) return;
@@ -160,12 +161,12 @@ const utils = {
     },
     postForm: function (path, params, method) {
         method = method || "post"; // Set method to post by default if not specified.
-        var form = document.createElement("form");
+        let form = document.createElement("form");
         form.setAttribute("method", method);
         form.setAttribute("action", path);
-        for(var key in params) {
+        for(let key in params) {
             if(params.hasOwnProperty(key)) {
-                var hiddenField = document.createElement("input");
+                let hiddenField = document.createElement("input");
                 hiddenField.setAttribute("type", "hidden");
                 hiddenField.setAttribute("name", key);
                 hiddenField.setAttribute("value", params[key]);

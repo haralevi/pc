@@ -93,8 +93,10 @@ class Parse
     private static function setUrls($tpl_var)
     {
         $tpl_var['port_icon'] = 'favicon.ico';
+
         if (Config::$domainEnd == 'by') $tpl_var['logo_img'] = 'logo_' . Config::SITE_DOMAIN_BY . '.png';
         else $tpl_var['logo_img'] = 'logo_' . Config::SITE_DOMAIN . '.png';
+
         $tpl_var['home_url'] = Config::$home_url;
         $tpl_var['css_url'] = Config::$css_url;
         $tpl_var['css_ver'] = Config::$css_ver;
@@ -102,6 +104,10 @@ class Parse
         $tpl_var['js_ver'] = Config::$js_ver;
         $tpl_var['css_type'] = Config::$css_type;
         $tpl_var['js_type'] = Config::$js_type;
+
+        if (Auth::getIdAuth() == -1)
+            $tpl_var['fb_login_url'] = Auth::inst()->getFacebookLogin();
+
         return $tpl_var;
     }
 

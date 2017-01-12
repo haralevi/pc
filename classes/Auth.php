@@ -7,6 +7,8 @@
 
 namespace Photocommunity\Mobile;
 
+use Facebook;
+
 class Auth
 {
     private static $beta_users = array(23114, 1311, 21533, 24164, 23320, 14426, 22288, 3563, 19904, 5105, 19430, 4134, 17679, 1, 26, 8073, 5486, 2100, 1485, 1627, 1957, 1762, 3264, 3329, 940, 9220, 3686, 3906, 4154, 2645, 6141, 183, 140, 5250, 794, 3164);
@@ -315,6 +317,19 @@ class Auth
             $_SESSION['port_group_type'] = $res_port['0']['port_group_type'];
         else
             $_SESSION['port_group_type'] = 'def';
+    }
+
+    public static function getFacebookLogin()
+    {
+        require_once dirname(__FILE__) . '/../../../facebook-php-sdk-v4-5.0-dev/src/Facebook/autoload.php';
+        $fb = new Facebook\Facebook([
+            'app_id' => Consta::$FACEBOOK_APP_ID,
+            'app_secret' => Consta::$FACEBOOK_SECRET,
+            'default_graph_version' => 'v2.8',
+        ]);
+        $helper = $fb->getRedirectLoginHelper();
+        $permissions = ['email']; // Optional permissions
+        return $helper->getLoginUrl('http:' . str_replace(Config::$subDomain, '', Config::$home_url) . 'fb.php', $permissions);
     }
 
     public static function isPremium($id_auth, $auth_premium)

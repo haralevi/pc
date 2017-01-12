@@ -14,7 +14,6 @@ const ajax = {
         let pos = $ajaxBody.offset();
         let size = {w: $ajaxBody.width(), h: $ajaxBody.height()};
         if (!$("#ajax_overlay").length) {
-            $ajaxBody.css({height: size.h + "px"});
             $ajaxBody.removeClass("animated fadeIn");
             $('<div id="ajax_overlay"></div>').css({
                 left: pos.left + "px",
@@ -46,7 +45,7 @@ const ajax = {
                 data.hrefPrev = data.hrefPrev.replace(/&amp;/g, "&") || "";
                 data.hrefNext = data.hrefNext.replace(/&amp;/g, "&") || "";
                 $ajaxBody.html(data.ajaxBody);
-                if (!app.isFirstClick) // needed only for ipad, iphone
+                if (!app.isFirstClick || !utils.isMobile()) // needed only for ipad, iphone
                     $ajaxBody.addClass("animated fadeIn");
                 app.isFirstClick = false;
                 if (data.title != "") document.title = data.title;
@@ -74,9 +73,6 @@ const ajax = {
             }
 
             $("#ajax_overlay").remove();
-            $ajaxBody.waitForImages(function () {
-                $ajaxBody.css({height: "auto"});
-            });
             app.isInZoom = false;
         }
     },
