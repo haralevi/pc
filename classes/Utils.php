@@ -399,7 +399,8 @@ From: ' . $from_email . '
             # set not allowed nude  attribute
             if (!Utils::isAllowedNude()) {
                 $dataIsAllowedNude = ' data-is-allowed-nude="false"';
-                $nude_warn = '<a href="' . str_replace(Config::$subDomain, '', Config::$home_url) . 'pricing.php" class="nudeWarn" style="margin-top: ' . ($ph_height / 2 - 30) . 'px">' . Localizer::$loc['access_nu_cat_loc'] . '</a>';
+                if($is_id)
+                    $nude_warn = '<a href="' . str_replace(Config::$subDomain, '', Config::$home_url) . 'pricing.php" id="nudeWarn" class="nudeWarn" style="margin-top: ' . ($ph_height / 2 - 15) . 'px">' . Localizer::$loc['access_nu_cat_loc'] . '</a>';
             }
         }
 

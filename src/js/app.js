@@ -21,7 +21,7 @@ const app = {
                 $("html, body").animate({scrollTop: 0}, 300);
                 const $mainImage = $("#mainImage");
                 if ($mainImage.attr("class") == "nudePreview") {
-                    if(typeof $mainImage.data("isAllowedNude") === "undefined")
+                    if (typeof $mainImage.data("isAllowedNude") === "undefined")
                         app.showNude();
                 }
                 else {
@@ -70,6 +70,8 @@ const app = {
 
     updateMainImg: function () {
         const $mainImage = $("#mainImage");
+        const $nudeWarn = $("#nudeWarn");
+
         if (!$mainImage.length) return;
         if ($mainImage.attr("class") == "nudePreview") {
             for (let i = 0; i < app.viewedNudes.length; i++) {
@@ -107,7 +109,9 @@ const app = {
             mainImageH = (mainImageH / mainImageW) * app.winW;
             mainImageW = app.winW;
         }
+
         $mainImage.css({width: mainImageW + "px", height: mainImageH + "px"});
+        $nudeWarn.css({"margin-top": +(mainImageH / 2 - 15) + "px"});
 
         app.resetImgZoom();
         app.fixCommText();
