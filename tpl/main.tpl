@@ -64,10 +64,10 @@
     <!--[UNLOGGED_BLK]-->
     <!--[LOGGED_BLK]-->
     <div class="submenuItem">
-        <input type="text" name="auth_login" id="auth_login" placeholder="{login_short_loc}" value="" style="width: 78px;">
-        <input type="password" name="auth_pass" id="auth_pass" placeholder="{pass_loc}" value="" style="width: 78px;">
+        <input type="text" name="auth_login" id="auth_login" class="loginFld" placeholder="{login_short_loc}" value="">
+        <input type="password" name="auth_pass" id="auth_pass" class="loginFld" placeholder="{pass_loc}" value="">
         <a id="loginBtn" href="#" class="saveBtn">{enter_short_loc}</a>
-        <a href="{fb_login_url}" class="saveBtn">Facebook</a>
+        <a id="facebookBtn" href="{fb_login_url}" class="saveBtn">Facebook</a>
     </div>
     <!--[LOGGED_BLK]-->
 </div>

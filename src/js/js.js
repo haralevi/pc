@@ -63,7 +63,7 @@ $(function () {
         })
         // show nude
         .on("click", ".nudePreview", function (e) {
-            if(typeof $(this).data("isAllowedNude") === "undefined") {
+            if (typeof $(this).data("isAllowedNude") === "undefined") {
                 if (app.showNude()) {
                     e.stopPropagation();
                     e.preventDefault();
@@ -102,9 +102,11 @@ $(function () {
             app.handleImgZoom();
             e.preventDefault();
         })
+        // cancel system double-click event
         .on("dblclick", "#mainImageA", function (e) {
-            e.preventDefault();  //cancel system double-click event
+            e.preventDefault();
         })
+        // zoom / unzoom main image
         .on("click", "#mainImageA", function (e) {
             app.clicksCnt++;
             if (app.clicksCnt === 1) {
@@ -120,6 +122,10 @@ $(function () {
                 e.preventDefault();
                 app.clicksCnt = 0;
             }
+        })
+        // prevent multiple clicks on slow login with facebook button
+        .on("click", "#facebookBtn", function () {
+            $(this).attr("disabled", true);
         })
         // keyboard next-prev navigation
         .on("keyup", function (e) {

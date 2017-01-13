@@ -345,6 +345,11 @@ $btn-color: #fff;
   outline: 0;
 }
 
+.loginFld {
+  max-width: 20%;
+  min-width: 66px;
+}
+
 .saveBtn {
   @extend .btn;
   color: $btn-color;
@@ -688,17 +693,20 @@ $authName-w: 70%;
   position: absolute;
   z-index: 100;
   display: block;
-  font-size: 20px;
   line-height: 30px;
+  font-size: 20px;
+  font-weight: 700;
   width: 100%;
   height: 30px;
   color: #ccc;
   text-align: center;
-  text-decoration: underline;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.15);
 }
 
 .nudeWarn:hover {
   color: #ccc;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+  text-decoration: none;
 }
 
 .goad {
