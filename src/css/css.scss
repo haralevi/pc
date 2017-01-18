@@ -532,6 +532,7 @@ $share-icons-bg: transparent url(def/share_icons.png);
 
   color: #666;
   border-top: 1px solid #111;
+  word-wrap: break-word;
 }
 
 .msg {
@@ -618,13 +619,16 @@ $commText-w: 320px;
   vertical-align: top;
   padding: 0 6px 16px 10px;
   max-width: $commText-w - 16px;
-  word-wrap: break-word;
 }
 
 .commText {
   max-width: $commText-w;
   overflow: hidden;
   word-wrap: break-word;
+}
+
+.commText a {
+  word-break: break-all;
 }
 
 .commQuote {
@@ -693,11 +697,11 @@ $authName-w: 70%;
   position: absolute;
   z-index: 100;
   display: block;
-  line-height: 30px;
+  line-height: 60px;
   font-size: 20px;
   font-weight: 700;
   width: 100%;
-  height: 30px;
+  height: 60px;
   color: #ccc;
   text-align: center;
   text-shadow: 1px 1px 1px rgba(0,0,0,0.15);
@@ -710,10 +714,11 @@ $authName-w: 70%;
 }
 
 .goad {
-  text-align: center;
   width: 728px;
   max-width: 100%;
   margin: 0 auto;
+  text-align: center;
+  padding-bottom: 10px;
 }
 
 /********************************************/

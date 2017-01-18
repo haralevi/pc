@@ -97,21 +97,22 @@ const app = {
             $mobileImage.waitForImages(function () {
                 $mainImage.attr("src", imgSrc.replace(/mobile/g, srcReplace));
             });
+
+            // resize image according to app width
+            let mainImageW = $mainImage.data("phMainW");
+            let mainImageH = $mainImage.data("phMainH");
+            if (mainImageW > app.winW) {
+                console.log(app.winW);
+                mainImageH = (mainImageH / mainImageW) * app.winW;
+                mainImageW = app.winW;
+            }
+
+            $mainImage.css({width: mainImageW + "px", height: mainImageH + "px"});
+            $nudeWarn.css({"margin-top": +(mainImageH / 2 - 15) + "px"});
         }
         else {
             $mainImage.attr("src", imgSrc.replace(new RegExp(srcReplace, 'g'), 'mobile'));
         }
-
-        // resize image according to app width
-        let mainImageW = $mainImage.data("phMainW");
-        let mainImageH = $mainImage.data("phMainH");
-        if (mainImageW > app.winW) {
-            mainImageH = (mainImageH / mainImageW) * app.winW;
-            mainImageW = app.winW;
-        }
-
-        $mainImage.css({width: mainImageW + "px", height: mainImageH + "px"});
-        $nudeWarn.css({"margin-top": +(mainImageH / 2 - 15) + "px"});
 
         app.resetImgZoom();
         app.fixCommText();

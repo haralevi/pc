@@ -6,3 +6,6 @@
     {works}
 </div>
 
+<div class="goad">
+    {goad}
+</div>

@@ -157,13 +157,24 @@ From: ' . $from_email . '
         return (substr($str, strlen($str) - strlen($sub)) == $sub);
     }
 
-    public static function parseLinks($text, $class = '')
+    public static function parseLinks($str)
     {
-        $tag_list = '\[b|\[i|\[u|\[left|\[center|\[right|\[indent|\[quote|\[highlight|\[\*|\[/b|\[/i|\[/u|\[/left|\[/center|\[/right|\[/indent|\[/quote|\[/highlight';
-        $urlSearchArray = array("#(^|(?<=[^_a-z0-9-=\]\"'/@]|(?<=" . $tag_list . ")\]))((https?|ftp|gopher|news|telnet)://|www\.)((\[(?!/)|[^\s[^$!`\"'|{}<>])+)(?!\[/url|\[/img)(?=[,.]*(\)\s|\)$|[\s[]|$))#siU");
-        if ($class != '') $urlReplaceArray = array('<a rel="nofollow" href="\\2\\4" target="_blank" class="' . $class . '">\\2\\4</a>');
-        else $urlReplaceArray = array('<a rel="nofollow" href="\\2\\4" target="_blank">' . '\\2\\4' . '</a>');
-        return preg_replace($urlSearchArray, $urlReplaceArray, $text);
+        $taglist = '\[b|\[i|\[u|\[left|\[center|\[right|\[indent|\[quote|\[highlight|\[\*|\[/b|\[/i|\[/u|\[/left|\[/center|\[/right|\[/indent|\[/quote|\[/highlight';
+        $urlSearch = "#(^|(?<=[^_a-z0-9-=\]\"'/@]|(?<=" . $taglist . ")\]))((https?|ftp|gopher|news|telnet)://)((\[(?!/)|[^\s[^$!`\"'|{}<>])+)(?!\[/url|\[/img)(?=[,.]*(\)\s|\)$|[\s[]|$))#siU";
+        preg_match_all($urlSearch, $str, $matches);
+        if (sizeof($matches[0])) {
+            $str = preg_replace_callback(
+                $urlSearch,
+                function ($matches) {
+                    return $urlReplace = '<a rel="nofollow" href="' . $matches[2] . $matches[4] . '" target="_blank">' . $matches[2] . $matches[4] . '</a>';
+                },
+                $str
+            );
+            foreach ($matches[0] as $v)
+                if (mb_strlen($v) > 100)
+                    $str = str_replace('>' . $v . '</a>', '>' . mb_substr(urldecode($v), 0, 100) . '</a>', $str);
+        }
+        return $str;
     }
 
     public static function bbUrlParse($str)
@@ -400,7 +411,7 @@ From: ' . $from_email . '
             if (!Utils::isAllowedNude()) {
                 $dataIsAllowedNude = ' data-is-allowed-nude="false"';
                 if ($is_id)
-                    $nude_warn = '<a href="' . str_replace(Config::$subDomain, '', Config::$home_url) . 'pricing.php" id="nudeWarn" class="nudeWarn" style="margin-top: ' . ($ph_height / 2 - 15) . 'px">' . Localizer::$loc['access_nu_cat_loc'] . '</a>';
+                    $nude_warn = '<a href="' . str_replace(Config::$subDomain, '', Config::$home_url) . 'pricing.php" id="nudeWarn" class="nudeWarn" style="margin-top: ' . ($ph_height / 2 - 30) . 'px">' . Localizer::$loc['access_nu_cat_loc'] . '</a>';
             }
         }
 

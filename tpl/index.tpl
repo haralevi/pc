@@ -13,3 +13,7 @@
 <div class="wrapContent clearfix">
     {works}
 </div>
+
+<div class="goad">
+    {goad}
+</div>

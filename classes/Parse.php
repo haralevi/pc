@@ -78,7 +78,7 @@ class Parse
             $debug .= '</div>';
             #$debug = '';
         } else
-            $html = preg_replace('/<\!--\[.*\]-->/', '', $html);
+            $html = preg_replace('/<\!--\[[a-z\d_]+\]-->/i', '', $html);
         $html = str_replace('#debug#', $debug, $html);
         echo $html;
     }

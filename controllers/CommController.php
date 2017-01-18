@@ -68,6 +68,7 @@ class CommController extends Controller
             'hrefNext' => $hrefNext,
             'comm' => $comm,
             'page' => $page,
+            'goad' => Utils::getGoad(),
         );
 
         if (!CommController::$isJson)
@@ -81,6 +82,7 @@ class CommController extends Controller
     private static function parseCommTpl($comm)
     {
         CommController::$tpl_var['comm'] = $comm['comm'];
+        CommController::$tpl_var['goad'] = $comm['goad'];
 
         CommController::$tpl->parse(CommController::$tpl_var);
 

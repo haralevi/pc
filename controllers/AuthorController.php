@@ -109,6 +109,7 @@ class AuthorController extends Controller
             'author' => $author,
             'works' => $works,
             'page' => $page,
+            'goad' => Utils::getGoad(),
         );
 
         if (!AuthorController::$isJson)
@@ -124,6 +125,7 @@ class AuthorController extends Controller
         AuthorController::$tpl_var['id_auth_photo'] = $author['id_auth_photo'];
         AuthorController::$tpl_var['author'] = $author['author'];
         AuthorController::$tpl_var['works'] = $author['works'];
+        AuthorController::$tpl_var['goad'] = $author['goad'];
 
         AuthorController::$tpl->parse(AuthorController::$tpl_var);
 

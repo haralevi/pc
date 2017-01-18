@@ -381,9 +381,9 @@ class WorkModel
             $fineart_str = '';
             if ($res_author[0]['auth_status'] && in_array(Auth::getIdAuth(), Consta::$auth_fineart_arr)) {
                 if ($res_work[0]['ph_is_fineart'])
-                    $fineart_str .= '<a id="fineartBtn" data-fineart="0" href="#" class="saveBtn">Not Fine</a>';
+                    $fineart_str .= '<a id="fineartBtn" data-fineart="0" href="#" class="saveBtn">' . Localizer::$loc['remove_from_fineart'] .'</a>';
                 else
-                    $fineart_str .= '<a id="fineartBtn" data-fineart="1" href="#" class="saveBtn">Fineart</a>';
+                    $fineart_str .= '<a id="fineartBtn" data-fineart="1" href="#" class="saveBtn">' . Localizer::$loc['add_to_fineart'] .'</a>';
             }
             $tpl_work_main_img_var['fineart_str'] = $fineart_str;
 

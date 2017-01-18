@@ -131,6 +131,7 @@ class IndexController extends Controller
             'hrefNext' => $hrefNext,
             'works' => $works,
             'page' => $page,
+            'goad' => Utils::getGoad(),
         );
 
         if (!IndexController::$isJson)
@@ -149,6 +150,7 @@ class IndexController extends Controller
             IndexController::$tpl->clear('TITLE_BLK');
 
         IndexController::$tpl_var['works'] = $index['works'];
+        IndexController::$tpl_var['goad'] = $index['goad'];
 
         if ($index['page_type'])
             IndexController::$tpl_var['page_type_param'] = '?' . $index['page_type'] . '=1';
