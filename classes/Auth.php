@@ -29,7 +29,7 @@ class Auth
     private static $auth_email = '';
     private static $auth_power = Consta::MIN_AUTH_POWER;
     private static $auth_gender = 0;
-    private static $auth_avatar = '';
+    private static $auth_avatar = 0;
     private static $auth_avatar_w = Consta::AVATAR_WIDTH;
     private static $auth_avatar_h = Consta::AVATAR_WIDTH;
     private static $auth_mood = '';
@@ -300,7 +300,10 @@ class Auth
         $sql = "SELECT COUNT(*) FROM ds_recs WHERE id_auth=" . $_SESSION['auth']['id_auth'] . " AND rec_date>" . (Consta::$cur_day - Geo::$Gmtoffset);
         $res_last_recs_cnt = Db::execute($sql);
         $_SESSION['auth']['auth_last_recs_cnt'] = $res_last_recs_cnt[0][0];
-        $sql = "UPDATE ds_authors SET  auth_last_recs_cnt=" . $_SESSION['auth']['auth_last_recs_cnt'] . ", auth_last_click=" . Config::$cur_time . ", auth_last_ip='" . Config::$remote_addr . "' WHERE id_auth=" . $_SESSION['auth']['id_auth'] . " LIMIT 1";
+        if (Config::getDebug())
+            $sql = "UPDATE ds_authors SET  auth_last_recs_cnt=" . $_SESSION['auth']['auth_last_recs_cnt'] . ", auth_last_click=" . Config::$cur_time . " WHERE id_auth=" . $_SESSION['auth']['id_auth'] . " LIMIT 1";
+        else
+            $sql = "UPDATE ds_authors SET  auth_last_recs_cnt=" . $_SESSION['auth']['auth_last_recs_cnt'] . ", auth_last_click=" . Config::$cur_time . ", auth_last_ip='" . Config::$remote_addr . "' WHERE id_auth=" . $_SESSION['auth']['id_auth'] . " LIMIT 1";
         Db::execute($sql);
 
         $sql = "SELECT id_auth_ignored FROM ds_ignored_authors WHERE id_auth=" . $_SESSION['auth']['id_auth'];
@@ -339,7 +342,7 @@ class Auth
         $helper = $fb->getRedirectLoginHelper();
         $permissions = ['email']; // Optional permissions
 
-        return $helper->getLoginUrl('http:' . str_replace(Config::$subDomain, '', Config::$home_url) . 'fb.php', $permissions);
+        return $helper->getLoginUrl('https:' . str_replace(Config::$subDomain, '', Config::$home_url) . 'fb.php', $permissions);
     }
 
     public static function isPremium($id_auth, $auth_premium)

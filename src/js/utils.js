@@ -26,7 +26,7 @@ if (SiteDom.lastIndexOf(".") != -1)
 window.onerror = function (message, file, line, column) {
     try {
         if (parseInt(line) > 1 && file.indexOf("uptolike") == -1 && file.indexOf("bot") == -1 && file.indexOf("yandex") == -1 && file.indexOf("leechlink") == -1 && file != "") {
-            if (typeof id_auth_log === "undefined") var id_auth_log = -1;
+            let id_auth_log = id_auth_log || -1;
             let jserror = "<i>" + (new Date()).toString() + "</i><br><a href=\"" + window.location.href + "\" target=\"_blank\">" + window.location.href + "</a><br><b>id_auth</b>: " + id_auth_log + "<br>" + navigator.userAgent + "<br>" + message + "<br><b>file</b>: " + file + "<b>line</b>: " + line + "<b>column</b>: " + column;
             $.get(ajax.ajaxFld + '/JsErrorHandler.php?jserror=' + encodeURIComponent(jserror));
         }

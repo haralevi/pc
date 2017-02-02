@@ -83,7 +83,7 @@ class AuthorModel
             $tpl_author_header_var['follow_btn_class'] = $follow_btn_class;
             $tpl_author_header_var['follow_btn_val'] = $follow_btn_val;
 
-            $tpl_author_header_var['portfolio_a'] = Config::$http_scheme . $res_author[0]['auth_dom'] . '.' . Config::$SiteDom . '.' . Config::$domainEnd . '/portfolio';
+            $tpl_author_header_var['portfolio_a'] = 'http:' . $res_author[0]['auth_dom'] . '.' . Config::$SiteDom . '.' . Config::$domainEnd;
             $tpl_author_header_var['portfolio_loc'] = Localizer::$loc['portfolio_loc'];
 
             $author = Utils::getTpl('author_header', $tpl_author_header_var);

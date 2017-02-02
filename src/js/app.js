@@ -102,13 +102,12 @@ const app = {
             let mainImageW = $mainImage.data("phMainW");
             let mainImageH = $mainImage.data("phMainH");
             if (mainImageW > app.winW) {
-                console.log(app.winW);
                 mainImageH = (mainImageH / mainImageW) * app.winW;
                 mainImageW = app.winW;
             }
 
             $mainImage.css({width: mainImageW + "px", height: mainImageH + "px"});
-            $nudeWarn.css({"margin-top": +(mainImageH / 2 - 15) + "px"});
+            $nudeWarn.css({"margin-top": +(mainImageH / 2 - 30) + "px"});
         }
         else {
             $mainImage.attr("src", imgSrc.replace(new RegExp(srcReplace, 'g'), 'mobile'));

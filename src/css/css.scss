@@ -138,7 +138,7 @@ $blur-radius: 5px;
 }
 
 .grayscale_blur {
-  @include grayscale-blur(5px, 100%);
+  @include grayscale-blur($blur-radius, 100%);
 }
 
 /********************************************/

@@ -1,13 +1,13 @@
 <table>
     <tr>
         <td style="vertical-align: top;">
-            <div style="position: relative;">
+            <div style="position: relative; max-width: 100px;">
                 <a rel="author" href="{home_url}author.php?id_auth={id_auth_photo}"><img src="{auth_avatar_src}" class="auth_avatar img-rounded" alt=""></a>
                 {auth_premium_badge}
             </div>
         </td>
         <td style="padding-top: 10px; vertical-align: top; white-space: nowrap;">
-            <div style="font-size: 18px; font-weight: 700; max-width: 308px; overflow: hidden; padding: 0 6px 10px 10px;" class="clearfix;">
+            <div style="font-size: 18px; font-weight: 700; max-width: 284px; overflow: hidden; padding: 0 6px 10px 10px;" class="clearfix;">
                 {auth_name_photo}
             </div>
             <div style="clear: left; float:left; width: 60px; font-size: 11px; text-align: center; padding: 6px 0; border-right: 1px solid #333;">

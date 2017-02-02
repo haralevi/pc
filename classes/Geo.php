@@ -155,15 +155,15 @@ class Geo
                 $_SESSION['Gmtoffset'] = 18000;
             else if ($_SESSION['auth']['id_auth'] == 26702) # 8ele8 - wants to be in moscow
                 $_SESSION['Gmtoffset'] = 14400;
-            /*
+            
             if ($_SESSION['Gmtoffset'] == 1 || $_SESSION['Gmtoffset'] == 24) {
-                Config::$remote_addr = '37.44.113.158';
-                Geo::$CountryName = 'Belarus';
-                Geo::$CountryCode = 'BY';
-                Geo::$City = 'Minsk';
-                Geo::$Gmtoffset = 10800;
+                Config::$remote_addr = '136.243.36.96';
+                Geo::$CountryName = 'Germany';
+                Geo::$CountryCode = 'DE';
+                Geo::$City = 'Berlin';
+                Geo::$Gmtoffset = 3600;
             }
-            */
+            /**/
             Geo::$Gmtoffset = $_SESSION['Gmtoffset'];
         }
     }

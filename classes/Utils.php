@@ -202,7 +202,7 @@ From: ' . $from_email . '
     {
         preg_match_all('/\[img\](.+?)\[\/img\]/m', $str, $matches);
         foreach ($matches[1] as $k => $v) {
-            if (strpos($v, 'http://') === 0) $str = str_replace($matches[0][$k], '<img src="' . $v . '" alt="" />', $str);
+            if (strpos($v, 'https://') === 0) $str = str_replace($matches[0][$k], '<img src="' . $v . '" alt="" />', $str);
             else $str = str_replace($matches[0][$k], $v, $str);
         }
         return $str;
@@ -233,23 +233,23 @@ From: ' . $from_email . '
                         $replacement = '<div class="commQuote">' . $inner_text . '</div>';
                         break;
                     case 'img':
-                        if (strpos($inner_text, 'http://') === 0 && (Utils::endsWith($inner_text, '.jpg') || Utils::endsWith($inner_text, '.gif') || Utils::endsWith($inner_text, '.png'))) $replacement = '<img src="' . $inner_text . '" alt="" />';
+                        if (strpos($inner_text, 'https://') === 0 && (Utils::endsWith($inner_text, '.jpg') || Utils::endsWith($inner_text, '.gif') || Utils::endsWith($inner_text, '.png'))) $replacement = '<img src="' . $inner_text . '" alt="" />';
                         else $replacement = $inner_text;
                         break;
                     case 'youtube':
-                        if (strpos($inner_text, 'https://www.youtube.com/watch?v=') === 0 || strpos($inner_text, 'http://www.youtube.com/watch?v=') === 0) {
+                        if (strpos($inner_text, 'http://www.youtube.com/watch?v=') === 0 || strpos($inner_text, 'https://www.youtube.com/watch?v=') === 0) {
                             $video_url = parse_url($inner_text);
                             parse_str($video_url['query'], $video_query);
                             if (strpos($video_url['host'], 'youtube.com') !== false)
-                                $replacement = '<iframe style="max-width:100%;" width="560" height="315" src="http://www.youtube.com/embed/' . $video_query['v'] . '" frameborder="0" allowfullscreen></iframe>';
+                                $replacement = '<iframe style="max-width:100%;" width="560" height="315" src="https://www.youtube.com/embed/' . $video_query['v'] . '" frameborder="0" allowfullscreen></iframe>';
                             else $replacement = $inner_text;
                         } else $replacement = $inner_text;
                         break;
                     case 'vimeo':
-                        if (strpos($inner_text, 'https://vimeo.com/') === 0 || strpos($inner_text, 'http://vimeo.com/') === 0) {
+                        if (strpos($inner_text, 'http://vimeo.com/') === 0 || strpos($inner_text, 'https://vimeo.com/') === 0) {
                             preg_match('/https?:\/\/vimeo.com\/(\d+)/', $inner_text, $m);
                             if (sizeof($m) == 2)
-                                $replacement = '<iframe style="max-width:100%;" width="500" height="281" src="http://player.vimeo.com/video/' . $m[1] . '?title=0&byline=0&portrait=0" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
+                                $replacement = '<iframe style="max-width:100%;" width="500" height="281" src="https://player.vimeo.com/video/' . $m[1] . '?title=0&byline=0&portrait=0" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
                             else $replacement = $inner_text;
                         } else $replacement = $inner_text;
                         break;
@@ -353,7 +353,7 @@ From: ' . $from_email . '
             $log .= 'ID_AUTH: ' . Auth::getIdAuth();
             if (strlen(Auth::getIdAuth()) < 5) $log .= "\t";
             $log .= "\t| ";
-            $log .= 'http://' . Config::$http_host . Config::$request_uri;
+            $log .= 'https://' . Config::$http_host . Config::$request_uri;
             #if (Config::$http_user_agent) $log .=  "\t| " .Config::$http_user_agent;
             $fp = fopen(dirname(__FILE__) . Config::$visitsLogFile, 'a');
             fwrite($fp, $log . "\n");
@@ -368,7 +368,7 @@ From: ' . $from_email . '
         else $avatar_fld = 'authors';
 
         if ($auth_avatar)
-            $auth_avatar_src = Config::$ImgPath . $avatar_fld . '/' . $id_auth . '_author.jpg';
+            $auth_avatar_src = Config::$ImgPath . $avatar_fld . '/' . $id_auth . '_author.jpg?' . $auth_avatar;
         else if ($auth_gender == 0)
             $auth_avatar_src = Config::$css_url . Config::$theme . '/male.png';
         else
