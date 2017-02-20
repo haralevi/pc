@@ -243,9 +243,9 @@ class WorkController extends Controller
     private static function getCanonicalUrl($id_photo)
     {
         if (Config::$domainEnd == 'by')
-            $canonicalUrl = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/work.php?id_photo=' . $id_photo;
+            $canonicalUrl = '//' . Config::$SiteDom . '.' . Config::$domainEnd . '/work.php?id_photo=' . $id_photo;
         else
-            $canonicalUrl = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/work/' . $id_photo;
+            $canonicalUrl = '//' . Config::$SiteDom . '.' . Config::$domainEnd . '/work/' . $id_photo;
         return $canonicalUrl;
     }
 }

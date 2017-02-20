@@ -115,8 +115,7 @@ class Mcache
             $key['tags'] = $key_tags;
         }
         $key['data'] = $data;
-        if ($lifetime !== 0)
-            $lifetime += time();
+        #if ($lifetime !== 0) $lifetime += time();
         return Mcache::$mcache->set($id, $key, $lifetime);
     }
 

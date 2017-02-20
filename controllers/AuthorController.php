@@ -178,9 +178,9 @@ class AuthorController extends Controller
     private static function getCanonicalUrl($id_auth, $page)
     {
         if ($page <= 1) {
-            $canonicalUrl = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/author.php?id_auth=' . $id_auth;
+            $canonicalUrl = '//' . Config::$SiteDom . '.' . Config::$domainEnd . '/author.php?id_auth=' . $id_auth;
         } else {
-            $canonicalUrl = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/author.php?id_auth=' . $id_auth . '&works=1#id_auth_photo=' . $id_auth . '&page=' . Pager::getCanonicalPageIndex($page);
+            $canonicalUrl = '//' . Config::$SiteDom . '.' . Config::$domainEnd . '/author.php?id_auth=' . $id_auth . '&works=1#id_auth_photo=' . $id_auth . '&page=' . Pager::getCanonicalPageIndex($page);
         }
         return $canonicalUrl;
     }

@@ -20,7 +20,7 @@ class PhpErrorHandler
             $error = date("d.m.Y H:i:s") . ' | ';
             if (Config::$remote_addr) $error .= Config::$remote_addr . ' | ';
             if (Auth::getIdAuth() != -1) $error .= 'ID_AUTH: ' . Auth::getIdAuth() . ' | ';
-            $error .= $errstr . ' | LINE: ' . $errline . ' | IN: ' . $errfile . ' | https://' . Config::$http_host . Config::$request_uri;
+            $error .= $errstr . ' | LINE: ' . $errline . ' | IN: ' . $errfile . ' | ' . Config::$http_scheme . '//' . Config::$http_host . Config::$request_uri;
             Utils::errorWriter($error);
         }
     }

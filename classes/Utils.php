@@ -52,10 +52,11 @@ class Utils
     public static function getImgPath($id_photo)
     {
         if ($id_photo >= Consta::ID_PHOTO_CDN_FROM && $id_photo < Consta::ID_PHOTO_LOCAL_FROM)
-            $ImagesPathFunc = Config::$http_scheme . 'cdn.' . Config::SITE_DOMAIN . '.' . Config::$domainEndImg . '/images/';
-        else
-            if ($id_photo % 2) $ImagesPathFunc = Config::$http_scheme . 'i1.' . Config::SITE_DOMAIN . '.' . Config::$domainEndImg . '/images/';
-            else $ImagesPathFunc = Config::$http_scheme . 'ii1.' . Config::SITE_DOMAIN . '.' . Config::$domainEndImg . '/images/';
+            $ImagesPathFunc = '//cdn.' . Config::SITE_DOMAIN . '.' . Config::$domainEndImg . '/images/';
+        else {
+            if ($id_photo % 2) $ImagesPathFunc = '//i1.' . Config::SITE_DOMAIN . '.' . Config::$domainEndImg . '/images/';
+            else $ImagesPathFunc = '//ii1.' . Config::SITE_DOMAIN . '.' . Config::$domainEndImg . '/images/';
+        }
         return $ImagesPathFunc;
     }
 
@@ -233,8 +234,10 @@ From: ' . $from_email . '
                         $replacement = '<div class="commQuote">' . $inner_text . '</div>';
                         break;
                     case 'img':
-                        if (strpos($inner_text, 'https://') === 0 && (Utils::endsWith($inner_text, '.jpg') || Utils::endsWith($inner_text, '.gif') || Utils::endsWith($inner_text, '.png'))) $replacement = '<img src="' . $inner_text . '" alt="" />';
-                        else $replacement = $inner_text;
+                        if ((strpos($inner_text, 'http://') === 0 || strpos($inner_text, 'https://') === 0) && (Utils::endsWith($inner_text, '.jpg') || Utils::endsWith($inner_text, '.gif') || Utils::endsWith($inner_text, '.png')))
+                            $replacement = '<img src="' . $inner_text . '" alt="" />';
+                        else
+                            $replacement = $inner_text;
                         break;
                     case 'youtube':
                         if (strpos($inner_text, 'http://www.youtube.com/watch?v=') === 0 || strpos($inner_text, 'https://www.youtube.com/watch?v=') === 0) {
@@ -242,8 +245,10 @@ From: ' . $from_email . '
                             parse_str($video_url['query'], $video_query);
                             if (strpos($video_url['host'], 'youtube.com') !== false)
                                 $replacement = '<iframe style="max-width:100%;" width="560" height="315" src="https://www.youtube.com/embed/' . $video_query['v'] . '" frameborder="0" allowfullscreen></iframe>';
-                            else $replacement = $inner_text;
-                        } else $replacement = $inner_text;
+                            else
+                                $replacement = $inner_text;
+                        } else
+                            $replacement = $inner_text;
                         break;
                     case 'vimeo':
                         if (strpos($inner_text, 'http://vimeo.com/') === 0 || strpos($inner_text, 'https://vimeo.com/') === 0) {
@@ -346,11 +351,17 @@ From: ' . $from_email . '
     {
         #if (!Geo::$is_robot && !strstr(Config::$request_uri, 'get_views.php') && !in_array(Auth::getIdAuth(), array(1, 24, 26))) {
         if (!strstr(Config::$request_uri, 'get_views.php') && !in_array(Auth::getIdAuth(), array(1, 24, 26))) {
+            if (isset($_SESSION['auth']['id_auth']))
+                $id_auth = $_SESSION['auth']['id_auth'];
+            else if(isset($_COOKIE['X']) || isset($_COOKIE['Y']))
+                $id_auth = 0;
+            else
+                $id_auth = -1;
             $log = date("d.m.Y H:i:s", Config::$cur_time + 3600) . "\t| ";
             if (Config::$remote_addr) $log .= Config::$remote_addr;
             if (strlen(Config::$remote_addr) < 14) $log .= "\t";
             $log .= "\t| ";
-            $log .= 'ID_AUTH: ' . Auth::getIdAuth();
+            $log .= 'ID_AUTH: ' . $id_auth;
             if (strlen(Auth::getIdAuth()) < 5) $log .= "\t";
             $log .= "\t| ";
             $log .= 'https://' . Config::$http_host . Config::$request_uri;
@@ -465,7 +476,7 @@ From: ' . $from_email . '
             $style_arr['position'] = $position;
         $style = Utils::buildStyle($style_arr);
 
-        $pricingHref = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/pricing.php';
+        $pricingHref = '//' . Config::$SiteDom . '.' . Config::$domainEnd . '/pricing.php';
         if ($auth_premium == Consta::AUTH_PREMIUM_1)
             $auth_badge = '<a href="' . $pricingHref . '" title="' . Consta::AUTH_PREMIUM_NAME_1 . ' Account"><img class="authBadge" ' . $style . ' src="' . Config::$css_url . Config::$theme . '/plus.gif" alt="' . Consta::AUTH_PREMIUM_NAME_1 . ' Account" /></a>';
         else if ($auth_premium == Consta::AUTH_PREMIUM_2)
@@ -644,7 +655,7 @@ From: ' . $from_email . '
             $uri = Utils::addParam($uri, 'chla', 1);
         }
         $uri = str_replace('&amp;', '&', $uri);
-        return Config::$http_scheme . Config::SITE_SUBDOMAIN . Config::SITE_DOMAIN . '.' . $domainEnd . $uri;
+        return '//' . Config::SITE_SUBDOMAIN . Config::SITE_DOMAIN . '.' . $domainEnd . $uri;
     }
 
     public static function getGoad()

@@ -206,13 +206,13 @@ class IndexController extends Controller
     private static function getCanonicalUrl($page, $page_type)
     {
         if ($page <= 1 && $page_type == '') {
-            $canonicalUrl = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd;
+            $canonicalUrl = '//' . Config::$SiteDom . '.' . Config::$domainEnd;
         } else {
             if ($page_type == '')
                 $page_type = 'featured';
             else if ($page_type == 'popular')
                 $page_type = 'rated';
-            $canonicalUrl = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/gallery.php#' . $page_type . '=1&range=7&page=' . Pager::getCanonicalPageIndex($page);
+            $canonicalUrl = '//' . Config::$SiteDom . '.' . Config::$domainEnd . '/gallery.php#' . $page_type . '=1&range=7&page=' . Pager::getCanonicalPageIndex($page);
         }
         return $canonicalUrl;
     }

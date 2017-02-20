@@ -132,9 +132,9 @@ class CommController extends Controller
     private static function getCanonicalUrl($page)
     {
         if ($page <= 1) {
-            $canonicalUrl = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/comm.php';
+            $canonicalUrl = '//' . Config::$SiteDom . '.' . Config::$domainEnd . '/comm.php';
         } else {
-            $canonicalUrl = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . '/comm.php?page=' . $page;
+            $canonicalUrl = '//' . Config::$SiteDom . '.' . Config::$domainEnd . '/comm.php?page=' . $page;
         }
         return $canonicalUrl;
     }

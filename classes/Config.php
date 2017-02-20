@@ -33,7 +33,7 @@ class Config
     public static $css_ver = 1;
     public static $js_ver = 1;
 
-    public static $http_scheme = '//';
+    public static $http_scheme = 'https:';
     public static $http_host;
     public static $script_name;
     public static $request_uri;
@@ -50,6 +50,7 @@ class Config
     public static $errorLogFile = '/../../andlog/php.error.log';
     public static $visitsLogFile = '/../../andlog/php.visits.mobile.log';
     public static $jsErrorLogFile = '/../../../andlog/jserror.html';
+
     public static $ImgPath = 'img/';
     public static $theme = 'black';
     public static $home_url;
@@ -94,18 +95,23 @@ class Config
      */
     private function __construct()
     {
-        Config::setEncoding();
+    	Config::setEncoding();
         Config::initVars();
         if (Config::SITE_SUBDOMAIN)
             Config::checkAllowedSubdomain();
+        
         Config::getLang();
+        if(Config::$lang == 'en') {
+            header('location: /');
+            die();
+        }
     }
 
     private static function checkAllowedSubdomain()
     {
         if (Config::$subDomain != Config::SITE_SUBDOMAIN) {
-            $redirect_url = Config::$http_scheme . Config::SITE_SUBDOMAIN . Config::$SiteDom . '.' . Config::$domainEnd . '/' . Config::SITE_ROOT;
-            header('Location: ' . $redirect_url);
+            $redirect_url = '//' . Config::SITE_SUBDOMAIN . Config::$SiteDom . '.' . Config::$domainEnd . '/' . Config::SITE_ROOT;
+            header('location: ' . $redirect_url);
             return false;
         }
         return true;
@@ -160,8 +166,8 @@ class Config
         }
         Config::$domainEnd = substr(Config::$http_host, (strrpos(Config::$http_host, '.') + 1));
 
-        Config::$home_url = Config::$http_scheme . Config::$subDomain . Config::$SiteDom . '.' . Config::$domainEnd . '/' . Config::SITE_ROOT;
-        Config::$canonical_url = Config::$http_scheme . Config::$SiteDom . '.' . Config::$domainEnd . Config::$request_uri;
+        Config::$home_url = '//' . Config::$subDomain . Config::$SiteDom . '.' . Config::$domainEnd . '/' . Config::SITE_ROOT;
+        Config::$canonical_url = '//' . Config::$SiteDom . '.' . Config::$domainEnd . Config::$request_uri;
         Config::$css_url = Config::$home_url . 'css/';
         Config::$js_url = Config::$home_url . 'js/';
 
@@ -170,7 +176,7 @@ class Config
         else
             Config::$domainEndImg = Config::$domainEnd;
 
-        Config::$ImgPath = Config::$http_scheme . Config::SITE_DOMAIN . '.' . Config::$domainEndImg . '/' . Config::$ImgPath;
+        Config::$ImgPath = '//' . Config::SITE_DOMAIN  . '.' . Config::$domainEndImg . '/' . Config::$ImgPath;
 
         Config::$noreply_email = 'noreply@' . Config::$SiteDom . '.' . Config::$domainEnd;
     }
@@ -188,16 +194,14 @@ class Config
                 if ($_GET['lang'] == 'by') {
                     if (Config::$SiteDom)
                         setcookie('lang', 'ru', Config::$cookie_expires, '/', '.' . Config::SITE_DOMAIN_BY);
-                    header('Location: ' . Config::$http_scheme . Config::SITE_DOMAIN_BY . Utils::removeParam(Config::$request_uri, 'lang'));
-                    return false;
+                    header('location: ' . '//' . Config::SITE_DOMAIN_BY . Utils::removeParam(Config::$request_uri, 'lang'));
                 } else {
                     if (Config::$SiteDom)
                         setcookie('lang', 'ru', Config::$cookie_expires, '/', '.' . Config::SITE_DOMAIN . '.ru');
-                    header('Location: ' . Config::$http_scheme . Config::SITE_DOMAIN . '.ru' . Utils::removeParam(Config::$request_uri, 'lang'));
-                    return false;
+                    header('location: ' . '//' . Config::SITE_DOMAIN . '.ru' . Utils::removeParam(Config::$request_uri, 'lang'));
                 }
             } else if (isset($_COOKIE['lang'])) {
-                if (Config::$domainEnd == $_COOKIE['lang'] || (Config::$domainEnd == 'com' && $_COOKIE['lang'] == 'en')) Config::$lang = Utils::cleanRequestSimple($_COOKIE['lang']);
+                if (Config::$domainEnd == $_COOKIE['lang'] || (Config::$domainEnd == 'com' && $_COOKIE['lang'] == 'en')) Config::$lang = $_COOKIE['lang'];
                 else {
                     if (Config::$domainEnd == 'ru') Config::$lang = 'ru';
                     else if (Config::$domainEnd == 'by') Config::$lang = 'ru';
@@ -215,7 +219,6 @@ class Config
                     setcookie('lang', Config::$lang, Config::$cookie_expires, '/', '.' . Config::$SiteDom . '.' . Config::$domainEnd);
             }
         }
-        return true;
     }
 }
 

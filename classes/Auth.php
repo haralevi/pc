@@ -119,7 +119,7 @@ class Auth
                 $request_uri_wrong_login = Auth::removeLoginParams(Config::$request_uri);
                 $request_uri_wrong_login = Utils::addParam($request_uri_wrong_login, 'wrn_login', 1);
                 $request_uri_wrong_login = str_replace('&amp;', '&', $request_uri_wrong_login);
-                header('Location: ' . Config::$http_scheme . Config::$subDomain . Config::$SiteDom . '.' . Config::$domainEnd . $request_uri_wrong_login);
+                header('Location: //' . Config::$subDomain . Config::$SiteDom . '.' . Config::$domainEnd . $request_uri_wrong_login);
                 die();
             }
         } else if (!isset($_SESSION['auth']['id_auth']) || !isset($_SESSION['auth']['auth_name'])) {
@@ -182,7 +182,7 @@ class Auth
 
         # remove login information from url
         if ($auth_login || $auth_pass) {
-            header('Location: ' . Config::$http_scheme . Config::$subDomain . Config::$SiteDom . '.' . Config::$domainEnd . Auth::removeLoginParams(Config::$request_uri));
+            header('Location: //' . Config::$subDomain . Config::$SiteDom . '.' . Config::$domainEnd . Auth::removeLoginParams(Config::$request_uri));
             die();
         }
     }
@@ -342,7 +342,7 @@ class Auth
         $helper = $fb->getRedirectLoginHelper();
         $permissions = ['email']; // Optional permissions
 
-        return $helper->getLoginUrl('https:' . str_replace(Config::$subDomain, '', Config::$home_url) . 'fb.php', $permissions);
+        return $helper->getLoginUrl(Config::$http_scheme . str_replace(Config::$subDomain, '', Config::$home_url) . 'fb.php', $permissions);
     }
 
     public static function isPremium($id_auth, $auth_premium)

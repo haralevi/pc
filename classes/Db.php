@@ -75,7 +75,7 @@ class Db
                     if (isset(Config::$remote_addr)) $error .= Config::$remote_addr . ' | ';
                     if (isset($_SESSION['auth']['id_auth'])) $error .= 'ID_AUTH: ' . $_SESSION['auth']['id_auth'] . ' | ';
                     $error .= mysqli_connect_errno() . Consta::EOL;
-                    $error .= 'https://' . Config::$http_host . Config::$request_uri;
+                    $error .= Config::$http_scheme. '//' . Config::$http_host . Config::$request_uri;
                     Utils::errorWriter($error);
                 }
                 require dirname(__FILE__) . '/../../down.php';
@@ -115,7 +115,7 @@ class Db
                 if (Config::$remote_addr) $error .= Config::$remote_addr . ' | ';
                 if (isset($_SESSION['auth']['id_auth'])) $error .= 'ID_AUTH: ' . $_SESSION['auth']['id_auth'] . ' | ';
                 $error .= $sql . Consta::EOL . mysqli_error(Db::$db_conn) . Consta::EOL;
-                $error .= 'https://' . Config::$http_host . Config::$request_uri;
+                $error .= Config::$http_scheme . '//' . Config::$http_host . Config::$request_uri;
                 Utils::errorWriter($error);
             }
             require dirname(__FILE__) . '/../../down.php';
