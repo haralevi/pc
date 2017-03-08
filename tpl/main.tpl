@@ -19,9 +19,11 @@
     <meta property="og:site_name" content="{og_site_name}"/>
     <meta property="og:description" content="{port_seo_desc}"/>
     <link rel="canonical" href="{canonical_url}">
+    <meta name="theme-color" content="#333">
     <link href="{css_url}css.{css_type}css?v={css_ver}" rel="stylesheet" type="text/css">
     <link href="//fonts.googleapis.com/css?family=Open+Sans&subset=latin,cyrillic" rel="stylesheet" type="text/css">
     <link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:700,300&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    {page_level_goad}
 </head>
 <body>
 

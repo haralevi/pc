@@ -147,17 +147,16 @@ class Parse
 
     private static function setGoogleVars($tpl_var)
     {
-        if (Config::$domainEnd == 'by')
-            $google_id = 'UA-12786560-1';
-        else if (Config::$domainEnd == 'com')
-            $google_id = 'UA-61975227-1';
+        $tpl_var['page_level_goad'] = Utils::getPageLevelGoad();
+
+        if (Config::$domainEnd == 'com')
+            $google_id = Config::GOOGLE_UA_COM;
         else if (Config::$domainEnd == 'de')
-            $google_id = 'UA-61973261-1';
+            $google_id = Config::GOOGLE_UA_DE;
         else
-            $google_id = 'UA-12786560-1';
+            $google_id = Config::GOOGLE_UA_RU;
         $tpl_var['google_id'] = $google_id;
 
-        $tpl_var['google'] = '';
         return $tpl_var;
     }
 }

@@ -157,7 +157,7 @@ class Geo
                 $_SESSION['Gmtoffset'] = 14400;
             
             if ($_SESSION['Gmtoffset'] == 1 || $_SESSION['Gmtoffset'] == 24) {
-                Config::$remote_addr = '136.243.36.96';
+                Config::$remote_addr = '78.53.8.66';
                 Geo::$CountryName = 'Germany';
                 Geo::$CountryCode = 'DE';
                 Geo::$City = 'Berlin';

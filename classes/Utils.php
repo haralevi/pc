@@ -123,8 +123,8 @@ class Utils
 
     public static function getSiteName()
     {
-        if (Config::$domainEnd == 'by') $site_name = Config::SITE_DOMAIN_BY;
-        else $site_name = Config::SITE_DOMAIN;
+        if (Config::$domainEnd == 'by') $site_name = Config::SITE_NAME_BY;
+        else $site_name = Config::SITE_NAME;
         return $site_name;
     }
 
@@ -353,7 +353,7 @@ From: ' . $from_email . '
         if (!strstr(Config::$request_uri, 'get_views.php') && !in_array(Auth::getIdAuth(), array(1, 24, 26))) {
             if (isset($_SESSION['auth']['id_auth']))
                 $id_auth = $_SESSION['auth']['id_auth'];
-            else if(isset($_COOKIE['X']) || isset($_COOKIE['Y']))
+            else if(isset($_COOKIE['_ga']))
                 $id_auth = 0;
             else
                 $id_auth = -1;
@@ -663,6 +663,14 @@ From: ' . $from_email . '
         $goad = '';
         if (Auth::getAuthPremium() == Consta::AUTH_PREMIUM_0)
             $goad = '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6341745028943688" data-ad-slot="6506134659" data-ad-format="auto"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script>';
+        return $goad;
+    }
+
+    public static function getPageLevelGoad()
+    {
+        $goad = '';
+        if (Auth::getAuthPremium() == Consta::AUTH_PREMIUM_0)
+            $goad = '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({google_ad_client: "ca-pub-6341745028943688",enable_page_level_ads: true});</script>';
         return $goad;
     }
 }

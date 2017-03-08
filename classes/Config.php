@@ -12,6 +12,8 @@ class Config
     const SITE_ROOT = '';
     const SITE_DOMAIN = 'photocommunity';
     const SITE_DOMAIN_BY = 'photocommunity';
+    const SITE_NAME = 'photocommunity';
+    const SITE_NAME_BY = 'photocommunity';
     const SITE_SUBDOMAIN = 'm.';
     const SERVER_IP = 'localhost';
     const CHARSET = 'utf8';
@@ -29,6 +31,10 @@ class Config
     const FACEBOOK_SECRET_RU = '1';
     const FACEBOOK_APP_ID_BY = '1';
     const FACEBOOK_SECRET_BY = '1';
+
+    const GOOGLE_UA_COM = '1';
+    const GOOGLE_UA_DE = '1';
+    const GOOGLE_UA_RU = '1';
 
     public static $css_ver = 1;
     public static $js_ver = 1;
@@ -95,11 +101,11 @@ class Config
      */
     private function __construct()
     {
-    	Config::setEncoding();
+        Config::setEncoding();
         Config::initVars();
         if (Config::SITE_SUBDOMAIN)
             Config::checkAllowedSubdomain();
-        
+
         Config::getLang();
         if(Config::$lang == 'en') {
             header('location: /');
