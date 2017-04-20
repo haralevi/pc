@@ -52,8 +52,10 @@ class Geo
             if ($record && $record->location->timeZone != '') {
                 if ($record->location->timeZone == 'Asia/Barnaul' || $record->location->timeZone == 'Asia/Tomsk')
                     $timezone = 'Asia/Krasnoyarsk';
-                else if ($record->location->timeZone == 'Europe/Kirov' || $record->location->timeZone == 'Europe/Ulyanovsk' || $record->location->timeZone == 'Europe/Astrakhan')
+                else if ($record->location->timeZone == 'Europe/Kirov')
                     $timezone = 'Europe/Moscow';
+                else if ($record->location->timeZone == 'Europe/Ulyanovsk' || $record->location->timeZone == 'Europe/Astrakhan')
+                    $timezone = 'Europe/Samara';
                 else
                     $timezone = $record->location->timeZone;
 
@@ -65,9 +67,7 @@ class Geo
                 $dateTime = new \DateTime("now", $dateTimeZone);
                 Geo::$Gmtoffset = $dateTime->format('Z'); # 'Z' is UTC Offset in seconds
 
-                if (strstr(Geo::$RegionName, 'Astrakhanskaya Oblast') || strstr(Geo::$RegionName, 'Novosibirskaya Oblast') || strstr(Geo::$RegionName, 'Ulyanovsk Oblast') || strstr(Geo::$RegionName, 'Samarskaya Oblast') || strstr(Geo::$RegionName, 'Kemerovskaya Oblast') || Geo::$RegionName == 'Udmurtskaya Respublika') {
-                    Geo::$Gmtoffset += 3600;
-                } else if (Geo::$RegionName == 'Republic of Crimea' || Geo::$RegionName == 'Gorod Sevastopol') {
+                if (Geo::$RegionName == 'Republic of Crimea' || Geo::$RegionName == 'Gorod Sevastopol') {
                     Geo::$Gmtoffset -= 3600;
                 } else if (Geo::$CountryCode == 'AZ') {
                     if (Config::$is_winter_time) Geo::$Gmtoffset -= 0;
@@ -150,7 +150,7 @@ class Geo
         # Timezone offset manual
         if (isset($_SESSION['auth']['id_auth'])) {
             if ($_SESSION['auth']['id_auth'] == 21419) # Bluejay - wants to be in europe
-                $_SESSION['Gmtoffset'] = 7200;
+                $_SESSION['Gmtoffset'] = 3600;
             else if ($_SESSION['auth']['id_auth'] == 29057) # Sever - wants to upload at 21:00
                 $_SESSION['Gmtoffset'] = 18000;
             else if ($_SESSION['auth']['id_auth'] == 26702) # 8ele8 - wants to be in moscow
@@ -230,6 +230,7 @@ class Geo
                 || strstr(Config::$remote_addr, '134.17.31.249') #BLEXBot
                 || strstr(Config::$remote_addr, '144.76.63.12') #ingots.ru
                 || ($ip_long >= ip2long('157.55.16.23') && $ip_long <= ip2long('157.59.255.255')) #msn
+                || ($ip_long >= ip2long('185.53.44.1') && $ip_long <= ip2long('185.53.47.255')) #xovibot
                 || ($ip_long >= ip2long('188.72.80.204') && $ip_long <= ip2long('188.72.80.220')) #sape
                 || ($ip_long >= ip2long('193.232.121.204') && $ip_long <= ip2long('193.232.121.220')) #sape
                 || ($ip_long >= ip2long('199.16.156.1') && $ip_long <= ip2long('199.16.159.254')) #twitter
