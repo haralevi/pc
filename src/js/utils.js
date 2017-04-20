@@ -207,7 +207,20 @@ const utils = {
                 ajax.handelAjax(appRoot + ajaxFld + href);
             });
         }
-    }
+    },
+
+    stopRightClick: function (el) {
+        if(domainEnd != 'ru' && domainEnd != 'by') {
+            el.bind('mousedown', function (e) {
+                (e.stopPropagation? e.stopPropagation() : (e.preventDefault ? e.preventDefault() : (e.returnValue=false)));
+                return false;
+            });
+            el.bind("contextmenu", function(e) {
+                (e.stopPropagation? e.stopPropagation() : (e.preventDefault ? e.preventDefault() : (e.returnValue=false)));
+                return false;
+            });
+        }
+    },
 };
 
 /* localizer class */

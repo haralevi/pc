@@ -115,6 +115,8 @@ const app = {
 
         app.resetImgZoom();
         app.fixCommText();
+
+        utils.stopRightClick($mainImage);
     },
 
     resetImgZoom: function () {
@@ -180,7 +182,7 @@ const app = {
 
         app.updateMainImg();
         app.removeCrop();
-    }
+    },
 };
 
 export {app};

@@ -13,6 +13,10 @@ $(function () {
         }, 500, "delayed_resize");
     });
 
+    $(document).ready(function() {
+        // do, something
+    });
+
     $(document)
         // submit login form
         .on("keyup", "#auth_login, #auth_pass", function (e) {
