@@ -393,7 +393,7 @@ From: ' . $from_email . '
         $srcAttr = Utils::getImgPath($id_photo);
 
         if ($is_thumb) {
-            $srcAttr .= Utils::getImgName($id_photo, 'thumb');
+            $srcAttr .= Utils::getImgName($id_photo, 'council');
             if ($ph_main_w >= $ph_main_h) {
                 $ph_width = Consta::THUMB_WIDTH;
                 $ph_height = ($ph_main_h / $ph_main_w) * Consta::THUMB_WIDTH;

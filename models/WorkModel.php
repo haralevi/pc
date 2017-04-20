@@ -56,6 +56,13 @@ class WorkModel
         return $works_where;
     }
 
+    private static function isWorkExist($id_photo) {
+    	$is_work_exist = true;
+    	if($id_photo >= Consta::ID_PHOTO_LOCAL_FROM && !file_exists(dirname(__FILE__) . '/../../images/' . Utils::getImgName($id_photo, 'mobile')))
+			$is_work_exist = false;
+    	return $is_work_exist;
+    }
+
     private static function isInvalidWork($v)
     {
         $is_to_skip = false;
@@ -93,10 +100,13 @@ class WorkModel
 
             $prev_next_nav = '';
             $works = '';
-            foreach ($res_works as $v) {
+            foreach ($res_works as $k => $v) {
 
                 if (WorkModel::isInvalidWork($v))
                     continue;
+
+                if($k == 0 && !WorkModel::isWorkExist($v['id_photo']))
+                	continue;
 
                 $is_ph_anon = Utils::isAnon($v['ph_anon'], $v['ph_date'], $v['id_comp']);
 
@@ -184,9 +194,14 @@ class WorkModel
 
         if (sizeof($res_works)) {
             $prev_next_nav = '';
-            foreach ($res_works as $v) {
+            foreach ($res_works as $k => $v) {
+                
                 if (WorkModel::isInvalidWork($v))
                     continue;
+
+                if($k == 0 && !WorkModel::isWorkExist($v['id_photo']))
+                	continue;
+
                 # remember ids for navigation
                 $prev_next_nav .= $v['id_photo'] . ',';
             }

@@ -29,7 +29,7 @@ class CommModel
         if (Config::$domainEnd == 'ru' || Config::$domainEnd == 'by')
             $where .= ' AND LENGTH(' . Localizer::$col_comm_text . ')>40 AND COMM.comm_vote>=0';
         else
-            $where .= ' AND COMM.' . Localizer::$col_comm_text . '!=""';
+            $where .= ' AND LENGTH(' . Localizer::$col_comm_text . ')>20 AND COMM.comm_vote>=0';
 
         $sql_comm = "SELECT
                 PH.id_photo, PH.id_auth id_auth_photo, PH.id_cat_new, PH.ph_main_w, PH.ph_main_h, PH.ph_anon, PH.ph_date, PH.id_comp,
@@ -44,7 +44,7 @@ class CommModel
             ORDER BY id_comm DESC
             LIMIT " . ($page - 1) * Consta::COMM_PER_PAGE . ", " . Consta::COMM_PER_PAGE;
         $comm_cache_tag = array(Localizer::$tbl_ds_comments . '=' . $page);
-        $res_comm = Mcache::cacheDbi($sql_comm, 300, $comm_cache_tag); #utils::printArr($res_comm);
+        $res_comm = Mcache::cacheDbi($sql_comm, 60, $comm_cache_tag); #utils::printArr($res_comm);
 
         if (!sizeof($res_comm)) {
             return array();
@@ -79,7 +79,7 @@ class CommModel
                 $id_auth_photo = $v['id_auth_photo'];
 
                 $work_img = Utils::parseWorkImg($id_photo, $v['id_auth_photo'], $v['id_cat_new'], $v['ph_main_w'], $v['ph_main_h'], false, true);
-                $work_img = str_replace('mobile', 'thumb', $work_img);
+                $work_img = str_replace('mobile', 'council', $work_img);
 
                 if (Config::$domainEnd == 'by')
                     $work_href = Config::$home_url . 'work.php?id_photo=' . $id_photo;
@@ -122,7 +122,7 @@ class CommModel
               WHERE COMM.id_auth=AU.id_auth AND id_photo=" . $id_photo . " 
               ORDER BY id_comm";
         $comments_cache_tag = array(Localizer::$tbl_ds_comments . '=' . $id_photo);
-        $res_comments = Mcache::cacheDbi($sql_comments, 300, $comments_cache_tag); #utils::printArr($res_comments);
+        $res_comments = Mcache::cacheDbi($sql_comments, 60, $comments_cache_tag); #utils::printArr($res_comments);
 
         $is_self_photo = false;
         if ($id_auth_photo == Auth::getIdAuth())
