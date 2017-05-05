@@ -26,6 +26,9 @@ class CommModel
     public static function getComm($page = 1)
     {
         $where = '';
+
+        $where .= Utils::getWhereSkipIdPhotos($page);
+
         if (Config::$domainEnd == 'ru' || Config::$domainEnd == 'by')
             $where .= ' AND LENGTH(' . Localizer::$col_comm_text . ')>40 AND COMM.comm_vote>=0';
         else

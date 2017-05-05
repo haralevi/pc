@@ -227,8 +227,9 @@ class Geo
                 || ($ip_long >= ip2long('98.136.1.1') && $ip_long <= ip2long('98.139.255.255')) #yahoo
                 || ($ip_long >= ip2long('109.207.13.19') && $ip_long <= ip2long('109.207.13.51')) #e-government
                 || ($ip_long >= ip2long('131.253.32.0') && $ip_long <= ip2long('131.253.47.255')) #bing
-                || strstr(Config::$remote_addr, '134.17.31.249') #BLEXBot
+                || ($ip_long >= ip2long('136.243.36.83') && $ip_long <= ip2long('136.243.36.93')) #BLEXBot
                 || strstr(Config::$remote_addr, '144.76.63.12') #ingots.ru
+                || strstr(Config::$remote_addr, '148.251.136.8') #BLEXBot
                 || ($ip_long >= ip2long('157.55.16.23') && $ip_long <= ip2long('157.59.255.255')) #msn
                 || ($ip_long >= ip2long('185.53.44.1') && $ip_long <= ip2long('185.53.47.255')) #xovibot
                 || ($ip_long >= ip2long('188.72.80.204') && $ip_long <= ip2long('188.72.80.220')) #sape

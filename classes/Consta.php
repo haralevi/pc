@@ -72,6 +72,9 @@ class Consta
     const HOME_BTN_MIN_RATING = 2;
     const POPULAR_PH_RATING = 20;
 
+    // skip id photos for 'de'
+    const SKIP_ID_PHOTOS = ' AND PH.id_photo NOT IN (659811, 659893, 659851, 660109, 660113, 661234, 661218, 661219, 661192, 661371, 661343, 661387)';
+
     public static $cur_day;
 
     public static $icons_match;

@@ -673,4 +673,13 @@ From: ' . $from_email . '
             $goad = '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({google_ad_client: "ca-pub-6341745028943688",enable_page_level_ads: true});</script>';
         return $goad;
     }
+
+    public static function getWhereSkipIdPhotos($page = 100)
+    {
+        // skip russian photos for 'de'
+        $where = '';
+        if (Config::$domainEnd == 'de' && $page <= 10)
+            $where = Consta::SKIP_ID_PHOTOS;
+        return $where;
+    }
 }

@@ -264,7 +264,7 @@ class Localizer
     );
 
     private static $loc_de = array(
-        'main_title_loc' => 'Foto Community',
+        'main_title_loc' => 'Fotocommunity',
         'logout_loc' => 'Abmelden',
         'login_short_loc' => 'E-Mail',
         'pass_loc' => 'Passwort',

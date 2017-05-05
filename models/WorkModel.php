@@ -32,7 +32,8 @@ class WorkModel
             $works_where .= ' AND id_cat_new<' . Consta::FIRST_SPEC_CAT;
             WorkModel::$works_cache_tag = array('ds_photos=all');
         } else if (isset($params['special'])) {
-            $works_where .= ' AND ph_special_rec_cnt>=' . Consta::MIN_SPECIAL_REC_CNT;
+            #$works_where .= ' AND ph_special_rec_cnt>=' . Consta::MIN_SPECIAL_REC_CNT;
+            $works_where .= ' AND ((PH.ph_is_fineart=\'1\' AND ph_rating>=5) OR ph_special_rec_cnt>=' . Consta::MIN_SPECIAL_REC_CNT . ')';
             WorkModel::$works_cache_tag = array('ds_photos=special');
         } else if (isset($params['popular'])) {
             $works_where .= ' AND ph_rating>=' . Consta::POPULAR_PH_RATING;
@@ -56,11 +57,12 @@ class WorkModel
         return $works_where;
     }
 
-    private static function isWorkExist($id_photo) {
-    	$is_work_exist = true;
-    	if($id_photo >= Consta::ID_PHOTO_LOCAL_FROM && !file_exists(dirname(__FILE__) . '/../../images/' . Utils::getImgName($id_photo, 'mobile')))
-			$is_work_exist = false;
-    	return $is_work_exist;
+    private static function isWorkExist($id_photo)
+    {
+        $is_work_exist = true;
+        if ($id_photo >= Consta::ID_PHOTO_LOCAL_FROM && !file_exists(dirname(__FILE__) . '/../../images/' . Utils::getImgName($id_photo, 'mobile')))
+            $is_work_exist = false;
+        return $is_work_exist;
     }
 
     private static function isInvalidWork($v)
@@ -82,6 +84,7 @@ class WorkModel
     public static function getWorks($params, $page = 1)
     {
         $works_where = WorkModel::getWorksWhere($params);
+        $works_where .= Utils::getWhereSkipIdPhotos($page);
 
         $sql_works = "SELECT PH.id_photo, PH.id_auth id_auth_photo, 
                         PH.auth_name, PH.auth_name_en,
@@ -105,8 +108,8 @@ class WorkModel
                 if (WorkModel::isInvalidWork($v))
                     continue;
 
-                if($k == 0 && !WorkModel::isWorkExist($v['id_photo']))
-                	continue;
+                if ($k == 0 && !WorkModel::isWorkExist($v['id_photo']))
+                    continue;
 
                 $is_ph_anon = Utils::isAnon($v['ph_anon'], $v['ph_date'], $v['id_comp']);
 
@@ -195,12 +198,12 @@ class WorkModel
         if (sizeof($res_works)) {
             $prev_next_nav = '';
             foreach ($res_works as $k => $v) {
-                
+
                 if (WorkModel::isInvalidWork($v))
                     continue;
 
-                if($k == 0 && !WorkModel::isWorkExist($v['id_photo']))
-                	continue;
+                if ($k == 0 && !WorkModel::isWorkExist($v['id_photo']))
+                    continue;
 
                 # remember ids for navigation
                 $prev_next_nav .= $v['id_photo'] . ',';
@@ -242,7 +245,8 @@ class WorkModel
         if (isset($params['all'])) {
             $where .= ' AND id_cat_new<' . Consta::FIRST_SPEC_CAT;
         } else if (isset($params['special'])) {
-            $where .= ' AND ph_special_rec_cnt>=' . Consta::MIN_SPECIAL_REC_CNT;
+            #$where .= ' AND ph_special_rec_cnt>=' . Consta::MIN_SPECIAL_REC_CNT;
+            $where .= ' AND ((PH.ph_is_fineart=\'1\' AND ph_rating>=5) OR ph_special_rec_cnt>=' . Consta::MIN_SPECIAL_REC_CNT . ')';
         } else if (isset($params['popular'])) {
             $where .= ' AND ph_rating>=' . Consta::POPULAR_PH_RATING;
         } else if (isset($params['favorites'])) {
@@ -358,7 +362,7 @@ class WorkModel
             $tpl_work_main_img_var['ph_rating_str'] = $ph_rating_str;
 
             $add_rec_str = '';
-            if($res_author[0]['auth_status']) {
+            if ($res_author[0]['auth_status']) {
                 if ($res_work[0]['id_cat_new'] >= Consta::FIRST_SPEC_CAT) { # no rating category
                     $add_rec_str .= '<span class="recNote">' . Localizer::$cat_names[$res_work[0]['id_cat_new']] . '</span>';
                 } else if ($ph_norating || Auth::getIdAuth() == $id_auth_photo) {
@@ -396,9 +400,9 @@ class WorkModel
             $fineart_str = '';
             if ($res_author[0]['auth_status'] && in_array(Auth::getIdAuth(), Consta::$auth_fineart_arr)) {
                 if ($res_work[0]['ph_is_fineart'])
-                    $fineart_str .= '<a id="fineartBtn" data-fineart="0" href="#" class="saveBtn">' . Localizer::$loc['remove_from_fineart'] .'</a>';
+                    $fineart_str .= '<a id="fineartBtn" data-fineart="0" href="#" class="saveBtn">' . Localizer::$loc['remove_from_fineart'] . '</a>';
                 else
-                    $fineart_str .= '<a id="fineartBtn" data-fineart="1" href="#" class="saveBtn">' . Localizer::$loc['add_to_fineart'] .'</a>';
+                    $fineart_str .= '<a id="fineartBtn" data-fineart="1" href="#" class="saveBtn">' . Localizer::$loc['add_to_fineart'] . '</a>';
             }
             $tpl_work_main_img_var['fineart_str'] = $fineart_str;
 
