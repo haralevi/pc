@@ -7,13 +7,14 @@
 
 namespace Photocommunity\Mobile;
 
-#require dirname(__FILE__) . '/../../down.php'; die();
+// require dirname(__FILE__) . '/../../down.php'; die();
 
 require dirname(__FILE__) . '/Utils.php';
 require dirname(__FILE__) . '/Request.php';
 
 # singletons
 require dirname(__FILE__) . '/Timer.php';
+
 require dirname(__FILE__) . '/Config.php';
 require dirname(__FILE__) . '/PhpErrorHandler.php';
 require dirname(__FILE__) . '/Localizer.php';

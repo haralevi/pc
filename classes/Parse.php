@@ -142,6 +142,7 @@ class Parse
         $tpl_var['site_full_ver_loc'] = Localizer::$loc['site_full_ver_loc'];
         $tpl_var['http_host'] = Config::$SiteDom . '.' . Config::$domainEnd;
         $tpl_var['id_auth_log'] = Auth::getIdAuth();
+        $tpl_var['js_redirect_url'] = Auth::getLangRedirectUrl();
         return $tpl_var;
     }
 

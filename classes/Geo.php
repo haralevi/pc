@@ -85,7 +85,8 @@ class Geo
             } else if (Geo::$CountryCode == 'US') { # New York
                 Geo::$Gmtoffset = -14400;
             } else { # Berlin
-                Geo::$Gmtoffset = 3600;
+            	if (Config::$is_winter_time) Geo::$Gmtoffset = 3600;
+                else Geo::$Gmtoffset = 7200;
             }
 
             if (isset($_SESSION['auth']['id_auth']) || (!isset($_SESSION['auth']['id_auth']) && isset($_COOKIE['X']))) {
@@ -161,7 +162,8 @@ class Geo
                 Geo::$CountryName = 'Germany';
                 Geo::$CountryCode = 'DE';
                 Geo::$City = 'Berlin';
-                Geo::$Gmtoffset = 3600;
+                if (Config::$is_winter_time) Geo::$Gmtoffset = 3600;
+                else Geo::$Gmtoffset = 7200;
             }
             /**/
             Geo::$Gmtoffset = $_SESSION['Gmtoffset'];
@@ -267,9 +269,8 @@ class Geo
     }
 
     /* change Language param */
-    private static function getChangeLangCookie()
+    public static function getChangeLangCookie()
     {
-
         if (isset($_COOKIE['chla'])) $chla = 1;
         else $chla = 0;
         if (isset($_GET['chla'])) {

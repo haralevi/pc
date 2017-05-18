@@ -24,7 +24,7 @@ class AuthorModel
 
     public static function getAuthor($id_auth_photo = 1)
     {
-        $sql_author = "SELECT id_auth, auth_premium, auth_name, auth_name_en,
+        $sql_author = "SELECT id_auth, auth_premium, auth_name, auth_name_com,
             auth_avatar, auth_gender, auth_dom,
             auth_img_cnt, auth_img_cnt_norate, auth_rating
             FROM ds_authors

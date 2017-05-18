@@ -58,7 +58,6 @@ class Mcache
             $expired = false;
             foreach ($value['tags'] as $tag => $tag_stored_value) {
                 $tag_current_value = Mcache::getTagValue($tag);
-
                 if ($tag_current_value != $tag_stored_value) {
                     $expired = true;
                     break;

@@ -36,7 +36,7 @@ class CommModel
 
         $sql_comm = "SELECT
                 PH.id_photo, PH.id_auth id_auth_photo, PH.id_cat_new, PH.ph_main_w, PH.ph_main_h, PH.ph_anon, PH.ph_date, PH.id_comp,
-                COMM.id_comm, COMM.comm_text, COMM.comm_text_en, COMM.comm_text_de, COMM.comm_date, COMM.comm_status,
+                COMM.id_comm, COMM.comm_text, COMM.comm_text_com, COMM.comm_text_de, COMM.comm_date, COMM.comm_status,
                 AU_COM." . Localizer::$col_auth_name . " comm_auth_name, AU_COM.id_auth comm_id_auth, AU_COM.auth_premium
             FROM (" . Localizer::$tbl_ds_comments . " COMM, ds_photos PH, ds_authors AU)
             JOIN ds_authors AU_COM ON (COMM.id_auth=AU_COM.id_auth)
@@ -119,7 +119,7 @@ class CommModel
     public static function getComments($id_photo, $id_auth_photo, $is_ph_anon = 0, $ph_critique = 0, $auth_status_photo = 1)
     {
         $sql_comments = "SELECT
-                COMM.id_comm, COMM.id_auth, COMM.comm_text, COMM.comm_text_en, COMM.comm_text_de, COMM.comm_status,
+                COMM.id_comm, COMM.id_auth, COMM.comm_text, COMM.comm_text_com, COMM.comm_text_de, COMM.comm_status,
                 AU." . Localizer::$col_auth_name . ", AU.auth_gender, AU.auth_avatar, AU.auth_premium
               FROM " . Localizer::$tbl_ds_comments . " COMM, ds_authors AU
               WHERE COMM.id_auth=AU.id_auth AND id_photo=" . $id_photo . " 

@@ -107,7 +107,7 @@ class Config
             Config::checkAllowedSubdomain();
 
         Config::getLang();
-        if(Config::$lang == 'en') {
+        if(Config::$lang == 'com' && !config::$debug) {
             header('location: /');
             die();
         }
@@ -192,7 +192,7 @@ class Config
         if (isset($_GET['auth_dom_ext'])) {
             if (isset($_GET['lang'])) {
                 if ($_GET['lang'] == 'ru') Config::$lang = 'ru';
-                else if ($_GET['lang'] == 'en') Config::$lang = 'en';
+                else if ($_GET['lang'] == 'com') Config::$lang = 'com';
                 else if ($_GET['lang'] == 'de') Config::$lang = 'de';
             }
         } else {
@@ -207,11 +207,11 @@ class Config
                     header('location: ' . '//' . Config::SITE_DOMAIN . '.ru' . Utils::removeParam(Config::$request_uri, 'lang'));
                 }
             } else if (isset($_COOKIE['lang'])) {
-                if (Config::$domainEnd == $_COOKIE['lang'] || (Config::$domainEnd == 'com' && $_COOKIE['lang'] == 'en')) Config::$lang = $_COOKIE['lang'];
+                if (Config::$domainEnd == $_COOKIE['lang'] || (Config::$domainEnd == 'com' && $_COOKIE['lang'] == 'com')) Config::$lang = $_COOKIE['lang'];
                 else {
                     if (Config::$domainEnd == 'ru') Config::$lang = 'ru';
                     else if (Config::$domainEnd == 'by') Config::$lang = 'ru';
-                    else if (Config::$domainEnd == 'com') Config::$lang = 'en';
+                    else if (Config::$domainEnd == 'com') Config::$lang = 'com';
                     else if (Config::$domainEnd == 'de') Config::$lang = 'de';
                     if (Config::$SiteDom)
                         setcookie('lang', Config::$lang, Config::$cookie_expires, '/', '.' . Config::$SiteDom . '.' . Config::$domainEnd);
@@ -219,7 +219,7 @@ class Config
             } else {
                 if (Config::$domainEnd == 'ru') Config::$lang = 'ru';
                 else if (Config::$domainEnd == 'by') Config::$lang = 'ru';
-                else if (Config::$domainEnd == 'com') Config::$lang = 'en';
+                else if (Config::$domainEnd == 'com') Config::$lang = 'com';
                 else if (Config::$domainEnd == 'de') Config::$lang = 'de';
                 if (Config::$SiteDom)
                     setcookie('lang', Config::$lang, Config::$cookie_expires, '/', '.' . Config::$SiteDom . '.' . Config::$domainEnd);

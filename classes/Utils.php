@@ -113,7 +113,7 @@ class Utils
             $str = str_replace(Config::SITE_DOMAIN_BY, '' . Config::SITE_DOMAIN . '.de', $str);
             $str = str_replace('' . Config::SITE_DOMAIN . '.ru', '' . Config::SITE_DOMAIN . '.de', $str);
             $str = str_replace('' . Config::SITE_DOMAIN . '.com', '' . Config::SITE_DOMAIN . '.de', $str);
-        } else if (Config::$lang == 'en') {
+        } else if (Config::$lang == 'com') {
             $str = str_replace(Config::SITE_DOMAIN_BY, '' . Config::SITE_DOMAIN . '.com', $str);
             $str = str_replace('' . Config::SITE_DOMAIN . '.ru', '' . Config::SITE_DOMAIN . '.com', $str);
             $str = str_replace('' . Config::SITE_DOMAIN . '.de', '' . Config::SITE_DOMAIN . '.com', $str);

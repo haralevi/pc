@@ -18,13 +18,13 @@ class Auth
     private static $auth_facebook_id = '';
     private static $auth_login = '';
     private static $auth_type = Consta::AUTH_TYPE_DEF;
-    private static $auth_port_lang = 'en';
+    private static $auth_port_lang = 'com';
     private static $auth_premium = Consta::AUTH_PREMIUM_0;
     private static $auth_birth_time = 0;
     private static $auth_rating = 0;
     private static $auth_img_cnt = 0;
     private static $auth_name = '';
-    private static $auth_name_en = '';
+    private static $auth_name_com = '';
     private static $auth_dom = '';
     private static $auth_email = '';
     private static $auth_power = Consta::MIN_AUTH_POWER;
@@ -33,7 +33,7 @@ class Auth
     private static $auth_avatar_w = Consta::AVATAR_WIDTH;
     private static $auth_avatar_h = Consta::AVATAR_WIDTH;
     private static $auth_mood = '';
-    private static $auth_mood_en = '';
+    private static $auth_mood_com = '';
     private static $auth_mood_de = '';
     private static $auth_blog_favor_cnt = 0;
     private static $auth_country_id = 0;
@@ -107,8 +107,8 @@ class Auth
             else $where_pass = "AND auth_pass='" . md5($auth_pass) . "'";
             $sql = "SELECT id_auth, auth_key, auth_facebook_id, auth_type, auth_port_lang, auth_premium, auth_status, auth_login, auth_pass, auth_birth_time, auth_rating, auth_img_cnt, auth_answers_cnt,
 						auth_country_id, auth_region_id, auth_city_id,
-						auth_name, auth_name_en, auth_dom, auth_email, auth_power, auth_last_recs_cnt,
-						auth_gender, auth_avatar, auth_avatar_w, auth_avatar_h, auth_blog_favor_cnt, auth_mood, auth_mood_en, auth_mood_de,
+						auth_name, auth_name_com, auth_dom, auth_email, auth_power, auth_last_recs_cnt,
+						auth_gender, auth_avatar, auth_avatar_w, auth_avatar_h, auth_blog_favor_cnt, auth_mood, auth_mood_com, auth_mood_de,
 						auth_fineart_gall, auth_square_gall, auth_nu_gall, auth_window_gall, auth_index_layout, auth_featured_rating, auth_featured_link, auth_show_all_comms, auth_port_dom
                     FROM ds_authors
                     WHERE (BINARY auth_login='" . $auth_login . "' OR BINARY auth_email='" . $auth_login . "') " . $where_pass . " LIMIT 1";
@@ -126,8 +126,8 @@ class Auth
             if (isset($_COOKIE['X'])) {
                 $sql = "SELECT id_auth, auth_key, auth_facebook_id, auth_type, auth_port_lang, auth_premium, auth_status, auth_login, auth_pass, auth_birth_time, auth_rating, auth_img_cnt, auth_answers_cnt,
 						auth_country_id, auth_region_id, auth_city_id,
-						auth_name, auth_name_en, auth_dom, auth_email, auth_power, auth_last_recs_cnt,
-						auth_gender, auth_avatar, auth_avatar_w, auth_avatar_h, auth_blog_favor_cnt, auth_mood, auth_mood_en, auth_mood_de,
+						auth_name, auth_name_com, auth_dom, auth_email, auth_power, auth_last_recs_cnt,
+						auth_gender, auth_avatar, auth_avatar_w, auth_avatar_h, auth_blog_favor_cnt, auth_mood, auth_mood_com, auth_mood_de,
 						auth_fineart_gall, auth_square_gall, auth_nu_gall, auth_window_gall, auth_index_layout, auth_featured_rating, auth_featured_link, auth_show_all_comms, auth_port_dom
                     FROM ds_authors
                     WHERE auth_key='" . Utils::cleanRequest($_COOKIE['X']) . "' LIMIT 1";
@@ -155,7 +155,7 @@ class Auth
             Auth::$auth_rating = $_SESSION['auth']['auth_rating'];
             Auth::$auth_img_cnt = $_SESSION['auth']['auth_img_cnt'];
             Auth::$auth_name = $_SESSION['auth']['auth_name'];
-            Auth::$auth_name_en = $_SESSION['auth']['auth_name_en'];
+            Auth::$auth_name_com = $_SESSION['auth']['auth_name_com'];
             Auth::$auth_dom = $_SESSION['auth']['auth_dom'];
             Auth::$auth_email = $_SESSION['auth']['auth_email'];
             Auth::$auth_power = $_SESSION['auth']['auth_power'];
@@ -164,7 +164,7 @@ class Auth
             Auth::$auth_avatar_w = $_SESSION['auth']['auth_avatar_w'];
             Auth::$auth_avatar_h = $_SESSION['auth']['auth_avatar_h'];
             Auth::$auth_mood = $_SESSION['auth']['auth_mood'];
-            Auth::$auth_mood_en = $_SESSION['auth']['auth_mood_en'];
+            Auth::$auth_mood_com = $_SESSION['auth']['auth_mood_com'];
             Auth::$auth_mood_de = $_SESSION['auth']['auth_mood_de'];
             Auth::$auth_blog_favor_cnt = $_SESSION['auth']['auth_blog_favor_cnt'];
             Auth::$auth_country_id = $_SESSION['auth']['auth_country_id'];
@@ -185,6 +185,69 @@ class Auth
             header('Location: //' . Config::$subDomain . Config::$SiteDom . '.' . Config::$domainEnd . Auth::removeLoginParams(Config::$request_uri));
             die();
         }
+    }
+
+    private static function redirectToAllowedDomain($auth_port_lang)
+    {
+        $ru_auth_port_lang_arr = array('ru', 'by');
+
+        if (isset($_COOKIE['chla']) || isset($_GET['chla'])) {
+            # ok domain is allowed
+        } else if (config::$domainEnd == $auth_port_lang) {
+            # ok domain is allowed
+        } else if ((config::$domainEnd == 'ru' || config::$domainEnd == 'by') && in_array($auth_port_lang, $ru_auth_port_lang_arr)) {
+            # ok domain is allowed
+        } else if (config::$domainEnd == 'de' && $auth_port_lang == 'de') {
+            # ok any domain is allowed
+        } else if (config::$domainEnd != 'ru' && config::$domainEnd != 'by' && in_array($auth_port_lang, $ru_auth_port_lang_arr)) {
+            header('Location: ' . Utils::getChangeLangUrl('ru', true));
+            die();
+        } else if (config::$domainEnd != 'de' && $auth_port_lang == 'de') {
+            header('Location: ' . Utils::getChangeLangUrl('de', true));
+            die();
+        } else if (config::$domainEnd != 'com') {
+            header('Location: ' . Utils::getChangeLangUrl('com', true));
+            die();
+        }
+    }
+
+    public static function getLangRedirectUrl()
+    {
+        $js_redirect_uri = '';
+
+        $ru_countries_arr = array('RU', 'BY', 'UA', 'KZ', 'AM', 'MD', 'GE', 'TM', 'KG', 'UZ', 'AZ');
+        $de_countries_arr = array('DE', 'AT', 'CH');
+
+        if (Geo::$is_robot || Geo::getChangeLangCookie()) { # allow to use any domain if user was logged from this domain
+            # ok any domain is allowed
+        } else if (config::$domainEnd == Geo::$CountryCode) {
+            # ok any domain is allowed
+        } else if ((config::$domainEnd == 'ru' || config::$domainEnd == 'by') && in_array(Geo::$CountryCode, $ru_countries_arr)) {
+            # ok any domain is allowed
+        } else if (config::$domainEnd == 'de' && in_array(Geo::$CountryCode, $de_countries_arr)) {
+            # ok any domain is allowed
+        } else if (config::$domainEnd != 'ru' && config::$domainEnd != 'by' && in_array(Geo::$CountryCode, $ru_countries_arr)) {
+            $js_redirect_uri = 'window.location.href = "' . config::$http_scheme . '//' . config::SITE_SUBDOMAIN . config::SITE_DOMAIN . '.ru' . Config::$request_uri . '";';
+        } else if (config::$domainEnd != 'de' && in_array(Geo::$CountryCode, $de_countries_arr)) {
+            $js_redirect_uri = 'window.location.href = "' . config::$http_scheme . '//' . config::SITE_SUBDOMAIN . config::SITE_DOMAIN . '.de' . Config::$request_uri . '";';
+        } else if (config::$domainEnd != 'com') {
+            $js_redirect_uri = 'window.location.href = "' . config::$http_scheme . '//' . config::SITE_SUBDOMAIN . config::SITE_DOMAIN . '.com' . Config::$request_uri . '";';
+        }
+
+        /*
+        if(config::getDebug()) {
+            Utils::echox(config::$domainEnd);
+            Utils::echox(Geo::$CountryCode);
+            Utils::echox($js_redirect_uri);
+            die();
+        }
+        */
+
+        # todo - remove after 'com' start
+        if (!config::getDebug())
+            $js_redirect_uri = '';
+
+        return $js_redirect_uri;
     }
 
     public static function logout()
@@ -219,24 +282,28 @@ class Auth
     private static function loginAuthor($res)
     {
         # check if user allowed to use this domain
-        if (isset($_COOKIE['chla']) || isset($_GET['chla'])) {
-            #ok domain is allowed
-        } else if (Config::$domainEnd == $res[0]['auth_port_lang']) {
-            #ok domain is allowed
-        } else if ((Config::$domainEnd == 'ru' || Config::$domainEnd == 'by') && ($res[0]['auth_port_lang'] == 'ru' || $res[0]['auth_port_lang'] == 'by')) {
-            #ok domain is allowed
+        if (Config::getDebug()) {
+            Auth::redirectToAllowedDomain($res[0]['auth_port_lang']);
         } else {
-            if (Config::$domainEnd == 'de') {
-                if ($res[0]['auth_port_lang'] != 'de') {
-                    header('Location: ' . Utils::getChangeLangUrl('ru', true));
-                    die();
-                }
-            } else if (Config::$domainEnd == 'com') {
-                # ok do nothing
-            } else if (Config::$domainEnd == 'ru' || Config::$domainEnd == 'by') { # .ru .by
-                if ($res[0]['auth_port_lang'] == 'de') {
-                    header('Location: ' . Utils::getChangeLangUrl('de', true));
-                    die();
+            if (isset($_COOKIE['chla']) || isset($_GET['chla'])) {
+                #ok domain is allowed
+            } else if (Config::$domainEnd == $res[0]['auth_port_lang']) {
+                #ok domain is allowed
+            } else if ((Config::$domainEnd == 'ru' || Config::$domainEnd == 'by') && ($res[0]['auth_port_lang'] == 'ru' || $res[0]['auth_port_lang'] == 'by')) {
+                #ok domain is allowed
+            } else {
+                if (Config::$domainEnd == 'de') {
+                    if ($res[0]['auth_port_lang'] != 'de') {
+                        header('Location: ' . Utils::getChangeLangUrl('ru', true));
+                        die();
+                    }
+                } else if (Config::$domainEnd == 'com') {
+                    # ok do nothing
+                } else if (Config::$domainEnd == 'ru' || Config::$domainEnd == 'by') { # .ru .by
+                    if ($res[0]['auth_port_lang'] == 'de') {
+                        header('Location: ' . Utils::getChangeLangUrl('de', true));
+                        die();
+                    }
                 }
             }
         }
@@ -267,7 +334,7 @@ class Auth
         $_SESSION['auth']['auth_rating'] = $res[0]['auth_rating'];
         $_SESSION['auth']['auth_img_cnt'] = $res[0]['auth_img_cnt'];
         $_SESSION['auth']['auth_name'] = $res[0][Localizer::$col_auth_name];
-        $_SESSION['auth']['auth_name_en'] = $res[0]['auth_name_en']; # needed for author's  friends actions
+        $_SESSION['auth']['auth_name_com'] = $res[0]['auth_name_com']; # needed for author's  friends actions
         $_SESSION['auth']['auth_dom'] = $res[0]['auth_dom'];
         $_SESSION['auth']['auth_email'] = $res[0]['auth_email'];
         $_SESSION['auth']['auth_power'] = $res[0]['auth_power'];
@@ -276,8 +343,8 @@ class Auth
         $_SESSION['auth']['auth_avatar_w'] = $res[0]['auth_avatar_w'];
         $_SESSION['auth']['auth_avatar_h'] = $res[0]['auth_avatar_h'];
         $_SESSION['auth']['auth_mood'] = $res[0][Localizer::$col_auth_mood];
-        $_SESSION['auth']['auth_mood_en'] = $res[0]['auth_mood_en']; # needed for onliners
-        $_SESSION['auth']['auth_mood_de'] = $res[0]['auth_mood_en']; # needed for onliners
+        $_SESSION['auth']['auth_mood_com'] = $res[0]['auth_mood_com']; # needed for onliners
+        $_SESSION['auth']['auth_mood_de'] = $res[0]['auth_mood_com']; # needed for onliners
         $_SESSION['auth']['auth_blog_favor_cnt'] = $res[0]['auth_blog_favor_cnt'];
         $_SESSION['auth']['auth_country_id'] = $res[0]['auth_country_id'];
         $_SESSION['auth']['auth_region_id'] = $res[0]['auth_region_id'];
@@ -372,7 +439,7 @@ class Auth
         if (!Geo::$is_robot && !strstr(Config::$request_uri, 'ajax/')) {
             #if (!strstr(Config::$request_uri, 'ajax/')) {
             $online_sess = array('id_auth' => Auth::$id_auth,
-                'auth_name' => Auth::$auth_name, 'auth_name_en' => Auth::$auth_name_en, 'auth_type' => Auth::$auth_type,
+                'auth_name' => Auth::$auth_name, 'auth_name_com' => Auth::$auth_name_com, 'auth_type' => Auth::$auth_type,
                 'cur_time' => Config::$cur_time,
                 'guest_gmtoffset' => Geo::$Gmtoffset,
                 'guest_ip' => Config::$remote_addr,
@@ -381,7 +448,7 @@ class Auth
                 'guest_uri' => str_replace('//', '/', Config::$home_url . Config::$request_uri),
                 'online_theme' => Config::$theme,
                 'auth_avatar' => Auth::$auth_avatar, 'auth_avatar_w' => Auth::$auth_avatar_w, 'auth_avatar_h' => Auth::$auth_avatar_h,
-                'auth_mood' => Auth::$auth_mood, 'auth_mood_en' => Auth::$auth_mood_en, 'auth_mood_de' => Auth::$auth_mood_de, 'auth_gender' => Auth::$auth_gender,
+                'auth_mood' => Auth::$auth_mood, 'auth_mood_com' => Auth::$auth_mood_com, 'auth_mood_de' => Auth::$auth_mood_de, 'auth_gender' => Auth::$auth_gender,
                 'guest_referrer' => '');
 
             $now_online = Mcache::get(md5('now_online'));

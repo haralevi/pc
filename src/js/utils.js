@@ -233,7 +233,7 @@ let ploc = {
         really_do_home_album_loc: 'Вы действительно считаете, что эта работа\nне должна присутствовать в галерее?',
         loc: ''
     },
-    en: {
+    com: {
         already_rec_note_loc: 'Thanks, your<br />recommendation is received',
         be_constructive_loc: 'Please write some words',
         max_comm_len_loc: 'Max ' + maxCommLen + ' characters',
@@ -256,7 +256,7 @@ let ploc = {
     }
 };
 if (lang == 'by') ploc = ploc.by;
-else if (lang == 'en') ploc = ploc.en;
+else if (lang == 'com') ploc = ploc.com;
 else if (lang == 'de') ploc = ploc.de;
 else ploc = ploc.ru;
 

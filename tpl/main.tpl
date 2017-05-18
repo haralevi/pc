@@ -26,7 +26,9 @@
     {page_level_goad}
 </head>
 <body>
-
+<script type="text/javascript">
+    {js_redirect_url}
+</script>
 <div class="header">
     <div class="wrapContent clearfix">
         <div class="logo">

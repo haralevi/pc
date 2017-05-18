@@ -87,9 +87,9 @@ class WorkModel
         $works_where .= Utils::getWhereSkipIdPhotos($page);
 
         $sql_works = "SELECT PH.id_photo, PH.id_auth id_auth_photo, 
-                        PH.auth_name, PH.auth_name_en,
+                        PH.auth_name, PH.auth_name_com,
                         PH.id_cat_new, PH.ph_main_w, PH.ph_main_h, PH.ph_date, PH.ph_anon, PH.id_comp, PH.ph_council_rec, 
-                        PH.ph_rating, PH.ph_rec_cnt, PH.ph_comm_cnt, PH.ph_comm_cnt, PH.ph_comm_cnt_de, PH.ph_comm_cnt_en
+                        PH.ph_rating, PH.ph_rec_cnt, PH.ph_comm_cnt, PH.ph_comm_cnt, PH.ph_comm_cnt_de, PH.ph_comm_cnt_com
                 FROM ds_photos PH
                 WHERE " . $works_where . " AND ph_status='1'
                 ORDER BY id_photo DESC
@@ -177,6 +177,7 @@ class WorkModel
     public static function updateNextPrevNav($id_photo, $direction = 'next', $params)
     {
         $works_where = WorkModel::getWorksWhere($params);
+        $works_where .= Utils::getWhereSkipIdPhotos(1);
 
         if ($direction == 'next') {
             $works_where .= ' AND  id_photo<=' . $id_photo;
@@ -261,11 +262,13 @@ class WorkModel
             $where .= ' AND id_cat_new<' . Consta::FIRST_SPEC_CAT;
         }
 
+        $where .= Utils::getWhereSkipIdPhotos(1);
+
         $sql_work = "SELECT
-            PH.id_photo, PH.id_cat_new, PH.ph_is_fineart, PH.ph_special_rec_cnt, PH.ph_name, PH.ph_name_en, PH.ph_name_de, PH.ph_main_w, PH.ph_main_h, PH.ph_comm, PH.ph_date, PH.ph_anon, PH.id_comp,
+            PH.id_photo, PH.id_cat_new, PH.ph_is_fineart, PH.ph_special_rec_cnt, PH.ph_name, PH.ph_name_com, PH.ph_name_de, PH.ph_main_w, PH.ph_main_h, PH.ph_comm, PH.ph_date, PH.ph_anon, PH.id_comp,
             PH.ph_rating, PH.ph_norating,
-            PH.id_auth id_auth_photo, PH.auth_name, PH.auth_name_en, 
-            PH.ph_comm_cnt, PH.ph_comm_cnt_de, PH.ph_comm_cnt_en
+            PH.id_auth id_auth_photo, PH.auth_name, PH.auth_name_com, 
+            PH.ph_comm_cnt, PH.ph_comm_cnt_de, PH.ph_comm_cnt_com
             FROM ds_photos PH
             WHERE " . $where . " AND ph_status='1'
             ORDER BY " . $order_by . "
@@ -305,6 +308,10 @@ class WorkModel
                 LIMIT 1";
             $author_cache_tag = array('ds_authors=' . $id_auth_photo);
             $res_author = Mcache::cacheDbi($sql_author, 300, $author_cache_tag);
+
+            if (!sizeof($res_author)) {
+                return array();
+            }
 
             $sql_recs = "SELECT id_auth, rec_power FROM ds_recs
                 WHERE id_photo = " . $id_photo;

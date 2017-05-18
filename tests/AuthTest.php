@@ -35,7 +35,7 @@ class AuthTest extends \PHPUnit_Framework_TestCase
         $_SESSION['auth']['auth_rating'] = '';
         $_SESSION['auth']['auth_img_cnt'] = '';
         $_SESSION['auth']['auth_name'] = '';
-        $_SESSION['auth']['auth_name_en'] = '';
+        $_SESSION['auth']['auth_name_com'] = '';
         $_SESSION['auth']['auth_dom'] = '';
         $_SESSION['auth']['auth_email'] = '';
         $_SESSION['auth']['auth_power'] = '';
@@ -44,7 +44,7 @@ class AuthTest extends \PHPUnit_Framework_TestCase
         $_SESSION['auth']['auth_avatar_w'] = '';
         $_SESSION['auth']['auth_avatar_h'] = '';
         $_SESSION['auth']['auth_mood'] = '';
-        $_SESSION['auth']['auth_mood_en'] = '';
+        $_SESSION['auth']['auth_mood_com'] = '';
         $_SESSION['auth']['auth_mood_de'] = '';
         $_SESSION['auth']['auth_blog_favor_cnt'] = '';
         $_SESSION['auth']['auth_country_id'] = '';
