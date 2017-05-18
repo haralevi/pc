@@ -143,7 +143,7 @@ class Localizer
 
     private static $loc_com = array(
         'main_title_loc' => 'Photo community',
-        'logout_loc' => 'Sing out',
+        'logout_loc' => 'Sign out',
         'login_short_loc' => 'E-mail',
         'pass_loc' => 'Password',
         'enter_short_loc' => 'Sign in',

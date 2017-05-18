@@ -107,10 +107,6 @@ class Config
             Config::checkAllowedSubdomain();
 
         Config::getLang();
-        if(Config::$lang == 'com' && !config::$debug) {
-            header('location: /');
-            die();
-        }
     }
 
     private static function checkAllowedSubdomain()

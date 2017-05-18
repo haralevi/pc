@@ -143,6 +143,7 @@ class Auth
             }
         }
 
+
         if (isset($_SESSION['auth']['id_auth'])) {
             Auth::$id_auth = $_SESSION['auth']['id_auth'];
             Auth::$auth_key = $_SESSION['auth']['auth_key'];
@@ -181,7 +182,7 @@ class Auth
         }
 
         # remove login information from url
-        if ($auth_login || $auth_pass) {
+        if (isset($_GET['auth_login']) || isset($_GET['auth_pass'])) {
             header('Location: //' . Config::$subDomain . Config::$SiteDom . '.' . Config::$domainEnd . Auth::removeLoginParams(Config::$request_uri));
             die();
         }
@@ -234,19 +235,6 @@ class Auth
             $js_redirect_uri = 'window.location.href = "' . config::$http_scheme . '//' . config::SITE_SUBDOMAIN . config::SITE_DOMAIN . '.com' . Config::$request_uri . '";';
         }
 
-        /*
-        if(config::getDebug()) {
-            Utils::echox(config::$domainEnd);
-            Utils::echox(Geo::$CountryCode);
-            Utils::echox($js_redirect_uri);
-            die();
-        }
-        */
-
-        # todo - remove after 'com' start
-        if (!config::getDebug())
-            $js_redirect_uri = '';
-
         return $js_redirect_uri;
     }
 
@@ -282,31 +270,7 @@ class Auth
     private static function loginAuthor($res)
     {
         # check if user allowed to use this domain
-        if (Config::getDebug()) {
-            Auth::redirectToAllowedDomain($res[0]['auth_port_lang']);
-        } else {
-            if (isset($_COOKIE['chla']) || isset($_GET['chla'])) {
-                #ok domain is allowed
-            } else if (Config::$domainEnd == $res[0]['auth_port_lang']) {
-                #ok domain is allowed
-            } else if ((Config::$domainEnd == 'ru' || Config::$domainEnd == 'by') && ($res[0]['auth_port_lang'] == 'ru' || $res[0]['auth_port_lang'] == 'by')) {
-                #ok domain is allowed
-            } else {
-                if (Config::$domainEnd == 'de') {
-                    if ($res[0]['auth_port_lang'] != 'de') {
-                        header('Location: ' . Utils::getChangeLangUrl('ru', true));
-                        die();
-                    }
-                } else if (Config::$domainEnd == 'com') {
-                    # ok do nothing
-                } else if (Config::$domainEnd == 'ru' || Config::$domainEnd == 'by') { # .ru .by
-                    if ($res[0]['auth_port_lang'] == 'de') {
-                        header('Location: ' . Utils::getChangeLangUrl('de', true));
-                        die();
-                    }
-                }
-            }
-        }
+        Auth::redirectToAllowedDomain($res[0]['auth_port_lang']);
 
         if (!$res[0]['auth_status']) {
             if (Config::$SiteDom) {
