@@ -227,21 +227,21 @@ const utils = {
 const minCommLen = 5, maxCommLen = 30000;
 let ploc = {
     by: {
-        already_rec_note_loc: 'Спасибо, ваша<br />рекомендация принята',
+        already_rec_note_loc: 'Рекомендация<br />принята',
         be_constructive_loc: 'Текст сообщения должен содержать хотя бы ' + minCommLen + ' букв',
         max_comm_len_loc: 'Сообщение должно содержать не более ' + maxCommLen + ' символов',
         really_do_home_album_loc: 'Вы действительно считаете, что эта работа\nне должна присутствовать в галерее?',
         loc: ''
     },
     com: {
-        already_rec_note_loc: 'Thanks, your<br />recommendation is received',
-        be_constructive_loc: 'Please write some words',
-        max_comm_len_loc: 'Max ' + maxCommLen + ' characters',
+        already_rec_note_loc: 'Recommendation<br />is received',
+        be_constructive_loc: 'Comment should contain at least ' + minCommLen + ' characters',
+        max_comm_len_loc: 'Comment should contain up to ' + maxCommLen + ' characters',
         really_do_home_album_loc: 'Do you really want that this work will be deleted from the gallery?',
         loc: ''
     },
     de: {
-        already_rec_note_loc: 'Danke, Ihre Empfehlung<br />wurde gezählt',
+        already_rec_note_loc: 'Die Empfehlung<br />wurde gezählt',
         be_constructive_loc: 'Ihre Anmerkung soll mindestens ' + minCommLen + ' Buchstaben enthalten',
         max_comm_len_loc: 'Eine Anmerkung darf bis zu ' + maxCommLen + ' Zeichen enthalten',
         really_do_home_album_loc: 'Möchten Sie wirklich, dass dieses Bild von der Bildergalerie entfernt wird?',
@@ -260,4 +260,4 @@ else if (lang == 'com') ploc = ploc.com;
 else if (lang == 'de') ploc = ploc.de;
 else ploc = ploc.ru;
 
-export {waitForFinalEvent, cookie, lang, localCache, ploc, utils};
+export {waitForFinalEvent, cookie, lang, localCache, minCommLen, maxCommLen, ploc, utils};

@@ -1,4 +1,4 @@
-import {localCache, ploc, utils} from "./utils";
+import {localCache, minCommLen, maxCommLen, ploc, utils} from "./utils";
 import {app} from "./app";
 
 const ajax = {
@@ -85,7 +85,7 @@ const ajax = {
             alert(ploc.be_constructive_loc);
             $comment.focus();
         }
-        else if (comm_text.length > 30000) {
+        else if (comm_text.length > maxCommLen) {
             alert(ploc.max_comm_len_loc);
             $comment.focus();
         }

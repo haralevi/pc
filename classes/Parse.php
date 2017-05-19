@@ -60,7 +60,7 @@ class Parse
             $tpl->clear('LOGGED_BLK');
         }
 
-        if (!isset($_REQUEST['wrn_login']) || Auth::getIdAuth() != -1)
+        if (!isset($_GET['wrn_login']) || Auth::getIdAuth() != -1)
             $tpl->clear('WRONG_LOGIN_BLK');
 
         $tpl->parse($tpl_var);
@@ -127,7 +127,10 @@ class Parse
 
     private static function setTplVars($tpl_var)
     {
-        $tpl_var['wrong_login_pass_short_loc'] = Localizer::$loc['wrong_login_pass_short_loc'];
+        if(isset($_GET['chla']))
+            $tpl_var['wrong_login_pass_loc'] = Localizer::$loc['you_redirected_login_again_loc'];
+        else
+            $tpl_var['wrong_login_pass_loc'] = Localizer::$loc['wrong_login_pass_loc'];
         $tpl_var['recomm_works_loc'] = Localizer::$loc['recomm_works_loc'];
         $tpl_var['all_works_loc'] = Localizer::$loc['all_works_loc'];
         $tpl_var['special_works_loc'] = Localizer::$loc['special_works_loc'];

@@ -48,7 +48,7 @@
 
 <!--[WRONG_LOGIN_BLK]-->
 <div class="wrapContent clearfix">
-    <div id="resultMsg" class="msg errMsg" style="display: block;">{wrong_login_pass_short_loc}</div>
+    <div id="resultMsg" class="msg errMsg" style="display: block;">{wrong_login_pass_loc}</div>
 </div>
 <!--[WRONG_LOGIN_BLK]-->
 
