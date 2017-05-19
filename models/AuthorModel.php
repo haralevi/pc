@@ -9,6 +9,8 @@ namespace Photocommunity\Mobile;
 
 class AuthorModel
 {
+    public static $is_portfolio = true;
+
     public static function inst()
     {
         static $instance = null;
@@ -22,9 +24,25 @@ class AuthorModel
     {
     }
 
+    // decide if portfolio in domain language exists
+    private static function setIsPortfolio($auth_premium, $auth_port_lang, $auth_img_cnt)
+    {
+        if ($auth_img_cnt == 0) {
+            AuthorModel::$is_portfolio = false;
+        } else if ($auth_premium < Consta::AUTH_PREMIUM_3) {
+            if (Config::$domainEnd == $auth_port_lang) {
+                #ok, do nothing
+            } else if ((Config::$domainEnd == 'ru' || Config::$domainEnd == 'by') && in_array($auth_port_lang, array('ru', 'by'))) {
+                #ok, do nothing
+            } else {
+                AuthorModel::$is_portfolio = false;
+            }
+        }
+    }
+
     public static function getAuthor($id_auth_photo = 1)
     {
-        $sql_author = "SELECT id_auth, auth_premium, auth_name, auth_name_com,
+        $sql_author = "SELECT id_auth, auth_premium, auth_port_lang, auth_name, auth_name_com,
             auth_avatar, auth_gender, auth_dom,
             auth_img_cnt, auth_img_cnt_norate, auth_rating
             FROM ds_authors
@@ -37,6 +55,7 @@ class AuthorModel
             return array();
         } else {
             $auth_premium_photo = $res_author[0]['auth_premium'];
+            $auth_port_lang_photo = $res_author[0]['auth_port_lang'];
             $id_auth_photo = $res_author[0]['id_auth'];
             $auth_avatar_src = Utils::parseAvatar($res_author[0]['id_auth'], $res_author[0]['auth_avatar'], $res_author[0]['auth_gender'], 'small');
             $auth_name_photo = $res_author[0][Localizer::$col_auth_name];
@@ -85,6 +104,9 @@ class AuthorModel
 
             $tpl_author_header_var['portfolio_a'] = 'http:' . $res_author[0]['auth_dom'] . '.' . Config::$SiteDom . '.' . Config::$domainEnd;
             $tpl_author_header_var['portfolio_loc'] = Localizer::$loc['portfolio_loc'];
+
+            // decide if portfolio in domain language exists
+            AuthorModel::setIsPortfolio($auth_premium_photo, $auth_port_lang_photo, $auth_img_cnt_total);
 
             $author = Utils::getTpl('author_header', $tpl_author_header_var);
         }

@@ -43,8 +43,8 @@ class Parse
         # set seo vars
         $tpl_var = Parse::setSeoVars($tpl_var);
 
-        # set goole vars
-        if (Auth::getAuthType() == Consta::AUTH_TYPE_ADMIN)
+        # set google vars
+        if (Auth::getAuthType() == Consta::AUTH_TYPE_ADMIN || in_array(Auth::getIdAuth(), array(1, 24, 26)))
             $tpl->clear('GO_BLK');
         $tpl_var = Parse::setGoogleVars($tpl_var);
 
@@ -127,7 +127,7 @@ class Parse
 
     private static function setTplVars($tpl_var)
     {
-        if(isset($_GET['chla']))
+        if (isset($_GET['chla']))
             $tpl_var['wrong_login_pass_loc'] = Localizer::$loc['you_redirected_login_again_loc'];
         else
             $tpl_var['wrong_login_pass_loc'] = Localizer::$loc['wrong_login_pass_loc'];

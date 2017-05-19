@@ -20,9 +20,11 @@
                 <div id="followBtnBlk" style="width: 80px; height: 24px; padding: 0 0 8px 10px;{is_display_follow_btn}">
                     <a id="{follow_btn_id}" href="#" class="saveBtn {follow_btn_class}" style="width: 60px;">{follow_btn_val}</a>
                 </div>
+                <!--[HAS_PORTFOLIO_BLK]-->
                 <div style="clear: left; height: 24px; padding: 0 0 10px 10px;">
                     <a id="portfolioLnk" href="{portfolio_a}" target="_blank" class="saveBtn" style="width: 60px;">{portfolio_loc}</a>
                 </div>
+                <!--[HAS_PORTFOLIO_BLK]-->
             </div>
         </td>
     </tr>

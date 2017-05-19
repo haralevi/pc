@@ -353,7 +353,7 @@ From: ' . $from_email . '
         if (!strstr(Config::$request_uri, 'get_views.php') && !in_array(Auth::getIdAuth(), array(1, 24, 26))) {
             if (isset($_SESSION['auth']['id_auth']))
                 $id_auth = $_SESSION['auth']['id_auth'];
-            else if(isset($_COOKIE['_ga']))
+            else if (isset($_COOKIE['_ga']))
                 $id_auth = 0;
             else
                 $id_auth = -1;
@@ -598,6 +598,11 @@ From: ' . $from_email . '
     {
         $tpl = new Tpl();
         $tpl->open($tpl_name);
+
+        // decide if portfolio in domain language exists
+        if (class_exists('Photocommunity\Mobile\AuthorModel') && !AuthorModel::$is_portfolio)
+            $tpl->clear('HAS_PORTFOLIO_BLK');
+
         return Utils::parseTpl($tpl->get(), $tpl_var);
     }
 
