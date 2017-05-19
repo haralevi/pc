@@ -266,7 +266,7 @@ class WorkModel
 
         $sql_work = "SELECT
             PH.id_photo, PH.id_cat_new, PH.ph_is_fineart, PH.ph_special_rec_cnt, PH.ph_name, PH.ph_name_com, PH.ph_name_de, PH.ph_main_w, PH.ph_main_h, PH.ph_comm, PH.ph_date, PH.ph_anon, PH.id_comp,
-            PH.ph_rating, PH.ph_norating,
+            PH.ph_rating, PH.ph_norating, ph_critique,
             PH.id_auth id_auth_photo, PH.auth_name, PH.auth_name_com, 
             PH.ph_comm_cnt, PH.ph_comm_cnt_de, PH.ph_comm_cnt_com
             FROM ds_photos PH
@@ -443,6 +443,7 @@ class WorkModel
                 'is_ph_anon' => $is_ph_anon,
                 'id_auth_photo' => $id_auth_photo,
                 'auth_status_photo' => $res_author[0]['auth_status'],
+                'ph_critique' => $res_work[0]['ph_critique'],
                 'auth_name_photo' => $auth_name_photo,
                 'work' => $work,
             );

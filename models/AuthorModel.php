@@ -108,7 +108,11 @@ class AuthorModel
             // decide if portfolio in domain language exists
             AuthorModel::setIsPortfolio($auth_premium_photo, $auth_port_lang_photo, $auth_img_cnt_total);
 
-            $author = Utils::getTpl('author_header', $tpl_author_header_var);
+            $tpl_clear_blocs = array();
+            if (!AuthorModel::$is_portfolio)
+                $tpl_clear_blocs[] = 'HAS_PORTFOLIO_BLK';
+
+            $author = Utils::getTpl('author_header', $tpl_author_header_var, $tpl_clear_blocs);
         }
 
         return array(

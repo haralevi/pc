@@ -594,14 +594,14 @@ From: ' . $from_email . '
             $str);
     }
 
-    public static function getTpl($tpl_name, $tpl_var = array())
+    public static function getTpl($tpl_name, $tpl_var = array(), $tpl_clear_blocs = array())
     {
         $tpl = new Tpl();
         $tpl->open($tpl_name);
 
-        // decide if portfolio in domain language exists
-        if (class_exists('Photocommunity\Mobile\AuthorModel') && !AuthorModel::$is_portfolio)
-            $tpl->clear('HAS_PORTFOLIO_BLK');
+        // clear blocks
+        foreach ($tpl_clear_blocs as $block)
+            $tpl->clear($block);
 
         return Utils::parseTpl($tpl->get(), $tpl_var);
     }
