@@ -114,6 +114,10 @@ class Parse
     private static function setSeoVars($tpl_var)
     {
         $site_name = Utils::getSiteName();
+        if(Config::$lang == 'com')
+            $tpl_var['html_lang'] = 'en';
+        else
+            $tpl_var['html_lang'] = Config::$lang;
         if (!isset($tpl_var['canonical_url'])) $tpl_var['canonical_url'] = Config::$canonical_url;
         if (!isset($tpl_var['port_seo_title'])) $tpl_var['port_seo_title'] = $site_name . ' / ' . Localizer::$loc['main_title_loc'];
         if (!isset($tpl_var['port_seo_desc'])) $tpl_var['port_seo_desc'] = $site_name . ' / ' . Localizer::$loc['main_title_loc'];

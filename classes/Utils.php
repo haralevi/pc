@@ -167,7 +167,10 @@ From: ' . $from_email . '
             $str = preg_replace_callback(
                 $urlSearch,
                 function ($matches) {
-                    return $urlReplace = '<a rel="nofollow" href="' . $matches[2] . $matches[4] . '" target="_blank">' . $matches[2] . $matches[4] . '</a>';
+                    $showImgFromLnk = '';
+                    if(Utils::endsWith($matches[4], '.jpg'))
+                        $showImgFromLnk = ' class="showImgFromLnk"';
+                    return $urlReplace = '<a rel="nofollow" href="' . $matches[2] . $matches[4] . '" ' . $showImgFromLnk . ' target="_blank">' . $matches[2] . $matches[4] . '</a>';
                 },
                 $str
             );

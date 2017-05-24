@@ -136,6 +136,11 @@ $(function () {
             if (e.keyCode == 39) $("#nextLnkKey").click();
             else if (e.keyCode == 37) $("#prevLnkKey").click();
             e.preventDefault();
+        })
+        // replace link with image
+        .on("click", "a.showImgFromLnk", function (e) {
+            $(this).html('<img src="' + $(this).attr("href") + '">');
+            e.preventDefault();
         });
 
     // hide messages

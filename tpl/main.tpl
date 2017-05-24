@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="{html_lang}">
 <head>
     <title>{port_seo_title}</title>
     <link rel="shortcut icon" href="{home_url}{port_icon}"/>

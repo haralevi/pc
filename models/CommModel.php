@@ -190,7 +190,7 @@ class CommModel
         }
 
         if ($ph_critique == Consta::PH_NO_COMM || $is_comm_deleted || CommModel::isBannedAuthor($id_auth_photo)) {
-            $comments .= '<div style="margin: 10px 0 16px 0; font-size: 12px;">' . Localizer::$loc['forbidden_write_comm_loc'] . '</div>';
+            $comments .= '<div style="margin: 10px 0 16px 0; font-size: 12px; text-align: center;">' . Localizer::$loc['forbidden_write_comm_loc'] . '</div>';
         } else if ($auth_status_photo && Auth::getIdAuth() != -1 && Auth::getAuthType() != Consta::AUTH_TYPE_VIEWER) {
             $tpl_work_comm_form_var['add_comm_loc'] = Localizer::$loc['add_comm_loc'];
             $tpl_work_comm_form_var['css_url'] = Config::$css_url;

@@ -175,7 +175,7 @@ class Localizer
         'limit_recs_achieved_2_loc' => 'recommendations per day is achieved',
         'add_favorite_loc' => 'Follow',
         'del_favorite_loc' => 'Unfollow',
-        'forbidden_write_comm_loc' => 'Author has disabled comments to this photo',
+        'forbidden_write_comm_loc' => 'Comments to this photo are disabled',
         'portfolio_loc' => 'Portfolio',
         'without_name' => 'Untitled',
         'success_unsubscribe' => 'You have successfully unsubscribed from newsletter',

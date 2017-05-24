@@ -216,7 +216,7 @@ class Auth
     {
         $js_redirect_uri = '';
 
-        $ru_countries_arr = array('RU', 'BY', 'UA', 'KZ', 'AM', 'MD', 'GE', 'TM', 'KG', 'UZ', 'AZ');
+        $ru_countries_arr = array('RU', 'BY', 'UA', 'KZ', 'AM', 'MD', 'GE', 'TM', 'KG', 'UZ', 'AZ', 'TJ');
         $de_countries_arr = array('DE', 'AT', 'CH');
 
         if (Geo::$is_robot || Geo::getChangeLangCookie()) { # allow to use any domain if user was logged from this domain
