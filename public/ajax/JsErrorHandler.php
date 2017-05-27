@@ -26,7 +26,7 @@ class JsErrorHandler
             die();
 
         $jserror = trim(mb_substr($_REQUEST['jserror'], 0, 10000));
-        if (JsErrorHandler::isReallyJsError($jserror))
+        if (JsErrorHandler::isReallyJsError($jserror) && !JsErrorHandler::isToSkipError($jserror))
             JsErrorHandler::writeJsError($jserror);
     }
 
@@ -36,11 +36,19 @@ class JsErrorHandler
         if ($jserror == '')
             $isReal = false;
         else if (
+            strstr($jserror, 'bot') || strstr($jserror, 'BingPreview') ||
             strstr($jserror, 'mecash') || strstr($jserror, 'metabar') ||
             strstr($jserror, 'prod2016') || strstr($jserror, 'reckonstat')
         )
             $isReal = false;
         return $isReal;
+    }
+
+    public static function isToSkipError($jserror) {
+        $isToSkipError = false;
+        if(strstr($jserror, 'from accessing a frame with origin'))
+            $isToSkipError = true;
+        return $isToSkipError;
     }
 
     private static function writeJsError($jserror)
