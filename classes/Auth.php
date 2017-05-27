@@ -179,6 +179,7 @@ class Auth
             Auth::$auth_featured_link = $_SESSION['auth']['auth_featured_link'];
             Auth::$auth_show_all_comms = $_SESSION['auth']['auth_show_all_comms'];
             Auth::$auth_port_dom = $_SESSION['auth']['auth_port_dom'];
+            Auth::$auth_last_recs_cnt = $_SESSION['auth']['auth_last_recs_cnt'];
         }
 
         # remove login information from url

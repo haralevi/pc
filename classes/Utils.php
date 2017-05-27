@@ -684,9 +684,9 @@ From: ' . $from_email . '
 
     public static function getWhereSkipIdPhotos($page = 100)
     {
-        // skip russian photos for 'de'
+        // skip russian photos for 'de', 'com'
         $where = '';
-        if (Config::$domainEnd == 'de' && $page <= 10)
+        if (Config::$domainEnd != 'ru' && Config::$domainEnd != 'by' && $page <= 10)
             $where = Consta::SKIP_ID_PHOTOS;
         return $where;
     }
