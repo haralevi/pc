@@ -44,8 +44,9 @@ class Parse
         $tpl_var = Parse::setSeoVars($tpl_var);
 
         # set google vars
-        if (Auth::getAuthType() == Consta::AUTH_TYPE_ADMIN || in_array(Auth::getIdAuth(), array(1, 24, 26)))
+        if (Auth::isAdmin() || $tpl_var['js_redirect_url'])
             $tpl->clear('GO_BLK');
+
         $tpl_var = Parse::setGoogleVars($tpl_var);
 
         $tpl_var['id_auth'] = Auth::getIdAuth();

@@ -388,6 +388,13 @@ class Auth
         return $is_auth_premium;
     }
 
+    public static function isAdmin() {
+        $is_admin = false;
+        if(Config::getDebug() || Auth::getAuthType() == Consta::AUTH_TYPE_ADMIN)
+            $is_admin = true;
+        return $is_admin;
+    }
+
     public static function isAuthIgnored($id_auth)
     {
         $auth_ignored_arr = array();

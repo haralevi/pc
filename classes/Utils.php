@@ -352,8 +352,7 @@ From: ' . $from_email . '
 
     public static function logVisits()
     {
-        #if (!Geo::$is_robot && !strstr(Config::$request_uri, 'get_views.php') && !in_array(Auth::getIdAuth(), array(1, 24, 26))) {
-        if (!strstr(Config::$request_uri, 'get_views.php') && !in_array(Auth::getIdAuth(), array(1, 24, 26))) {
+        if (!strstr(Config::$request_uri, 'get_views.php') && !Auth::isAdmin()) {
             if (isset($_SESSION['auth']['id_auth']))
                 $id_auth = $_SESSION['auth']['id_auth'];
             else if (isset($_COOKIE['_ga']))
