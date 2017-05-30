@@ -352,7 +352,7 @@ From: ' . $from_email . '
 
     public static function logVisits()
     {
-        if (!strstr(Config::$request_uri, 'get_views.php') && !Auth::isAdmin()) {
+        if (Config::$script_name != '/get_views.php' && !Auth::isAdmin()) {
             if (isset($_SESSION['auth']['id_auth']))
                 $id_auth = $_SESSION['auth']['id_auth'];
             else if (isset($_COOKIE['_ga']))

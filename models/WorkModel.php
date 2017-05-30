@@ -32,8 +32,7 @@ class WorkModel
             $works_where .= ' AND id_cat_new<' . Consta::FIRST_SPEC_CAT;
             WorkModel::$works_cache_tag = array('ds_photos=all');
         } else if (isset($params['special'])) {
-            #$works_where .= ' AND ph_special_rec_cnt>=' . Consta::MIN_SPECIAL_REC_CNT;
-            $works_where .= ' AND ph_special_rec_cnt>=-5 AND ((PH.ph_is_fineart=\'1\' AND ph_rating>=5) OR ph_special_rec_cnt>=' . Consta::MIN_SPECIAL_REC_CNT . ')';
+            $works_where .= WorkModel::getSpecialRecWhere();
             WorkModel::$works_cache_tag = array('ds_photos=special');
         } else if (isset($params['popular'])) {
             $works_where .= ' AND ph_rating>=' . Consta::POPULAR_PH_RATING;
@@ -55,6 +54,14 @@ class WorkModel
             WorkModel::$works_cache_tag = array('ds_photos_recomm_min_rating=' . Auth::getAuthFeaturedRating());
         }
         return $works_where;
+    }
+
+    private static function getSpecialRecWhere() {
+        #$where .= ' AND ph_special_rec_cnt>=' . Consta::MIN_SPECIAL_REC_CNT;
+        $min_ph_special_rec_rating = 5;
+        if (in_array(Auth::getIdAuth(), Consta::$auth_fineart_arr))
+            $min_ph_special_rec_rating = 0;
+        return ' AND ph_special_rec_cnt>=-5 AND ((PH.ph_is_fineart=\'1\' AND ph_rating>=' . $min_ph_special_rec_rating . ') OR ph_special_rec_cnt>=' . Consta::MIN_SPECIAL_REC_CNT . ')';
     }
 
     private static function isWorkExist($id_photo)
@@ -246,8 +253,7 @@ class WorkModel
         if (isset($params['all'])) {
             $where .= ' AND id_cat_new<' . Consta::FIRST_SPEC_CAT;
         } else if (isset($params['special'])) {
-            #$where .= ' AND ph_special_rec_cnt>=' . Consta::MIN_SPECIAL_REC_CNT;
-            $where .= ' AND ph_special_rec_cnt>=-5 AND ((PH.ph_is_fineart=\'1\' AND ph_rating>=5) OR ph_special_rec_cnt>=' . Consta::MIN_SPECIAL_REC_CNT . ')';
+            $where .= WorkModel::getSpecialRecWhere();
         } else if (isset($params['popular'])) {
             $where .= ' AND ph_rating>=' . Consta::POPULAR_PH_RATING;
         } else if (isset($params['favorites'])) {
