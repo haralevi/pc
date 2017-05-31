@@ -173,10 +173,7 @@ class Config
         Config::$css_url = Config::$home_url . 'css/';
         Config::$js_url = Config::$home_url . 'js/';
 
-        if (Config::$domainEnd == 'by')
-            Config::$domainEndImg = 'ru';
-        else
-            Config::$domainEndImg = Config::$domainEnd;
+        Config::$domainEndImg = Config::$domainEnd;
 
         Config::$ImgPath = '//' . Config::SITE_DOMAIN  . '.' . Config::$domainEndImg . '/' . Config::$ImgPath;
 
@@ -192,21 +189,11 @@ class Config
                 else if ($_GET['lang'] == 'de') Config::$lang = 'de';
             }
         } else {
-            if (isset($_GET['lang'])) {
-                if ($_GET['lang'] == 'by') {
-                    if (Config::$SiteDom)
-                        setcookie('lang', 'ru', Config::$cookie_expires, '/', '.' . Config::SITE_DOMAIN_BY);
-                    header('location: ' . '//' . Config::SITE_DOMAIN_BY . Utils::removeParam(Config::$request_uri, 'lang'));
-                } else {
-                    if (Config::$SiteDom)
-                        setcookie('lang', 'ru', Config::$cookie_expires, '/', '.' . Config::SITE_DOMAIN . '.ru');
-                    header('location: ' . '//' . Config::SITE_DOMAIN . '.ru' . Utils::removeParam(Config::$request_uri, 'lang'));
-                }
-            } else if (isset($_COOKIE['lang'])) {
+            if (isset($_COOKIE['lang'])) {
                 if (Config::$domainEnd == $_COOKIE['lang'] || (Config::$domainEnd == 'com' && $_COOKIE['lang'] == 'com')) Config::$lang = $_COOKIE['lang'];
                 else {
                     if (Config::$domainEnd == 'ru') Config::$lang = 'ru';
-                    else if (Config::$domainEnd == 'by') Config::$lang = 'ru';
+                    else if (Config::$domainEnd == 'by') Config::$lang = 'by';
                     else if (Config::$domainEnd == 'com') Config::$lang = 'com';
                     else if (Config::$domainEnd == 'de') Config::$lang = 'de';
                     if (Config::$SiteDom)
@@ -214,7 +201,7 @@ class Config
                 }
             } else {
                 if (Config::$domainEnd == 'ru') Config::$lang = 'ru';
-                else if (Config::$domainEnd == 'by') Config::$lang = 'ru';
+                else if (Config::$domainEnd == 'by') Config::$lang = 'by';
                 else if (Config::$domainEnd == 'com') Config::$lang = 'com';
                 else if (Config::$domainEnd == 'de') Config::$lang = 'de';
                 if (Config::$SiteDom)

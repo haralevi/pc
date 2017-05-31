@@ -372,7 +372,7 @@ $btn-color: #fff;
   @include gradient(#537dab, #618bb9);
 }
 
-.unfollowBtn, .undoBtn {
+.unfollowBtn {
   @extend .btn;
   color: $btn-color;
   border: solid 1px #962727;
@@ -414,7 +414,7 @@ $btn-color: #fff;
   text-shadow: none;
 }
 
-#portfolioLnk {
+#portfolioLnk, .undoBtn {
   background: #e6e6e6;
   color: #757575;
   height: 24px;
