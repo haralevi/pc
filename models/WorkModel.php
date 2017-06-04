@@ -78,10 +78,6 @@ class WorkModel
         if ($v['id_photo'] >= Consta::ID_PHOTO_LOCAL_FROM && $v['ph_council_rec'] == '')
             $is_to_skip = true;
 
-        # skip photos of ignored authors
-        if (Auth::isAuthIgnored($v['id_auth_photo']))
-            $is_to_skip = true;
-
         $is_ph_anon = Utils::isAnon($v['ph_anon'], $v['ph_date'], $v['id_comp']);
         if ($is_ph_anon && isset($params['id_auth_photo']))
             $is_to_skip = true;
@@ -281,8 +277,6 @@ class WorkModel
             LIMIT 1";
         $res_work = Mcache::cacheDbi($sql_work, 300, $work_cache_tag); #utils::printArr($res_work);
         if (!sizeof($res_work)) {
-            return array();
-        } else if (Auth::isAuthIgnored($res_work[0]['id_auth_photo'])) {
             return array();
         } else {
             $id_photo = $res_work[0]['id_photo'];

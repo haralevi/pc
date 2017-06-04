@@ -338,13 +338,6 @@ class Auth
             $sql = "UPDATE ds_authors SET  auth_last_recs_cnt=" . $_SESSION['auth']['auth_last_recs_cnt'] . ", auth_last_click=" . Config::$cur_time . ", auth_last_ip='" . Config::$remote_addr . "' WHERE id_auth=" . $_SESSION['auth']['id_auth'] . " LIMIT 1";
         Db::execute($sql);
 
-        $sql = "SELECT id_auth_ignored FROM ds_ignored_authors WHERE id_auth=" . $_SESSION['auth']['id_auth'];
-        $res_ignored = Db::execute($sql);
-        $auth_ignored = '';
-        foreach ($res_ignored as $v)
-            $auth_ignored .= $v['id_auth_ignored'] . ',';
-        $_SESSION['auth']['auth_ignored'] = $auth_ignored;
-
         $sql = "SELECT port_group_type FROM ds_portfolios WHERE id_auth=" . $_SESSION['auth']['id_auth'] . " LIMIT 1";
         $port_cache_tag = array('ds_portfolios=' . $_SESSION['auth']['id_auth']);
         $res_port = Mcache::cacheDbi($sql, 300, $port_cache_tag); #utils::printArr($res_recs);
@@ -393,17 +386,6 @@ class Auth
         if(Config::getDebug() || Auth::getAuthType() == Consta::AUTH_TYPE_ADMIN)
             $is_admin = true;
         return $is_admin;
-    }
-
-    public static function isAuthIgnored($id_auth)
-    {
-        $auth_ignored_arr = array();
-        if (isset($_SESSION['auth']['auth_ignored'])) {
-            $auth_ignored_arr = explode(',', $_SESSION['auth']['auth_ignored']);
-            if (trim($auth_ignored_arr[sizeof($auth_ignored_arr) - 1]) == '')
-                unset($auth_ignored_arr[sizeof($auth_ignored_arr) - 1]);
-        }
-        return in_array($id_auth, $auth_ignored_arr) ? true : false;
     }
 
     public static function updateOnliners()

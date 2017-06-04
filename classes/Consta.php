@@ -9,9 +9,9 @@ namespace Photocommunity\Mobile;
 
 class Consta
 {
-	// skip id photos for 'de', 'com'
-    const SKIP_ID_PHOTOS = ' AND PH.id_photo NOT IN (665720, 665716, 665711, 665709, 665777, 665806, 665813, 665881, 665880, 665879, 665878, 665954, 665950, 665945, 665944, 665943, 666727, 666778)';
-    
+    // skip id photos for 'de', 'com'
+    public static $skip_id_photos_arr = array(665880, 665879, 665878, 665954, 665950, 665945, 665944, 665943, 666727, 666778, 666841, 666999, 667238, 667213, 667667, 667661);
+
     const AUTH_TYPE_DEF = 0;
     const AUTH_TYPE_AMATURE = 1;
     const AUTH_TYPE_MODEL = 2;

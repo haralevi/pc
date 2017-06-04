@@ -58,14 +58,6 @@ class CommModel
             $comm = '<table id="commTbl">';
             foreach ($res_comm as $v) {
 
-                # skip comments of ignored authors
-                if (Auth::isAuthIgnored($v['comm_id_auth']))
-                    continue;
-
-                # skip photos of ignored authors
-                if (Auth::isAuthIgnored($v['id_auth_photo']))
-                    continue;
-
                 $comm_text = $v[Localizer::$col_comm_text];
                 if (Config::$lang == 'ru' || Config::$lang == 'by') {
                     #ok
@@ -139,10 +131,6 @@ class CommModel
             $comments = '<table id="commTbl">';
             $comm_cnt = 0;
             foreach ($res_comments as $v) {
-
-                # skip comments of ignored authors
-                if (Auth::isAuthIgnored($v['id_auth']))
-                    continue;
 
                 $comm_text = $v[Localizer::$col_comm_text];
                 if ($comm_text == '') {

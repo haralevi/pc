@@ -112,13 +112,6 @@ class AuthTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function testIsAuthIgnored()
-    {
-        $_SESSION['auth']['auth_ignored'] = '1,2,3';
-        $this->assertTrue(Auth::isAuthIgnored(1));
-        unset($_SESSION['auth']['auth_ignored']);
-    }
-
     protected function tearDown()
     {
         # delete unnecessary objects

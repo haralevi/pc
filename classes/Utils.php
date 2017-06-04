@@ -52,10 +52,10 @@ class Utils
     public static function getImgPath($id_photo)
     {
         if ($id_photo >= Consta::ID_PHOTO_CDN_FROM && $id_photo < Consta::ID_PHOTO_LOCAL_FROM)
-            $ImagesPathFunc = '//cdn.' . Config::SITE_DOMAIN . '.' . Config::$domainEndImg . '/images/';
+            $ImagesPathFunc = '//cdn.' . Config::$SiteDom . '.' . Config::$domainEndImg . '/images/';
         else {
-            if ($id_photo % 2) $ImagesPathFunc = '//i1.' . Config::SITE_DOMAIN . '.' . Config::$domainEndImg . '/images/';
-            else $ImagesPathFunc = '//ii1.' . Config::SITE_DOMAIN . '.' . Config::$domainEndImg . '/images/';
+            if ($id_photo % 2) $ImagesPathFunc = '//i1.' . Config::$SiteDom . '.' . Config::$domainEndImg . '/images/';
+            else $ImagesPathFunc = '//ii1.' . Config::$SiteDom . '.' . Config::$domainEndImg . '/images/';
         }
         return $ImagesPathFunc;
     }
@@ -168,7 +168,7 @@ From: ' . $from_email . '
                 $urlSearch,
                 function ($matches) {
                     $showImgFromLnk = '';
-                    if(Utils::endsWith($matches[4], '.jpg'))
+                    if (Utils::endsWith($matches[4], '.jpg'))
                         $showImgFromLnk = ' class="showImgFromLnk"';
                     return $urlReplace = '<a rel="nofollow" href="' . $matches[2] . $matches[4] . '" ' . $showImgFromLnk . ' target="_blank">' . $matches[2] . $matches[4] . '</a>';
                 },
@@ -681,12 +681,16 @@ From: ' . $from_email . '
         return $goad;
     }
 
+    // skip russian photos for 'de', 'com'
     public static function getWhereSkipIdPhotos($page = 100)
     {
-        // skip russian photos for 'de', 'com'
-        $where = '';
-        if (Config::$domainEnd != 'ru' && Config::$domainEnd != 'by' && $page <= 10)
-            $where = Consta::SKIP_ID_PHOTOS;
-        return $where;
+        $skip_id_photos = '';
+        if (Config::$domainEnd != 'ru' && Config::$domainEnd != 'by' && $page <= 10) {
+            $skip_id_photos = ' AND PH.id_photo NOT IN (';
+            foreach (Consta::$skip_id_photos_arr as $v)
+                $skip_id_photos .= $v . ', ';
+            $skip_id_photos = substr($skip_id_photos, 0, -2) . ')';
+        }
+        return $skip_id_photos;
     }
 }

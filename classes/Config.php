@@ -175,7 +175,7 @@ class Config
 
         Config::$domainEndImg = Config::$domainEnd;
 
-        Config::$ImgPath = '//' . Config::SITE_DOMAIN  . '.' . Config::$domainEndImg . '/' . Config::$ImgPath;
+        Config::$ImgPath = '//' . Config::$SiteDom  . '.' . Config::$domainEndImg . '/' . Config::$ImgPath;
 
         Config::$noreply_email = 'noreply@' . Config::$SiteDom . '.' . Config::$domainEnd;
     }
