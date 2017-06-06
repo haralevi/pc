@@ -1,4 +1,4 @@
-<div id="mainImageA" data-href="{work_href}" style="text-align: center; cursor: pointer;">
+<div id="mainImageA" data-href="{work_href}" style="min-height: 100px; text-align: center; cursor: pointer;">
     {work_img}
 </div>
 <div class="wrapContent">

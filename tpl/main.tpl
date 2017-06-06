@@ -67,6 +67,7 @@
     <a href="{home_url}logout.php" class="submenuItem">{logout_loc}</a>
     <!--[UNLOGGED_BLK]-->
     <!--[LOGGED_BLK]-->
+    <a href="//{site_dom}.{domain_end}/register.php" class="submenuItem">{register_loc}</a>
     <div class="submenuItem">
         <input type="text" name="auth_login" id="auth_login" class="loginFld" placeholder="{login_short_loc}" value="">
         <input type="password" name="auth_pass" id="auth_pass" class="loginFld" placeholder="{pass_loc}" value="">

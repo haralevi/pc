@@ -99,6 +99,8 @@ class Parse
         else $tpl_var['logo_img'] = 'logo_' . Config::SITE_DOMAIN . '.png';
 
         $tpl_var['home_url'] = Config::$home_url;
+        $tpl_var['site_dom'] = Config::$SiteDom;
+        $tpl_var['domain_end'] = Config::$domainEnd;
         $tpl_var['css_url'] = Config::$css_url;
         $tpl_var['css_ver'] = Config::$css_ver;
         $tpl_var['js_url'] = Config::$js_url;
@@ -144,6 +146,7 @@ class Parse
         $tpl_var['comm_loc'] = Localizer::$loc['comm_loc'];
         $tpl_var['profile_title_loc'] = Localizer::$loc['profile_title_loc'];
         $tpl_var['logout_loc'] = Localizer::$loc['logout_loc'];
+        $tpl_var['register_loc'] = Localizer::$loc['register_loc'];
         $tpl_var['login_short_loc'] = Localizer::$loc['login_short_loc'];
         $tpl_var['pass_loc'] = Localizer::$loc['pass_loc'];
         $tpl_var['enter_short_loc'] = Localizer::$loc['enter_short_loc'];
