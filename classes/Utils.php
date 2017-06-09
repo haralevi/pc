@@ -350,7 +350,7 @@ From: ' . $from_email . '
         return $str;
     }
 
-    public static function logVisits()
+    public static function logVisits($time = 0)
     {
         if (Config::$script_name != '/get_views.php' && !Auth::isAdmin()) {
             if (isset($_SESSION['auth']['id_auth']))
@@ -367,6 +367,7 @@ From: ' . $from_email . '
             if (strlen(Auth::getIdAuth()) < 5) $log .= "\t";
             $log .= "\t| ";
             $log .= 'https://' . Config::$http_host . Config::$request_uri;
+            $log .= "\t| " . $time;
             #if (Config::$http_user_agent) $log .=  "\t| " .Config::$http_user_agent;
             $fp = fopen(dirname(__FILE__) . Config::$visitsLogFile, 'a');
             fwrite($fp, $log . "\n");
