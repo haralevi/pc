@@ -25,8 +25,10 @@ class Parse
         Parse::parseHtml($tpl, $tpl_var);
         Utils::sendHeaders();
         Parse::printHtml();
-        Utils::logVisits();
+        Utils::logVisits(Parse::$totalTime);
     }
+
+    private static $totalTime = 0;
 
     /**
      * @param Tpl $tpl
@@ -68,12 +70,13 @@ class Parse
         $html = $tpl->get();
 
         Timer::stopTiming('Total');
+        Parse::$totalTime = Timer::getATimings()['Total']['elapsed'];
+
         $debug = '';
         if (Config::getDebug()) {
             $debug .= '<div id="debug">';
-            $totalTime = Timer::getATimings()['Total']['elapsed'];
-            if ($totalTime >= 0.1)
-                $debug .= 'Total Time: <b>' . $totalTime . '</b> sec';
+            if (Parse::$totalTime >= 0.1)
+                $debug .= 'Total Time: <b>' . Parse::$totalTime . '</b> sec';
             if (Db::getTotalTime() >= 0.1) $debug .= '<br>Mysql Time: <b>' . Db::getTotalTime() . '</b>';
             if (Db::getQueries() != '') $debug .= '<br>' . Db::getQueries();
             $debug .= '</div>';

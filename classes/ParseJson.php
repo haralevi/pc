@@ -25,24 +25,26 @@ class ParseJson
         ParseJson::parseHtml($html);
         Utils::sendHeaders('application/json');
         ParseJson::printHtml();
-        Utils::logVisits();
+        Utils::logVisits(ParseJson::$totalTime);
     }
 
+    private static $totalTime = 0;
     /**
      * @param $html
      */
     private static function parseHtml($html)
     {
         Timer::stopTiming('Total');
+        ParseJson::$totalTime = Timer::getATimings()['Total']['elapsed'];
+
         $debug = '';
         if (Config::getDebug()) {
             if (isset($_COOKIE['nav_dir']))
                 $debug .= 'nav_dir: <b>' . $_COOKIE['nav_dir'] . '</b><br>';
             if(isset($_COOKIE['prev_next_nav']))
                 $debug .= '<b>' . $_COOKIE['prev_next_nav'] . '</b><br>';
-            $totalTime = Timer::getATimings()['Total']['elapsed'];
-            if ($totalTime >= 0.1)
-                $debug .= 'Total Time: <b>' . $totalTime . '</b> sec';
+            if (ParseJson::$totalTime >= 0.1)
+                $debug .= 'Total Time: <b>' . ParseJson::$totalTime . '</b> sec';
             if (Db::getTotalTime() >= 0.1) $debug .= '<br>Mysql Time: <b>' . Db::getTotalTime() . '</b>';
             if (Db::getQueries() != '') $debug .= '<br>' . Db::getQueries();
             #$debug = '';
