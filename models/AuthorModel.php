@@ -10,6 +10,7 @@ namespace Photocommunity\Mobile;
 class AuthorModel
 {
     public static $is_portfolio = true;
+    public static $is_follow_btn = false;
 
     public static function inst()
     {
@@ -66,7 +67,7 @@ class AuthorModel
             $auth_rating_work = $res_author[0]['auth_rating'];
 
             if (Auth::getIdAuth() != -1 && Auth::getIdAuth() != $id_auth_photo) {
-                $is_display_follow_btn = '';
+                AuthorModel::$is_follow_btn = true;
                 $sql_follow = "SELECT id_auth FROM ds_followers WHERE id_auth=" . $id_auth_photo . " AND id_auth_follower=" . Auth::getIdAuth() . " LIMIT 1";
                 $follow_cache_tag = array('ds_followers=' . Auth::getIdAuth());
                 $res_follow = Mcache::cacheDbi($sql_follow, 300, $follow_cache_tag);
@@ -84,7 +85,6 @@ class AuthorModel
                 $follow_btn_id = '';
                 $follow_btn_class = '';
                 $follow_btn_val = '';
-                $is_display_follow_btn = ' display:none;';
             }
 
             $tpl_author_header_var['home_url'] = Config::$home_url;
@@ -97,7 +97,6 @@ class AuthorModel
             $tpl_author_header_var['auth_rating_work'] = $auth_rating_work;
             $tpl_author_header_var['rating_loc'] = Localizer::$loc['rating_loc'];
 
-            $tpl_author_header_var['is_display_follow_btn'] = $is_display_follow_btn;
             $tpl_author_header_var['follow_btn_id'] = $follow_btn_id;
             $tpl_author_header_var['follow_btn_class'] = $follow_btn_class;
             $tpl_author_header_var['follow_btn_val'] = $follow_btn_val;
@@ -111,6 +110,9 @@ class AuthorModel
             $tpl_clear_blocs = array();
             if (!AuthorModel::$is_portfolio)
                 $tpl_clear_blocs[] = 'HAS_PORTFOLIO_BLK';
+
+            if (!AuthorModel::$is_follow_btn)
+                $tpl_clear_blocs[] = 'FOLLOW_BTN_BLK';
 
             $author = Utils::getTpl('author_header', $tpl_author_header_var, $tpl_clear_blocs);
         }

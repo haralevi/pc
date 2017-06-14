@@ -1,30 +1,34 @@
 <table>
     <tr>
-        <td style="vertical-align: top;">
-            <div style="position: relative; max-width: 100px;">
-                <a rel="author" href="{home_url}author.php?id_auth={id_auth_photo}"><img src="{auth_avatar_src}" class="auth_avatar img-rounded" alt=""></a>
+        <td>
+            <div class="author__avatar">
+                <a rel="author" href="{home_url}author.php?id_auth={id_auth_photo}">
+                    <img src="{auth_avatar_src}" class="auth_avatar img_rounded" alt="">
+                </a>
                 {auth_premium_badge}
             </div>
         </td>
-        <td style="padding-top: 10px; vertical-align: top;">
-            <div style="font-size: 18px; font-weight: 700; max-width: 284px; overflow: hidden; padding: 0 6px 10px 10px;" class="clearfix;">
+        <td>
+            <div class="author__name clearfix">
                 {auth_name_photo}
             </div>
-            <div style="clear: left; float:left; width: 60px; font-size: 11px; text-align: center; padding: 6px 0; border-right: 1px solid #333;">
-                <b id="authImgCnt" style="font-size: 16px;">{auth_img_cnt_total}</b><br>{works_loc}
+            <div class="author__counter clearfix">
+                <b id="authImgCnt" class="author__counter_val">{auth_img_cnt_total}</b><br>{works_loc}
             </div>
-            <div style="float:left; width: 60px; font-size: 11px; text-align: center; padding: 6px 0; border-right: 1px solid #333;">
-                <b id="authRating" style="font-size: 16px;">{auth_rating_work}</b><br>{rating_loc}
+            <div class="author__counter">
+                <b id="authRating" class="author__counter_val">{auth_rating_work}</b><br>{rating_loc}
             </div>
-            <div style="float:left; padding: 0;">
+            <div class="author__links">
                 <!--[HAS_PORTFOLIO_BLK]-->
-                <div style="clear: left; height: 24px; padding: 0 0 10px 10px;">
-                    <a id="portfolioLnk" href="{portfolio_a}" target="_blank" class="saveBtn" style="width: 60px;">{portfolio_loc}</a>
+                <div class="author__portfolio_lnk">
+                    <a id="portfolioLnk" href="{portfolio_a}" target="_blank" class="saveBtn">{portfolio_loc}</a>
                 </div>
                 <!--[HAS_PORTFOLIO_BLK]-->
-                <div id="followBtnBlk" style="width: 80px; height: 24px; padding: 0 0 8px 10px;{is_display_follow_btn}">
-                    <a id="{follow_btn_id}" href="#" class="saveBtn {follow_btn_class}" style="width: 60px;">{follow_btn_val}</a>
+                <!--[FOLLOW_BTN_BLK]-->
+                <div id="followBtnBlk" class="author__follow_lnk">
+                    <a id="{follow_btn_id}" href="#" class="saveBtn {follow_btn_class}">{follow_btn_val}</a>
                 </div>
+                <!--[FOLLOW_BTN_BLK]-->
             </div>
         </td>
     </tr>

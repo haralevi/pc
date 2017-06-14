@@ -1,8 +1,8 @@
-<div class="wrapContent clearfix" id="ajaxHeader" data-id-auth-photo="{id_auth_photo}" style="padding: 10px 0 0 0;">
+<div class="author wrapContent clearfix" id="ajaxHeader" data-id-auth-photo="{id_auth_photo}">
     {author}
 </div>
 
-<div class="wrapContent clearfix">
+<div class="works wrapContent clearfix">
     {works}
 </div>
 

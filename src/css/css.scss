@@ -4,7 +4,7 @@
 @import './animation.css';
 
 $font-main: 'Open Sans', 'Helvetica Neue', Helvetica, verdana, Arial, sans-serif;
-$font-title: "Open Sans Condensed", serif;
+$font-title: 'Open Sans Condensed', serif;
 
 $body-bgcolor: #131313;
 $body-color: #999;
@@ -22,6 +22,10 @@ body {
 
   color: $body-color;
   background-color: $body-bgcolor;
+}
+
+td {
+  vertical-align: top;
 }
 
 .modal_window {
@@ -206,7 +210,7 @@ a:hover, a:focus {
   border-radius: $radius;
 }
 
-.img-rounded {
+.img_rounded {
   @include rounded(4px)
 }
 
@@ -644,6 +648,42 @@ $commText-w: 320px;
 
 /********************************************/
 $authName-w: 70%;
+
+.author {
+  padding: 10px 0 0 0;
+}
+
+.author__avatar {
+  position: relative; max-width: 100px;
+}
+
+.author__name {
+  font-size: 18px; font-weight: 700; max-width: 284px; overflow: hidden; padding: 0 6px 10px 10px;
+}
+
+.author__counter {
+  float:left; width: 60px; font-size: 11px; text-align: center; padding: 6px 0; border-right: 1px solid #333;
+}
+
+.author__counter_val {
+  font-size: 16px;
+}
+
+.author__links {
+  float:left; padding: 0;
+}
+
+.author__portfolio_lnk {
+  clear: left; height: 24px; padding: 0 0 10px 10px;
+}
+
+.author__follow_lnk {
+  width: 80px; height: 24px; padding: 0 0 8px 10px;
+}
+
+.author__portfolio_lnk a, .author__follow_lnk a {
+  width: 60px;
+}
 
 .authName {
   width: $authName-w;
