@@ -445,6 +445,7 @@ class WorkModel
             $work = Utils::getTpl('work_main_img', $tpl_work_main_img_var);
 
             return array(
+                'og_image' => Utils::getImgPath($id_photo) . Utils::getImgName($id_photo),
                 'id_photo' => $id_photo,
                 'ph_name' => $ph_name,
                 'is_ph_anon' => $is_ph_anon,

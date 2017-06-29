@@ -118,6 +118,7 @@ class AuthorModel
         }
 
         return array(
+            'og_image' => $auth_avatar_src,
             'auth_premium_photo' => $auth_premium_photo,
             'auth_name_photo' => $auth_name_photo,
             'author' => $author,

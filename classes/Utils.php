@@ -168,7 +168,7 @@ From: ' . $from_email . '
                 $urlSearch,
                 function ($matches) {
                     $showImgFromLnk = '';
-                    if (Utils::endsWith($matches[4], '.jpg'))
+                    if (Utils::endsWith($matches[4], '.jpg') || Utils::endsWith($matches[4], '.png') || Utils::endsWith($matches[4], '.gif'))
                         $showImgFromLnk = ' class="showImgFromLnk"';
                     return $urlReplace = '<a rel="nofollow" href="' . $matches[2] . $matches[4] . '" ' . $showImgFromLnk . ' target="_blank">' . $matches[2] . $matches[4] . '</a>';
                 },
@@ -214,8 +214,13 @@ From: ' . $from_email . '
 
     public static function bbParse($str)
     {
-        if (preg_match('/^\s{1,}$/i', str_replace(array('[b]', '[/b]', '[i]', '[/i]', '[u]', '[/u]', '[s]', '[/s]', '[quote]', '[/quote]'), '', $str))) return '...';
+        $bb_code = array('[b]', '[/b]', '[i]', '[/i]', '[u]', '[/u]', '[s]', '[/s]', '[quote]', '[/quote]');
+
+        if (preg_match('/^\s{1,}$/i', str_replace($bb_code, '', $str)))
+            return '...';
+
         $str = str_replace(Consta::EOL, ':n:', $str);
+
         while (preg_match_all('/\[(.*)\](.+?)\[\/\1\]/', $str, $matches)) {
             foreach ($matches[0] as $key => $match) {
                 list($tag, $inner_text) = array($matches[1][$key], $matches[2][$key]);
@@ -268,6 +273,7 @@ From: ' . $from_email . '
             }
         }
         $str = str_replace(':n:', Consta::EOL, $str);
+        $str = str_replace($bb_code, '', $str);
         return $str;
     }
 
@@ -359,7 +365,7 @@ From: ' . $from_email . '
                 $id_auth = 0;
             else
                 $id_auth = -1;
-            $log = date("d.m.Y H:i:s", Config::$cur_time + 3600) . "\t| ";
+            $log = date("d.m.Y H:i:s", Config::$cur_time + 3600 * 2) . "\t| ";
             if (Config::$remote_addr) $log .= Config::$remote_addr;
             if (strlen(Config::$remote_addr) < 14) $log .= "\t";
             $log .= "\t| ";

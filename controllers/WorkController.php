@@ -106,6 +106,7 @@ class WorkController extends Controller
             die();
         }
 
+        $og_image = $res_work['og_image'];
         $work = $res_work['work'];
         $ph_name = $res_work['ph_name'];
         $auth_name_photo = $res_work['auth_name_photo'];
@@ -170,6 +171,7 @@ class WorkController extends Controller
         # /parse navigation
 
         $work = array(
+            'og_image' => $og_image,
             'id_photo' => $id_photo,
             'hrefPrev' => $hrefPrev,
             'hrefNext' => $hrefNext,
@@ -206,6 +208,7 @@ class WorkController extends Controller
 
         WorkController::$tpl_main_var['content'] = WorkController::parseWorkTpl($work);
 
+        WorkController::$tpl_main_var['og_image'] = $work['og_image'];
         WorkController::$tpl_main_var['href_prev_page'] = $work['hrefPrev'];
         WorkController::$tpl_main_var['href_next_page'] = $work['hrefNext'];
 

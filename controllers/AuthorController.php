@@ -58,6 +58,8 @@ class AuthorController extends Controller
             header('Location: ' . Config::$home_url);
             return false;
         }
+
+        $og_image = $res_author['og_image'];
         $auth_premium_photo = $res_author['auth_premium_photo'];
         $auth_name_photo = $res_author['auth_name_photo'];
         $author = $res_author['author'];
@@ -102,6 +104,7 @@ class AuthorController extends Controller
         # /parse pager
 
         $author = array(
+            'og_image' => $og_image,
             'hrefPrev' => $hrefPrev,
             'hrefNext' => $hrefNext,
             'auth_name_photo' => $auth_name_photo,
@@ -138,6 +141,8 @@ class AuthorController extends Controller
             die();
 
         AuthorController::$tpl_main_var['content'] = AuthorController::parseAuthorTpl($author);
+
+        AuthorController::$tpl_main_var['og_image'] = $author['og_image'];
         AuthorController::$tpl_main_var['href_prev_page'] = $author['hrefPrev'];
         AuthorController::$tpl_main_var['href_next_page'] = $author['hrefNext'];
 
