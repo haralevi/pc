@@ -68,10 +68,10 @@ class Geo
                 Geo::$Gmtoffset = $dateTime->format('Z'); # 'Z' is UTC Offset in seconds
 
                 if (Geo::$RegionName == 'Republic of Crimea' || Geo::$RegionName == 'Gorod Sevastopol') {
-                    Geo::$Gmtoffset -= 3600;
+                    Geo::$Gmtoffset -= 0;
                 } else if (Geo::$CountryCode == 'AZ') {
                     if (Config::$is_winter_time) Geo::$Gmtoffset -= 0;
-                    else Geo::$Gmtoffset -= 3600;
+                    else Geo::$Gmtoffset -= 0;
                 }
             } else if (Geo::$CountryCode == 'RU') { # Moscow
                 Geo::$Gmtoffset = 14400;
@@ -111,15 +111,13 @@ class Geo
                         Geo::$Gmtoffset = $Gmtoffset_arr[0] * 3600 + $Gmtoffset_arr[1] * 60;
 
                         if (Geo::$CountryCode == 'RU') {
-                            Geo::$Gmtoffset += 3600;
-                            if (Geo::$RegionName == 'Kemerovo' || Geo::$RegionName == 'Udmurt' || Geo::$RegionName == 'Altaisky krai') {
+                            Geo::$Gmtoffset += 0;
+                            if (Geo::$RegionName == 'Kemerovo' || Geo::$RegionName == 'Udmurt' || Geo::$RegionName == 'Altaisky krai')
                                 Geo::$Gmtoffset += 7200;
-                            }
+                            else if (Geo::$RegionName == 'Tomskaya oblast\'')
+                            	Geo::$Gmtoffset += 14400;
                         } else if (Geo::$CountryCode == 'BY') {
-                            if (stristr(Geo::$RegionName, 'Vitsyebskaya Voblasts'))
-                                Geo::$Gmtoffset += 0;
-                            else
-                                Geo::$Gmtoffset += 3600;
+                             Geo::$Gmtoffset += 0;
                         } else if (Geo::$CountryCode == 'LV') {
                             Geo::$Gmtoffset -= 3600;
                         }

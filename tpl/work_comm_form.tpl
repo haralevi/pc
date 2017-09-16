@@ -1,6 +1,6 @@
 <div style="margin: 10px 6px;">
     <div>
-        <textarea id="commText" style="width:100%; height: 32px; padding: 0; border: none;"></textarea>
+        <textarea id="commText" style="width:100%; height: 32px; padding-top: 5px; padding-bottom: 5px; line-height: 1.3; border: none;"></textarea>
     </div>
 </div>
 <div style="margin: 10px 6px; text-align: right;" class="clearfix">

@@ -80,6 +80,12 @@ $(function () {
             e.stopPropagation();
             e.preventDefault();
         })
+        // comm answer
+        .on("click", ".commAnswer", function (e) {
+            app.setAnswer($(this).data("idAuth"), $(this).data("idComm"));
+            e.stopPropagation();
+            e.preventDefault();
+        })
         //cropClick
         .on("click", ".cropClick", function (e) {
             let cropCoordinates = $(this).data("cropCoordinates").split(";");
@@ -96,10 +102,6 @@ $(function () {
         // allow full version
         .on("click", "#canonicalUrl", function () {
             cookie.setCookie("allowFullVer", 1);
-        })
-        // enlarge comm text area
-        .on("click", "#commText", function () {
-            $(this).css({height: "100px"});
         })
         // zoom image preview
         .on('doubletap', "#mainImageA", function (e) {
@@ -131,11 +133,26 @@ $(function () {
         .on("click", "#facebookBtn", function () {
             $(this).attr("disabled", true);
         })
+        // enlarge comm text area
+        .on("blur", "#commText", function () {
+            app.isCommentFocus = false;
+        })
+        // enlarge comm text area
+        .on("focus", "#commText", function () {
+            app.isCommentFocus = true;
+            app.updateTextareaHeight($(this));
+        })
+        // enlarge comm text area
+        .on("keyup", "#commText", function () {
+            app.updateTextareaHeight($(this));
+        })
         // keyboard next-prev navigation
         .on("keyup", function (e) {
-            if (e.keyCode == 39) $("#nextLnkKey").click();
-            else if (e.keyCode == 37) $("#prevLnkKey").click();
-            e.preventDefault();
+            if(!app.isCommentFocus) {
+                if (e.keyCode == 39) $("#nextLnkKey").click();
+                else if (e.keyCode == 37) $("#prevLnkKey").click();
+                e.preventDefault();
+            }
         })
         // replace link with image
         .on("click", "a.showImgFromLnk", function (e) {

@@ -132,6 +132,7 @@ class CommModel
             $comm_cnt = 0;
             foreach ($res_comments as $v) {
 
+                $id_comm = $v['id_comm'];
                 $comm_text = $v[Localizer::$col_comm_text];
                 if ($comm_text == '') {
                     continue;
@@ -172,6 +173,9 @@ class CommModel
                 $tpl_work_comm_row_var['auth_name_str'] = $auth_name_str;
                 $tpl_work_comm_row_var['auth_premium_badge'] = $auth_premium_badge;
                 $tpl_work_comm_row_var['comm_text'] = $comm_text;
+                $tpl_work_comm_row_var['id_comm'] = $id_comm;
+                $tpl_work_comm_row_var['id_auth_comm'] = $id_auth_comm;
+                $tpl_work_comm_row_var['answer_loc'] = Localizer::$loc['answer_loc'];
                 $comments .= Utils::parseTpl($tpl_work_comm_row_content, $tpl_work_comm_row_var);
             }
             $comments .= '</table>';

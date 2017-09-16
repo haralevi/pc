@@ -10,7 +10,8 @@ namespace Photocommunity\Mobile;
 class Consta
 {
     // skip id photos for 'de', 'com'
-    public static $skip_id_photos_arr = array(665880, 665879, 665878, 665954, 665950, 665945, 665944, 665943, 666727, 666778, 666841, 666999, 667238, 667213, 667667, 667661);
+    public static 
+    $skip_id_photos_arr = array(675926, 675923);
 
     const AUTH_TYPE_DEF = 0;
     const AUTH_TYPE_AMATURE = 1;
@@ -33,8 +34,8 @@ class Consta
     const RECS_PER_DAY_0 = 18;
     const RECS_PER_DAY_1 = 50;
     const RECS_PER_DAY_2 = 100;
-    const RECS_PER_DAY_3 = 200;
-    const RECS_PER_DAY_4 = 200;
+    const RECS_PER_DAY_3 = 300;
+    const RECS_PER_DAY_4 = 300;
 
     const AUTH_FAVOR_PREMIUM_0 = 100000;
     const AUTH_FAVOR_PREMIUM_1 = 100000;
@@ -54,6 +55,7 @@ class Consta
     const NUDE_CAT = 111;
     const FIRST_SPEC_CAT = 2200;
     const PORTFOLIO_CAT = 2300;
+    const HOME_CAT = 2205;
     const ID_COMP_PF = 40;
 
     const COUNCIL_WIDTH = 220;

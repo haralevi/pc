@@ -27,6 +27,6 @@ class PhpErrorHandler
 }
 
 if (!Config::getDebug()) {
-    $o =& new PhpErrorHandler();
-    set_error_handler(array($o, 'errorHandler'));
+    #$o =& new PhpErrorHandler();
+    #set_error_handler(array($o, 'errorHandler'));
 }

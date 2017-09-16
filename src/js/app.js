@@ -1,4 +1,4 @@
-import {utils} from "./utils";
+import {utils, ploc} from "./utils";
 
 const app = {
     winW: $(window).width(), winH: $(window).height(),
@@ -9,6 +9,7 @@ const app = {
     clickDelay: 200,
     clicksCnt: 0,
     clickTimer: 0,
+    isCommentFocus: false,
 
     toggleCrop: function () {
         app.resetImgZoom();
@@ -162,12 +163,51 @@ const app = {
         }
     },
 
-    emoticon: function (id) {
-        const $commText = $("#commText");
+    getCommTextVal: function ($commText) {
         let commTextVal = $commText.val();
         if (utils.trim(commTextVal)) commTextVal += "\n";
+        return commTextVal;
+    },
+
+    updateTextareaHeight: function (el) {
+        const minH = 100;
+        const lht = parseInt(el.css('line-height'), 10);
+        const lines = Math.floor(el.prop('scrollHeight') / lht);
+        const elH = lines * lht;
+        if (elH > minH) el.css({'height': elH + 'px'});
+        else el.css({'height': minH + 'px'});
+    },
+
+    focusCommText: function ($commText, commTextVal) {
+        app.isCommentFocus = true;
+        $commText.focus().val("").val(commTextVal);
+    },
+
+    emoticon: function (id) {
+        const $commText = $("#commText");
+        let commTextVal = app.getCommTextVal($commText);
         commTextVal += "[b]" + $("#authName" + id).text() + "[/b], ";
-        $commText.focus().val("").val(commTextVal).css({height: "100px"});
+        app.focusCommText($commText, commTextVal);
+        app.updateTextareaHeight($commText);
+    },
+
+    setAnswer: function (id, id_comm) {
+        const reCrop = new RegExp(ploc.crop_var_loc);
+
+        let answer = $("#commText" + id_comm).html();
+        answer = answer.replace(/<div class="commQuote">[\s\S]+<\/div>/g, '');
+        answer = answer.replace(/<br>/g, '').replace(/&nbsp;/g, '');
+        answer = answer.replace(/<strong>/g, '[b]').replace(/<\/strong>/g, '[/b]').replace(/<u>/g, '[u]').replace(/<\/u>/g, '[/u]').replace(/<i>/g, '[i]').replace(/<\/i>/g, '[/i]');
+        answer = answer.replace(reCrop, '').replace(/<\/?[^>]+(>|$)/g, "");
+        answer = answer.replace(/^\n+/, '').replace(/\n+$/, '');
+        answer = '[quote]' + utils.trim(answer) + '[/quote]\n\n[b]' + $('#authName' + id).text() + '[/b], ';
+
+        const $commText = $("#commText");
+        let commTextVal = app.getCommTextVal($commText);
+        commTextVal += answer;
+
+        app.focusCommText($commText, commTextVal);
+        app.updateTextareaHeight($commText);
     },
 
     fixCommText: function () {

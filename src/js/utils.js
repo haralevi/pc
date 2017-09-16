@@ -231,6 +231,7 @@ let ploc = {
         be_constructive_loc: 'Текст сообщения должен содержать хотя бы ' + minCommLen + ' букв',
         max_comm_len_loc: 'Сообщение должно содержать не более ' + maxCommLen + ' символов',
         really_do_home_album_loc: 'Вы действительно считаете, что эта работа\nне должна присутствовать в галерее?',
+        crop_var_loc: 'Вариант кадрирования',
         loc: ''
     },
     com: {
@@ -238,6 +239,7 @@ let ploc = {
         be_constructive_loc: 'Comment should contain at least ' + minCommLen + ' characters',
         max_comm_len_loc: 'Comment should contain up to ' + maxCommLen + ' characters',
         really_do_home_album_loc: 'Do you really want that this work will be deleted from the gallery?',
+        crop_var_loc: 'Crop',
         loc: ''
     },
     de: {
@@ -245,6 +247,7 @@ let ploc = {
         be_constructive_loc: 'Ihre Anmerkung soll mindestens ' + minCommLen + ' Buchstaben enthalten',
         max_comm_len_loc: 'Eine Anmerkung darf bis zu ' + maxCommLen + ' Zeichen enthalten',
         really_do_home_album_loc: 'Möchten Sie wirklich, dass dieses Bild von der Bildergalerie entfernt wird?',
+        crop_var_loc: 'Crop',
         loc: ''
     },
     ru: {
@@ -252,6 +255,7 @@ let ploc = {
         be_constructive_loc: 'Текст сообщения должен содержать хотя бы ' + minCommLen + ' букв',
         max_comm_len_loc: 'Сообщение должно содержать не более ' + maxCommLen + ' символов',
         really_do_home_album_loc: 'Вы действительно считаете, что эта работа\nне должна присутствовать в галерее?',
+        crop_var_loc: 'Вариант кадрирования',
         loc: ''
     }
 };
