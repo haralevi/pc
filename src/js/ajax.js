@@ -97,8 +97,8 @@ const ajax = {
                     id: id,
                     comm_text: comm_text,
                     type: "work",
-                    id_auth_answer: 0,
-                    id_comm_parent: 0
+                    id_auth_answer: app.id_auth_answer,
+                    id_comm_parent: app.id_comm_parent
                 },
                 function (data) {
                     data.cnt = data.cnt || 1;
@@ -106,6 +106,8 @@ const ajax = {
                     $("#commTbl").find("tbody").append('<tr><td class="commAuth"><a href="' + $submenu.data("authUrl") + '"><img src="' + $submenu.data("authAvatar") + '"></a></td>' +
                         '<td class="commTextTd"><div class="commText"><a href="' + $submenu.data("authUrl") + '">' + $submenu.data("authName") + '</a><br>' + comm_text + '</div></td></tr>');
                     $comment.val("");
+                    app.id_auth_answer = 0;
+                    app.id_comm_parent = 0;
                     $loaderComm.hide();
                 }, "json");
         }

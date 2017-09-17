@@ -76,7 +76,7 @@ $(function () {
         })
         // author answer
         .on("click", ".authNameAnswer", function (e) {
-            app.emoticon($(this).data("idAuth"));
+            app.emoticon($(this).data("idAuth"), $(this).data("idComm"));
             e.stopPropagation();
             e.preventDefault();
         })

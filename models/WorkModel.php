@@ -422,7 +422,7 @@ class WorkModel
 
             $authNameAnswerClass = '';
             if ($is_ph_anon) {
-                $auth_name_photo = Localizer::$loc['author_loc'];
+                $auth_name_photo = Localizer::$loc['work_author_loc'];
                 $auth_avatar_str = '<img src="' . Config::$css_url . Config::$theme . '/male.png" alt="">';
                 if (Auth::getIdAuth() != -1)
                     $authNameAnswerClass = 'class="authNameAnswer" data-id-auth="0"';

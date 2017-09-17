@@ -83,7 +83,7 @@ class CommModel
 
                 $is_ph_anon = Utils::isAnon($v['ph_anon'], $v['ph_date'], $v['id_comp']);
                 if ($is_ph_anon && $id_auth_comm == $id_auth_photo) {
-                    $auth_name_str = Localizer::$loc['author_loc'];
+                    $auth_name_str = Localizer::$loc['work_author_loc'];
                     $auth_premium_badge = '';
                 } else {
                     $auth_name_comm = $v['comm_auth_name'];
@@ -133,49 +133,55 @@ class CommModel
             foreach ($res_comments as $v) {
 
                 $id_comm = $v['id_comm'];
+                $id_auth_comm = $v['id_auth'];
                 $comm_text = $v[Localizer::$col_comm_text];
                 if ($comm_text == '') {
                     continue;
                 } else if ($v['comm_status'] == 2) {
                     $comm_text = '<span style="font-size: 12px;">' . Localizer::$loc['comm_del_by_admin_loc'] . '</span>';
-                    if (!$is_self_photo && $v['id_auth'] == Auth::getIdAuth())
+                    if (!$is_self_photo && $id_auth_comm == Auth::getIdAuth())
                         $is_comm_deleted = true;
                 } else if ($v['comm_status'] == 3) {
                     $comm_text = '<span style="font-size: 12px;">' . Localizer::$loc['comm_del_by_author_loc'] . '</span>';
-                    if (!$is_self_photo && $v['id_auth'] == Auth::getIdAuth())
+                    if (!$is_self_photo && $id_auth_comm == Auth::getIdAuth())
                         $is_comm_deleted = true;
                 } else
                     $comm_text = Utils::parseComm($comm_text, true, false);
 
                 $comm_cnt++;
 
-                $id_auth_comm = $v['id_auth'];
-
                 $authNameAnswerClass = '';
+                if ($ph_critique != Consta::PH_NO_COMM && Auth::getIdAuth() != -1)
+                    $authNameAnswerClass = 'class="authNameAnswer" data-id-auth="' . $id_auth_comm . '" data-id-comm="' . $id_comm . '"';
+
                 if ($is_ph_anon && $id_auth_comm == $id_auth_photo) {
-                    $auth_name_comm = Localizer::$loc['author_loc'];
+                    $auth_name_comm = Localizer::$loc['work_author_loc'];
                     $auth_avatar_str = '<img src="' . Config::$css_url . Config::$theme . '/male.png" width="31" height="31" alt="">';
-                    if (Auth::getIdAuth() != -1)
-                        $authNameAnswerClass = 'class="authNameAnswer" data-id-auth="0"';
-                    $auth_name_str = '<a id="authName0" class="authNameAnswer" ' . $authNameAnswerClass . ' href="#">' . $auth_name_comm . '</a>';
+
+                    $auth_name_str = '<a id="authName' . $id_comm . '" ' . $authNameAnswerClass . ' href="#">' . $auth_name_comm . '</a>';
                     $auth_premium_badge = '';
                 } else {
                     $auth_name_comm = $v[Localizer::$col_auth_name];
-                    $auth_avatar_src = Utils::parseAvatar($v['id_auth'], $v['auth_avatar'], $v['auth_gender'], 'square');
+                    $auth_avatar_src = Utils::parseAvatar($id_auth_comm, $v['auth_avatar'], $v['auth_gender'], 'square');
                     $auth_avatar_str = '<a href="' . Config::$home_url . 'author.php?id_auth=' . $id_auth_comm . '"><img src="' . $auth_avatar_src . '" alt=""></a>';
-                    if (Auth::getIdAuth() != -1)
-                        $authNameAnswerClass = 'class="authNameAnswer" data-id-auth="' . $id_auth_comm . '"';
-                    $auth_name_str = '<a id="authName' . $id_auth_comm . '" ' . $authNameAnswerClass . ' href="' . Config::$home_url . 'author.php?id_auth=' . $id_auth_comm . '">' . $auth_name_comm . '</a>';
+                    $auth_name_str = '<a id="authName' . $id_comm . '" ' . $authNameAnswerClass . ' href="' . Config::$home_url . 'author.php?id_auth=' . $id_auth_comm . '">' . $auth_name_comm . '</a>';
                     $auth_premium_badge = Utils::getPremiumBadge($v['auth_premium'], 'static');
                 }
+
+                # build answer link for logged authors
+                if ($ph_critique != Consta::PH_NO_COMM && $v['comm_status'] == 1 && Auth::getIdAuth() != -1 && Auth::getIdAuth() != $id_auth_comm)
+                    $comm_answer_link = ' <a href="#" class="commAnswer" data-id-auth="' . $id_auth_comm . '" data-id-comm="' . $id_comm . '">' . Localizer::$loc['answer_loc'] . '</a>';
+                else
+                    $comm_answer_link = '';
 
                 $tpl_work_comm_row_var['auth_avatar_str'] = $auth_avatar_str;
                 $tpl_work_comm_row_var['auth_name_str'] = $auth_name_str;
                 $tpl_work_comm_row_var['auth_premium_badge'] = $auth_premium_badge;
-                $tpl_work_comm_row_var['comm_text'] = $comm_text;
+
                 $tpl_work_comm_row_var['id_comm'] = $id_comm;
-                $tpl_work_comm_row_var['id_auth_comm'] = $id_auth_comm;
-                $tpl_work_comm_row_var['answer_loc'] = Localizer::$loc['answer_loc'];
+                $tpl_work_comm_row_var['comm_text'] = $comm_text;
+                $tpl_work_comm_row_var['comm_answer_link'] = $comm_answer_link;
+
                 $comments .= Utils::parseTpl($tpl_work_comm_row_content, $tpl_work_comm_row_var);
             }
             $comments .= '</table>';

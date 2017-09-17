@@ -10,6 +10,8 @@ const app = {
     clicksCnt: 0,
     clickTimer: 0,
     isCommentFocus: false,
+    id_auth_answer: 0,
+    id_comm_parent: 0,
 
     toggleCrop: function () {
         app.resetImgZoom();
@@ -183,15 +185,20 @@ const app = {
         $commText.focus().val("").val(commTextVal);
     },
 
-    emoticon: function (id) {
+    emoticon: function (id_auth, id_comm) {
+        app.id_auth_answer = id_auth;
+        app.id_comm_parent = id_comm;
         const $commText = $("#commText");
         let commTextVal = app.getCommTextVal($commText);
-        commTextVal += "[b]" + $("#authName" + id).text() + "[/b], ";
+        commTextVal += "[b]" + $("#authName" + id_comm).text() + "[/b], ";
         app.focusCommText($commText, commTextVal);
         app.updateTextareaHeight($commText);
     },
 
-    setAnswer: function (id, id_comm) {
+    setAnswer: function (id_auth, id_comm) {
+        app.id_auth_answer = id_auth;
+        app.id_comm_parent = id_comm;
+
         const reCrop = new RegExp(ploc.crop_var_loc);
 
         let answer = $("#commText" + id_comm).html();
@@ -200,7 +207,7 @@ const app = {
         answer = answer.replace(/<strong>/g, '[b]').replace(/<\/strong>/g, '[/b]').replace(/<u>/g, '[u]').replace(/<\/u>/g, '[/u]').replace(/<i>/g, '[i]').replace(/<\/i>/g, '[/i]');
         answer = answer.replace(reCrop, '').replace(/<\/?[^>]+(>|$)/g, "");
         answer = answer.replace(/^\n+/, '').replace(/\n+$/, '');
-        answer = '[quote]' + utils.trim(answer) + '[/quote]\n\n[b]' + $('#authName' + id).text() + '[/b], ';
+        answer = '[quote]' + utils.trim(answer) + '[/quote]\n\n[b]' + $('#authName' + id_comm).text() + '[/b], ';
 
         const $commText = $("#commText");
         let commTextVal = app.getCommTextVal($commText);
