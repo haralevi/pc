@@ -58,6 +58,7 @@ class AuthTest extends \PHPUnit_Framework_TestCase
         $_SESSION['auth']['auth_featured_link'] = '';
         $_SESSION['auth']['auth_show_all_comms'] = '';
         $_SESSION['auth']['auth_port_dom'] = '';
+        $_SESSION['auth']['auth_last_recs_cnt'] = 0;
         $_COOKIE['Y'] = '3571324985440';
         Auth::login();
     }
@@ -116,5 +117,4 @@ class AuthTest extends \PHPUnit_Framework_TestCase
     {
         # delete unnecessary objects
     }
-
 }

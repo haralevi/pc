@@ -290,6 +290,7 @@ class WorkModel
             $ph_anon = $res_work[0]['ph_anon'];
             $is_ph_anon = Utils::isAnon($ph_anon, $res_work[0]['ph_date'], $res_work[0]['id_comp']);
             $ph_comm_cnt = $res_work[0][Localizer::$col_ph_comm_cnt];
+            $ph_critique = $res_work[0]['ph_critique'];
 
             // skip photo, if it's anon and if navigation from author's page
             if ($is_ph_anon && isset($params['id_auth_photo']) && ($prev || $next)) {
@@ -403,12 +404,9 @@ class WorkModel
                     # home album clicked
                 } else if (Auth::getIdAuth() != -1) { # ok, logged author can recommend
                     $add_rec_str .= '<a id="addRecBtn" href="#" class="saveBtn">' . Localizer::$loc['add_rec_loc'] . '</a>';
-                } else {
-                    # author unlogged
                 }
             }
             $tpl_work_main_img_var['add_rec_str'] = $add_rec_str;
-
 
             // parse fine-art button
             $fineart_str = '';
@@ -420,21 +418,26 @@ class WorkModel
             }
             $tpl_work_main_img_var['fineart_str'] = $fineart_str;
 
+            $id_comm = 0;
+
+            $id_auth_answer = $id_auth_photo;
+            if ($is_ph_anon)
+                $id_auth_answer = 0;
+
             $authNameAnswerClass = '';
+            if ($ph_critique != Consta::PH_NO_COMM && Auth::getIdAuth() != -1)
+                $authNameAnswerClass = 'class="authNameAnswer" data-id-auth="' . $id_auth_answer . '" data-id-comm="' . $id_comm . '"';
+
             if ($is_ph_anon) {
                 $auth_name_photo = Localizer::$loc['work_author_loc'];
                 $auth_avatar_str = '<img src="' . Config::$css_url . Config::$theme . '/male.png" alt="">';
-                if (Auth::getIdAuth() != -1)
-                    $authNameAnswerClass = 'class="authNameAnswer" data-id-auth="0"';
-                $auth_name_str = '<a id="authName0" class="authNameAnswer" ' . $authNameAnswerClass . ' href="#">' . $auth_name_photo . '</a>';
+                $auth_name_str = '<a id="authName' . $id_comm . '" ' . $authNameAnswerClass . ' href="#">' . $auth_name_photo . '</a>';
                 $auth_premium_badge = '';
             } else {
                 $auth_name_photo = $res_work[0][Localizer::$col_auth_name];
                 $auth_avatar_src = Utils::parseAvatar($id_auth_photo, $res_author[0]['auth_avatar'], $res_author[0]['auth_gender'], 'square');
                 $auth_avatar_str = '<a href="' . Config::$home_url . 'author.php?id_auth=' . $id_auth_photo . '"><img src="' . $auth_avatar_src . '" alt=""></a>';
-                if (Auth::getIdAuth() != -1)
-                    $authNameAnswerClass = 'class="authNameAnswer" data-id-auth="' . $id_auth_photo . '"';
-                $auth_name_str = '<a id="authName' . $id_auth_photo . '" ' . $authNameAnswerClass . ' href="' . Config::$home_url . 'author.php?id_auth=' . $id_auth_photo . '">' . $auth_name_photo . '</a>';
+                $auth_name_str = '<a id="authName' . $id_comm . '" ' . $authNameAnswerClass . ' href="' . Config::$home_url . 'author.php?id_auth=' . $id_auth_photo . '">' . $auth_name_photo . '</a>';
                 $auth_premium_badge = Utils::getPremiumBadge($res_author[0]['auth_premium'], 'static');
             }
             $tpl_work_main_img_var['auth_avatar_str'] = $auth_avatar_str;

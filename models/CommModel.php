@@ -129,7 +129,7 @@ class CommModel
             $tpl_work_comm_row_content = Utils::getTpl('work_comm_row');
 
             $comments = '<table id="commTbl">';
-            $comm_cnt = 0;
+
             foreach ($res_comments as $v) {
 
                 $id_comm = $v['id_comm'];
@@ -148,11 +148,13 @@ class CommModel
                 } else
                     $comm_text = Utils::parseComm($comm_text, true, false);
 
-                $comm_cnt++;
+                $id_auth_answer = $id_auth_comm;
+                if ($is_ph_anon && $id_auth_comm == $id_auth_photo)
+                    $id_auth_answer = 0;
 
                 $authNameAnswerClass = '';
                 if ($ph_critique != Consta::PH_NO_COMM && Auth::getIdAuth() != -1)
-                    $authNameAnswerClass = 'class="authNameAnswer" data-id-auth="' . $id_auth_comm . '" data-id-comm="' . $id_comm . '"';
+                    $authNameAnswerClass = 'class="authNameAnswer" data-id-auth="' . $id_auth_answer . '" data-id-comm="' . $id_comm . '"';
 
                 if ($is_ph_anon && $id_auth_comm == $id_auth_photo) {
                     $auth_name_comm = Localizer::$loc['work_author_loc'];
@@ -170,7 +172,7 @@ class CommModel
 
                 # build answer link for logged authors
                 if ($ph_critique != Consta::PH_NO_COMM && $v['comm_status'] == 1 && Auth::getIdAuth() != -1 && Auth::getIdAuth() != $id_auth_comm)
-                    $comm_answer_link = ' <a href="#" class="commAnswer" data-id-auth="' . $id_auth_comm . '" data-id-comm="' . $id_comm . '">' . Localizer::$loc['answer_loc'] . '</a>';
+                    $comm_answer_link = ' <a href="#" class="commAnswer" data-id-auth="' . $id_auth_answer . '" data-id-comm="' . $id_comm . '">' . Localizer::$loc['answer_loc'] . ' &raquo;</a>';
                 else
                     $comm_answer_link = '';
 

@@ -62,6 +62,7 @@ class Geo
                 try {
                     $dateTimeZone = new \DateTimeZone($timezone);
                 } catch (\Exception $e) {
+                    $dateTimeZone = new \DateTimeZone('Europe/Moscow');
                     # error timezone is not found
                 }
                 $dateTime = new \DateTime("now", $dateTimeZone);
@@ -111,13 +112,15 @@ class Geo
                         Geo::$Gmtoffset = $Gmtoffset_arr[0] * 3600 + $Gmtoffset_arr[1] * 60;
 
                         if (Geo::$CountryCode == 'RU') {
-                            Geo::$Gmtoffset += 0;
                             if (Geo::$RegionName == 'Kemerovo' || Geo::$RegionName == 'Udmurt' || Geo::$RegionName == 'Altaisky krai')
                                 Geo::$Gmtoffset += 7200;
                             else if (Geo::$RegionName == 'Tomskaya oblast\'')
                             	Geo::$Gmtoffset += 14400;
                         } else if (Geo::$CountryCode == 'BY') {
-                             Geo::$Gmtoffset += 0;
+                             Geo::$Gmtoffset = 10800;
+                        } else if (Geo::$CountryCode == 'UA') {
+                            if(Geo::$RegionName == 'Avtonomna Respublika Krym')
+                                Geo::$Gmtoffset = 10800;
                         } else if (Geo::$CountryCode == 'LV') {
                             Geo::$Gmtoffset -= 3600;
                         }
