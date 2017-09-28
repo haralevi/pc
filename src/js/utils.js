@@ -19,13 +19,13 @@ let domain = document.domain;
 let dotPos = domain.lastIndexOf(".");
 let domainEnd = domain.substr(dotPos + 1);
 let SiteDom = domain.substr(0, dotPos);
-if (SiteDom.lastIndexOf(".") != -1)
+if (SiteDom.lastIndexOf(".") !== -1)
     SiteDom = SiteDom.substr(SiteDom.lastIndexOf(".") + 1);
 
 /* error logger */
 window.onerror = function (message, file, line, column) {
     try {
-        if (parseInt(line) > 1 && file.indexOf("uptolike") == -1 && file.indexOf("bot") == -1 && file.indexOf("yandex") == -1 && file.indexOf("leechlink") == -1 && file != "") {
+        if (parseInt(line) > 1 && file.indexOf("uptolike") === -1 && file.indexOf("bot") === -1 && file.indexOf("yandex") === -1 && file.indexOf("leechlink") === -1 && file !== "") {
             let id_auth_log = id_auth_log || -1;
             let jserror = "<i>" + (new Date()).toString() + "</i><br><a href=\"" + window.location.href + "\" target=\"_blank\">" + window.location.href + "</a><br><b>id_auth</b>: " + id_auth_log + "<br>" + navigator.userAgent + "<br>" + message + "<br><b>file</b>: " + file + "<b>line</b>: " + line + "<b>column</b>: " + column;
             $.get(ajax.ajaxFld + '/JsErrorHandler.php?jserror=' + encodeURIComponent(jserror));
@@ -85,13 +85,13 @@ $.ajaxPrefilter(function (options, originalOptions) {
 /* utils class */
 const utils = {
     info: function (o) {
-        if (typeof console != "undefined") console.info(o);
+        if (typeof console !== "undefined") console.info(o);
     },
     dir: function (o) {
-        if (typeof console != "undefined") console.dir(o);
+        if (typeof console !== "undefined") console.dir(o);
     },
     table: function (o) {
-        if (typeof console != "undefined" && typeof console.table != "undefined") console.table(o);
+        if (typeof console !== "undefined" && typeof console.table !== "undefined") console.table(o);
     },
     trim: function (str) {
         let res = str.replace(/^ */, '');
@@ -128,30 +128,30 @@ const utils = {
     },
     getBrowserLang: function () {
         let browserLang = 'ru';
-        if (typeof navigator.language != 'undefined') browserLang = navigator.language;
-        else if (typeof navigator.browserLanguage != 'undefined') browserLang = navigator.browserLanguage;
-        else if (typeof navigator.systemLanguage != 'undefined') browserLang = navigator.systemLanguage;
-        else if (typeof navigator.userLanguage != 'undefined') browserLang = navigator.userLanguage;
+        if (typeof navigator.language !== 'undefined') browserLang = navigator.language;
+        else if (typeof navigator.browserLanguage !== 'undefined') browserLang = navigator.browserLanguage;
+        else if (typeof navigator.systemLanguage !== 'undefined') browserLang = navigator.systemLanguage;
+        else if (typeof navigator.userLanguage !== 'undefined') browserLang = navigator.userLanguage;
         return browserLang;
     },
     isIE7: function () {
         return !!(utils.isIE() && utils.getIEVer() <= 7);
     },
     isIE8: function () {
-        return !!(utils.isIE() && utils.getIEVer() == 8);
+        return !!(utils.isIE() && utils.getIEVer() === 8);
     },
     rotateVal: function (el, type) {
-        if (!el.length || !(type == "int" || type == "float")) return;
+        if (!el.length || !(type === "int" || type === "float")) return;
         let origV = el.text();
         if (parseFloat(origV) <= 0) return;
-        let maxV = (type == "int") ? parseInt(origV) : parseFloat(origV);
+        let maxV = (type === "int") ? parseInt(origV) : parseFloat(origV);
         let step = 1;
-        if (type == "int" && maxV > 10) step = maxV / 10;
-        if (type == "float" && maxV > 0.1) step = maxV / 10;
+        if (type === "int" && maxV > 10) step = maxV / 10;
+        if (type === "float" && maxV > 0.1) step = maxV / 10;
         let curV = 0;
         let intId = setInterval(function () {
             if (curV < maxV) {
-                (type == "int") ? el.text(parseInt(curV)) : el.text(utils.floor(curV, 2).toFixed(2));
+                (type === "int") ? el.text(parseInt(curV)) : el.text(utils.floor(curV, 2).toFixed(2));
                 curV += step;
             } else {
                 el.text(origV).addClass("animated bounceIn");
@@ -182,13 +182,13 @@ const utils = {
             // click listener for ajax calls
             $(document).on("click", links, function (e) {
                 if ($(this)[0].id !== "undefined") {
-                    if ($(this)[0].id == "prevLnkKey")
+                    if ($(this)[0].id === "prevLnkKey")
                         cookie.setCookie("nav_dir", "prev");
-                    else if ($(this)[0].id == "nextLnkKey")
+                    else if ($(this)[0].id === "nextLnkKey")
                         cookie.setCookie("nav_dir", "next");
                 }
                 let href = this.href;
-                if (href != location.href) {
+                if (href !== location.href) {
                     href = href.substr(href.lastIndexOf("/"));
                     window.history.pushState(null, "", appRoot + href);
                     ajax.handelAjax(appRoot + ajaxFld + href);
@@ -199,7 +199,7 @@ const utils = {
             let popped = ('state' in window.history);
             let initialURL = location.href;
             $(window).bind("popstate", function () {
-                let initialPop = !popped && location.href == initialURL;
+                let initialPop = !popped && location.href === initialURL;
                 popped = true;
                 if (initialPop) return; // prevent from firing on first page load
                 let href = location.href;
@@ -210,7 +210,7 @@ const utils = {
     },
 
     stopRightClick: function (el) {
-        if(domainEnd != 'ru' && domainEnd != 'by') {
+        if(domainEnd !== 'ru' && domainEnd !== 'by') {
             el.bind('mousedown', function (e) {
                 (e.stopPropagation? e.stopPropagation() : (e.preventDefault ? e.preventDefault() : (e.returnValue=false)));
                 return false;
@@ -259,9 +259,9 @@ let ploc = {
         loc: ''
     }
 };
-if (lang == 'by') ploc = ploc.by;
-else if (lang == 'com') ploc = ploc.com;
-else if (lang == 'de') ploc = ploc.de;
+if (lang === 'by') ploc = ploc.by;
+else if (lang === 'com') ploc = ploc.com;
+else if (lang === 'de') ploc = ploc.de;
 else ploc = ploc.ru;
 
 export {waitForFinalEvent, cookie, lang, localCache, minCommLen, maxCommLen, ploc, utils};

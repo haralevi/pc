@@ -48,7 +48,7 @@ const ajax = {
                 if (!app.isFirstClick || !utils.isMobile()) // needed only for ipad, iphone
                     $ajaxBody.addClass("animated fadeIn");
                 app.isFirstClick = false;
-                if (data.title != "") document.title = data.title;
+                if (data.title !== "") document.title = data.title;
                 $("link[rel='canonical']").attr("href", data.canonicalUrl);
                 $("#canonicalUrl").attr("href", data.canonicalUrl);
                 $(".prevLnk").attr("href", data.hrefPrev);

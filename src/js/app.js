@@ -1,4 +1,4 @@
-import {utils, ploc} from "./utils";
+import {utils} from "./utils";
 
 const app = {
     winW: $(window).width(), winH: $(window).height(),
@@ -23,7 +23,7 @@ const app = {
             else {
                 $("html, body").animate({scrollTop: 0}, 300);
                 const $mainImage = $("#mainImage");
-                if ($mainImage.attr("class") == "nudePreview") {
+                if ($mainImage.attr("class") === "nudePreview") {
                     if (typeof $mainImage.data("isAllowedNude") === "undefined")
                         app.showNude();
                 }
@@ -76,9 +76,9 @@ const app = {
         const $nudeWarn = $("#nudeWarn");
 
         if (!$mainImage.length) return;
-        if ($mainImage.attr("class") == "nudePreview") {
+        if ($mainImage.attr("class") === "nudePreview") {
             for (let i = 0; i < app.viewedNudes.length; i++) {
-                if ($mainImage.data("idPhoto") == app.viewedNudes[i]) {
+                if ($mainImage.data("idPhoto") === app.viewedNudes[i]) {
                     $mainImage.removeClass("nudePreview");
                     $mainImage.attr("src", $mainImage.data("phPath") + $mainImage.data("idPhoto") + "_mobile.jpg").css({
                         width: "auto",
@@ -158,9 +158,9 @@ const app = {
     submitLogin: function () {
         let loginVal = utils.trim($("#auth_login").val());
         let passVal = utils.trim($("#auth_pass").val());
-        if (loginVal != "" && passVal != "") {
+        if (loginVal !== "" && passVal !== "") {
             let postUrl = location.href.replace(/&wrn_login=1/, "");
-            if (window.location.search == "" && !utils.endsWith(postUrl, "?")) postUrl += "?";
+            if (window.location.search === "" && !utils.endsWith(postUrl, "?")) postUrl += "?";
             utils.postForm(postUrl, {auth_login: encodeURI(loginVal), auth_pass: encodeURI(passVal)});
         }
     },
@@ -199,13 +199,12 @@ const app = {
         app.id_auth_answer = id_auth;
         app.id_comm_parent = id_comm;
 
-        const reCrop = new RegExp(ploc.crop_var_loc);
-
         let answer = $("#commText" + id_comm).html();
         answer = answer.replace(/<div class="commQuote">[\s\S]+<\/div>/g, '');
         answer = answer.replace(/<br>/g, '').replace(/&nbsp;/g, '');
         answer = answer.replace(/<strong>/g, '[b]').replace(/<\/strong>/g, '[/b]').replace(/<u>/g, '[u]').replace(/<\/u>/g, '[/u]').replace(/<i>/g, '[i]').replace(/<\/i>/g, '[/i]');
-        answer = answer.replace(reCrop, '').replace(/<\/?[^>]+(>|$)/g, "");
+        answer = answer.replace(/data-crop-coordinates="(\d+);(\d+);(\d+);(\d+)"/g, '>[Crop:$1:$2:$3:$4]<');
+        answer = answer.replace(/<\/?[^>]+(>|$)/g, "");
         answer = answer.replace(/^\n+/, '').replace(/\n+$/, '');
         answer = '[quote]' + utils.trim(answer) + '[/quote]\n\n[b]' + $('#authName' + id_comm).text() + '[/b], ';
 

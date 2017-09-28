@@ -20,7 +20,7 @@ $(function () {
     $(document)
         // submit login form
         .on("keyup", "#auth_login, #auth_pass", function (e) {
-            if (e.keyCode == 13) {
+            if (e.keyCode === 13) {
                 app.submitLogin();
                 e.preventDefault();
             }
@@ -62,7 +62,7 @@ $(function () {
         })
         // follow - unfollow
         .on("click", "#followBtn, #unfollowBtn", function (e) {
-            ($(this).attr("id") == "followBtn") ? ajax.getFollow(1) : ajax.getFollow(0);
+            ($(this).attr("id") === "followBtn") ? ajax.getFollow(1) : ajax.getFollow(0);
             e.preventDefault();
         })
         // show nude
@@ -89,7 +89,7 @@ $(function () {
         //cropClick
         .on("click", ".cropClick", function (e) {
             let cropCoordinates = $(this).data("cropCoordinates").split(";");
-            if (cropCoordinates.length == 4) {
+            if (cropCoordinates.length === 4) {
                 app.cropX = cropCoordinates[0];
                 app.cropY = cropCoordinates[1];
                 app.cropW = cropCoordinates[2];
@@ -149,8 +149,8 @@ $(function () {
         // keyboard next-prev navigation
         .on("keyup", function (e) {
             if(!app.isCommentFocus) {
-                if (e.keyCode == 39) $("#nextLnkKey").click();
-                else if (e.keyCode == 37) $("#prevLnkKey").click();
+                if (e.keyCode === 39) $("#nextLnkKey").click();
+                else if (e.keyCode === 37) $("#prevLnkKey").click();
                 e.preventDefault();
             }
         })
