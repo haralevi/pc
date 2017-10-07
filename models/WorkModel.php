@@ -56,7 +56,8 @@ class WorkModel
         return $works_where;
     }
 
-    private static function getSpecialRecWhere() {
+    private static function getSpecialRecWhere()
+    {
         #$where .= ' AND ph_special_rec_cnt>=' . Consta::MIN_SPECIAL_REC_CNT;
         $min_ph_special_rec_rating = 5;
         if (in_array(Auth::getIdAuth(), Consta::$auth_fineart_arr))

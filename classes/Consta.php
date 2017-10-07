@@ -10,8 +10,8 @@ namespace Photocommunity\Mobile;
 class Consta
 {
     // skip id photos for 'de', 'com'
-    public static 
-    $skip_id_photos_arr = array(675926, 675923);
+    public static
+        $skip_id_photos_arr = array(675926, 675923);
 
     const AUTH_TYPE_DEF = 0;
     const AUTH_TYPE_AMATURE = 1;
